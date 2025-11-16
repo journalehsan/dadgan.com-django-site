@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="مؤسسه حقوقی دادگان ارائه‌دهنده خدمات وکالت، مشاوره حقوقی، تنظیم قراردادها و دفاع حرفه‌ای توسط وکلای پایه یک دادگستری." />
+  <title>{% block title %}مؤسسه حقوقی دادگان{% endblock %}</title>
+
+  <!-- TailwindCSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Vazirmatn Persian Font CDN -->
+  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+  
+  <style>
+    * {
+      font-family: "Vazirmatn", "Tahoma", sans-serif;
+    }
+    
+    body {
+      font-family: "Vazirmatn", "Tahoma", sans-serif !important;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+
+    /* Dark mode scrollbar */
+    .dark ::-webkit-scrollbar-track {
+      background: #374151;
+    }
+    
+    .dark ::-webkit-scrollbar-thumb {
+      background: #6b7280;
+    }
+    
+    .dark ::-webkit-scrollbar-thumb:hover {
+      background: #9ca3af;
+    }
+
+    /* Smooth transitions */
+    * {
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInDelayed {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .animate-fade-in {
+      animation: fadeIn 0.8s ease-out forwards;
+    }
+
+    .animate-fade-in-delayed {
+      animation: fadeInDelayed 0.8s ease-out 0.3s both;
+    }
+
+    /* Enhanced shadows */
+    .shadow-3xl {
+      box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Gradient text support for older browsers */
+    .bg-clip-text {
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+  </style>
+
+  {% csrf_token %}
+  <script>
+    // Get CSRF token for AJAX requests
+    function getCSRFToken() {
+      return document.querySelector('[name=csrfmiddlewaretoken]').value;
+    }
+
+    // Dark mode functionality with localStorage persistence
+    function initDarkMode() {
+      const savedTheme = localStorage.getItem('theme');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+      if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+        document.documentElement.classList.add('dark');
+      }
+    }
+
+    function toggleDarkMode() {
+      document.documentElement.classList.toggle("dark");
+      const isDark = document.documentElement.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+
+    // Mobile menu functionality
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    function closeMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.add('hidden');
+    }
+
+    // Back to top functionality
+    function initBackToTop() {
+      const backToTopBtn = document.getElementById('back-to-top');
+      
+      window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+          backToTopBtn.classList.remove('opacity-0', 'invisible');
+          backToTopBtn.classList.add('opacity-100', 'visible');
+        } else {
+          backToTopBtn.classList.add('opacity-0', 'invisible');
+          backToTopBtn.classList.remove('opacity-100', 'visible');
+        }
+      });
+      
+      backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+    }
+
+    // Initialize everything when DOM is loaded
+    document.addEventListener("DOMContentLoaded", () => {
+      initDarkMode();
+      initBackToTop();
+      {% block extra_js_init %}{% endblock %}
+    });
+  </script>
+
+  {% block extra_head %}{% endblock %}
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+
+  <!-- Messages -->
+  {% if messages %}
+    <div id="messages-container" class="fixed top-4 right-4 z-50 space-y-2">
+      {% for message in messages %}
+        <div class="bg-{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}blue{% endif %}-100 dark:bg-{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}blue{% endif %}-900 border border-{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}blue{% endif %}-300 dark:border-{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}blue{% endif %}-700 text-{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}blue{% endif %}-800 dark:text-{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}blue{% endif %}-200 px-4 py-3 rounded-lg shadow-lg max-w-sm">
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-medium">{{ message }}</span>
+            <button onclick="this.parentElement.parentElement.remove()" class="mr-2 text-{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}blue{% endif %}-600 dark:text-{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}blue{% endif %}-300 hover:text-{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}blue{% endif %}-800 dark:hover:text-{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}blue{% endif %}-100">
+              ×
+            </button>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <script>
+      // Auto-hide messages after 5 seconds
+      setTimeout(() => {
+        const container = document.getElementById('messages-container');
+        if (container) {
+          container.style.opacity = '0';
+          setTimeout(() => container.remove(), 500);
+        }
+      }, 5000);
+    </script>
+  {% endif %}
+
+  <!-- Navbar -->
+  <header class="w-full border-b border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
+      <h1 class="text-xl font-bold">
+        <a href="{% url 'lawfirm:home' %}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+          مؤسسه حقوقی دادگان
+        </a>
+      </h1>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex space-x-6 space-x-reverse">
+        <a href="{% url 'lawfirm:home' %}#services" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">خدمات</a>
+        <a href="{% url 'lawfirm:home' %}#stats" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">آمار</a>
+        <a href="{% url 'lawfirm:home' %}#pricing" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">تعرفه</a>
+        <a href="{% url 'lawfirm:blog_list' %}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">بلاگ</a>
+        <a href="{% url 'lawfirm:qa_list' %}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">پرسش و پاسخ</a>
+        <a href="{% url 'lawfirm:home' %}#consultation" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">مشاوره آنلاین</a>
+        <a href="{% url 'lawfirm:home' %}#contact" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">تماس</a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <!-- Mobile menu button -->
+        <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+
+        <!-- Dark mode toggle -->
+        <button onclick="toggleDarkMode()" class="p-2 rounded-full border dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+          🌓
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div id="mobile-menu" class="md:hidden hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+      <nav class="px-5 py-4 space-y-3">
+        <a href="{% url 'lawfirm:home' %}#services" class="block py-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onclick="closeMobileMenu()">خدمات</a>
+        <a href="{% url 'lawfirm:home' %}#stats" class="block py-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onclick="closeMobileMenu()">آمار</a>
+        <a href="{% url 'lawfirm:home' %}#pricing" class="block py-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onclick="closeMobileMenu()">تعرفه</a>
+        <a href="{% url 'lawfirm:blog_list' %}" class="block py-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onclick="closeMobileMenu()">بلاگ</a>
+        <a href="{% url 'lawfirm:qa_list' %}" class="block py-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onclick="closeMobileMenu()">پرسش و پاسخ</a>
+        <a href="{% url 'lawfirm:home' %}#consultation" class="block py-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onclick="closeMobileMenu()">مشاوره آنلاین</a>
+        <a href="{% url 'lawfirm:home' %}#contact" class="block py-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onclick="closeMobileMenu()">تماس</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-300 py-12">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="grid md:grid-cols-3 gap-8 mb-8">
+        
+        <div>
+          <h3 class="text-xl font-bold text-white mb-4">مؤسسه حقوقی دادگان</h3>
+          <p class="text-gray-400 leading-relaxed">
+            ارائه خدمات حقوقی تخصصی با بیش از ۱۲ سال تجربه در زمینه وکالت و مشاوره حقوقی.
+          </p>
+        </div>
+        
+        <div>
+          <h4 class="font-bold text-white mb-4">خدمات</h4>
+          <ul class="space-y-2 text-gray-400">
+            <li>وکالت دعاوی</li>
+            <li>تنظیم قراردادها</li>
+            <li>مشاوره حقوقی</li>
+            <li>امور ثبتی</li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="font-bold text-white mb-4">تماس با ما</h4>
+          <div class="space-y-2 text-gray-400">
+            <p class="flex items-center"><span class="ml-2">📍</span>جهان کودک، جنب خیابان ثانعی، برج امیر پرویز</p>
+            <p class="flex items-center"><span class="ml-2">📞</span>09129413828</p>
+          </div>
+        </div>
+        
+      </div>
+      
+      <div class="border-t border-gray-700 pt-6 text-center text-gray-400">
+        © ۲۰۲۵ مؤسسه حقوقی رهپویان قانون دادگان — تمامی حقوق محفوظ است.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top Button -->
+  <button id="back-to-top" class="fixed bottom-8 left-8 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 opacity-0 invisible">
+    ↑
+  </button>
+
+  {% block extra_js %}{% endblock %}
+
+</body>
+</html>

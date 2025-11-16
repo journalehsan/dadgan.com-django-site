@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block title %}مقالات و اخبار حقوقی - مؤسسه حقوقی دادگان{% endblock %}
+
+{% block content %}
+  <!-- Header -->
+  <section class="bg-gradient-to-r from-blue-600 to-purple-700 py-16 text-white">
+    <div class="max-w-6xl mx-auto px-5">
+      <h1 class="text-4xl font-bold mb-4">مقالات و اخبار حقوقی</h1>
+      <p class="text-xl opacity-90">آخرین مطالب و اخبار حقوقی از مؤسسه حقوقی دادگان</p>
+    </div>
+  </section>
+
+  <!-- Filters and Search -->
+  <section class="bg-gray-100 dark:bg-gray-800 py-8">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        
+        <!-- Category Filters -->
+        <div class="flex flex-wrap gap-2">
+          <a href="{% url 'lawfirm:blog_list' %}" 
+             class="px-4 py-2 {% if not current_category %}bg-blue-600 text-white{% else %}bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-600{% endif %} rounded-lg transition-colors">
+            همه
+          </a>
+          {% for category in categories %}
+            <a href="{% url 'lawfirm:blog_list' %}?category={{ category.slug }}" 
+               class="px-4 py-2 {% if current_category == category.slug %}bg-blue-600 text-white{% else %}bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-600{% endif %} rounded-lg transition-colors">
+              {{ category.name }}
+            </a>
+          {% endfor %}
+        </div>
+
+        <!-- Search -->
+        <form method="get" class="flex">
+          <input type="text" 
+                 name="search" 
+                 value="{{ search_query }}" 
+                 placeholder="جستجو در مقالات..."
+                 class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+          {% if current_category %}
+            <input type="hidden" name="category" value="{{ current_category }}">
+          {% endif %}
+          <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-l-lg hover:bg-blue-700 transition-colors">
+            جستجو
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Articles Grid -->
+  <section class="py-16">
+    <div class="max-w-6xl mx-auto px-5">
+      
+      {% if page_obj %}
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          {% for blog in page_obj %}
+            <article class="group bg-white dark:bg-gray-900 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
+              <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 relative overflow-hidden">
+                {% if blog.image %}
+                  <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="w-full h-full object-cover">
+                {% endif %}
+                <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                <div class="absolute bottom-4 left-4 right-4">
+                  <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-sm">{{ blog.category.name }}</span>
+                </div>
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  {{ blog.title }}
+                </h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                  {{ blog.excerpt }}
+                </p>
+                <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-4">
+                  <div class="flex items-center gap-4">
+                    <span class="flex items-center">
+                      <span class="ml-1">📅</span>
+                      {{ blog.created_at|date:"Y/m/d" }}
+                    </span>
+                    <span class="flex items-center">
+                      <span class="ml-1">👁</span>
+                      {{ blog.views }} بازدید
+                    </span>
+                  </div>
+                  <span class="text-blue-600 dark:text-blue-400">{{ blog.author.get_full_name|default:blog.author.username }}</span>
+                </div>
+                <a href="{{ blog.get_absolute_url }}" 
+                   class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline font-medium">
+                  مطالعه کامل ←
+                </a>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+          <div class="flex justify-center items-center space-x-2 space-x-reverse">
+            {% if page_obj.has_previous %}
+              <a href="?page={{ page_obj.previous_page_number }}{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}" 
+                 class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                قبلی
+              </a>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+              {% if page_obj.number == num %}
+                <span class="px-4 py-2 bg-blue-600 text-white rounded-lg">{{ num }}</span>
+              {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a href="?page={{ num }}{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}" 
+                   class="px-4 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-blue-100 dark:hover:bg-gray-600 transition-colors">
+                  {{ num }}
+                </a>
+              {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+              <a href="?page={{ page_obj.next_page_number }}{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}" 
+                 class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                بعدی
+              </a>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% else %}
+        <div class="text-center py-16">
+          <div class="text-6xl mb-6">📚</div>
+          <h3 class="text-2xl font-bold mb-4 text-gray-600 dark:text-gray-400">مقاله‌ای یافت نشد</h3>
+          <p class="text-gray-500 dark:text-gray-400 mb-8">
+            {% if search_query %}
+              متأسفانه نتیجه‌ای برای جستجوی "{{ search_query }}" پیدا نشد.
+            {% elif current_category %}
+              در این دسته‌بندی مقاله‌ای وجود ندارد.
+            {% else %}
+              هنوز مقاله‌ای منتشر نشده است.
+            {% endif %}
+          </p>
+          <a href="{% url 'lawfirm:blog_list' %}" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+            مشاهده همه مقالات
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,244 @@
+{% extends 'base.html' %}
+
+{% block title %}پرسش و پاسخ حقوقی - مؤسسه حقوقی دادگان{% endblock %}
+
+{% block content %}
+  <!-- Header -->
+  <section class="bg-gradient-to-r from-orange-600 to-red-700 py-16 text-white">
+    <div class="max-w-6xl mx-auto px-5">
+      <h1 class="text-4xl font-bold mb-4">پرسش و پاسخ حقوقی</h1>
+      <p class="text-xl opacity-90">سوالات خود را بپرسید و پاسخ تخصصی دریافت کنید</p>
+    </div>
+  </section>
+
+  <!-- Filters and Search -->
+  <section class="bg-gray-100 dark:bg-gray-800 py-8">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        
+        <!-- Category Filters -->
+        <div class="flex flex-wrap gap-2">
+          <a href="{% url 'lawfirm:qa_list' %}" 
+             class="px-4 py-2 {% if not current_category %}bg-orange-600 text-white{% else %}bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-orange-100 dark:hover:bg-gray-600{% endif %} rounded-lg transition-colors">
+            همه
+          </a>
+          {% for category in categories %}
+            <a href="{% url 'lawfirm:qa_list' %}?category={{ category.slug }}" 
+               class="px-4 py-2 {% if current_category == category.slug %}bg-orange-600 text-white{% else %}bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-orange-100 dark:hover:bg-gray-600{% endif %} rounded-lg transition-colors">
+              {{ category.name }}
+            </a>
+          {% endfor %}
+        </div>
+
+        <!-- Search -->
+        <form method="get" class="flex">
+          {% csrf_token %}
+          {{ search_form.query }}
+          {% if current_category %}
+            <input type="hidden" name="category" value="{{ current_category }}">
+          {% endif %}
+          <button type="submit" class="px-6 py-2 bg-orange-600 text-white rounded-l-lg hover:bg-orange-700 transition-colors">
+            جستجو
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <div class="max-w-6xl mx-auto px-5 py-16">
+    <div class="grid lg:grid-cols-3 gap-12">
+      
+      <!-- Questions List -->
+      <div class="lg:col-span-2">
+        {% if page_obj %}
+          <div class="space-y-6">
+            {% for question in page_obj %}
+              <article class="group bg-white dark:bg-gray-900 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-700">
+                <div class="p-6">
+                  <div class="flex items-start gap-4">
+                    
+                    <!-- Vote Section -->
+                    <div class="flex flex-col items-center space-y-2 flex-shrink-0">
+                      <div class="text-center">
+                        <div class="text-lg font-bold text-gray-600 dark:text-gray-300">{{ question.votes }}</div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">رای</div>
+                      </div>
+                      <div class="text-center">
+                        <div class="text-lg font-bold {% if question.is_answered %}text-green-600 dark:text-green-400{% else %}text-gray-600 dark:text-gray-300{% endif %}">
+                          {{ question.get_answers_count }}
+                        </div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">پاسخ</div>
+                      </div>
+                      <div class="text-center">
+                        <div class="text-lg font-bold text-gray-600 dark:text-gray-300">{{ question.views }}</div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">بازدید</div>
+                      </div>
+                    </div>
+
+                    <!-- Question Content -->
+                    <div class="flex-1 min-w-0">
+                      <div class="mb-3">
+                        <h3 class="text-lg font-bold mb-2 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
+                          <a href="{{ question.get_absolute_url }}">{{ question.title }}</a>
+                        </h3>
+                        
+                        <div class="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400 mb-3">
+                          <span class="bg-{{ question.category.slug|add:1|divisibleby:"4"|yesno:"blue,green,purple,red" }}-100 dark:bg-{{ question.category.slug|add:1|divisibleby:"4"|yesno:"blue,green,purple,red" }}-900 text-{{ question.category.slug|add:1|divisibleby:"4"|yesno:"blue,green,purple,red" }}-600 dark:text-{{ question.category.slug|add:1|divisibleby:"4"|yesno:"blue,green,purple,red" }}-400 px-2 py-1 rounded-full text-xs">
+                            {{ question.category.name }}
+                          </span>
+                          {% if question.is_answered %}
+                            <span class="bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 px-2 py-1 rounded-full text-xs">
+                              پاسخ داده شده
+                            </span>
+                          {% endif %}
+                        </div>
+
+                        <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed line-clamp-2">
+                          {{ question.content|truncatechars:150 }}
+                        </p>
+                      </div>
+
+                      <div class="flex items-center justify-between">
+                        <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                          <span class="ml-2">👤</span>
+                          <span>{{ question.asker_name }}</span>
+                          <span class="mx-2">•</span>
+                          <span>{{ question.created_at|timesince }} پیش</span>
+                        </div>
+                        <a href="{{ question.get_absolute_url }}" class="text-orange-600 dark:text-orange-400 hover:underline text-sm font-medium">
+                          مشاهده سوال ←
+                        </a>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+
+          <!-- Pagination -->
+          {% if page_obj.has_other_pages %}
+            <div class="flex justify-center items-center space-x-2 space-x-reverse mt-12">
+              {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if current_category %}&category={{ current_category }}{% endif %}{% if search_form.query.value %}&query={{ search_form.query.value }}{% endif %}" 
+                   class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors">
+                  قبلی
+                </a>
+              {% endif %}
+
+              {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                  <span class="px-4 py-2 bg-orange-600 text-white rounded-lg">{{ num }}</span>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                  <a href="?page={{ num }}{% if current_category %}&category={{ current_category }}{% endif %}{% if search_form.query.value %}&query={{ search_form.query.value }}{% endif %}" 
+                     class="px-4 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-orange-100 dark:hover:bg-gray-600 transition-colors">
+                    {{ num }}
+                  </a>
+                {% endif %}
+              {% endfor %}
+
+              {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if current_category %}&category={{ current_category }}{% endif %}{% if search_form.query.value %}&query={{ search_form.query.value }}{% endif %}" 
+                   class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors">
+                  بعدی
+                </a>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% else %}
+          <div class="text-center py-16">
+            <div class="text-6xl mb-6">❓</div>
+            <h3 class="text-2xl font-bold mb-4 text-gray-600 dark:text-gray-400">سوالی یافت نشد</h3>
+            <p class="text-gray-500 dark:text-gray-400 mb-8">
+              {% if search_form.query.value %}
+                متأسفانه نتیجه‌ای برای جستجوی "{{ search_form.query.value }}" پیدا نشد.
+              {% elif current_category %}
+                در این دسته‌بندی سوالی وجود ندارد.
+              {% else %}
+                هنوز سوالی پرسیده نشده است.
+              {% endif %}
+            </p>
+            <a href="#ask-question" class="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors">
+              اولین سوال را بپرسید
+            </a>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Sidebar -->
+      <div class="space-y-8">
+        
+        <!-- Ask Question Form -->
+        <div id="ask-question" class="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
+          <h3 class="text-xl font-bold mb-6 text-orange-600 dark:text-orange-400">سوال جدید بپرسید</h3>
+          
+          <form method="post" class="space-y-4">
+            {% csrf_token %}
+            
+            {% for field in question_form %}
+              <div>
+                <label for="{{ field.id_for_label }}" class="block text-sm font-medium mb-2">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                  {% for error in field.errors %}
+                    <span class="text-red-500 text-sm block mt-1">{{ error }}</span>
+                  {% endfor %}
+                {% endif %}
+              </div>
+            {% endfor %}
+
+            <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 rounded-lg font-medium transition-colors">
+              ارسال سوال
+            </button>
+            
+            <p class="text-xs text-gray-500 dark:text-gray-400 text-center">
+              سوال شما پس از بررسی منتشر خواهد شد
+            </p>
+          </form>
+        </div>
+
+        <!-- Stats -->
+        <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
+          <h3 class="text-lg font-bold mb-6">آمار پرسش و پاسخ</h3>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-gray-600 dark:text-gray-300">کل سوالات:</span>
+              <span class="font-bold text-orange-600 dark:text-orange-400">{{ page_obj.paginator.count|default:0 }}</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-gray-600 dark:text-gray-300">پاسخ داده شده:</span>
+              <span class="font-bold text-green-600 dark:text-green-400">
+                {% with answered_count=page_obj.object_list|length %}{{ answered_count }}{% endwith %}
+              </span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-gray-600 dark:text-gray-300">در انتظار پاسخ:</span>
+              <span class="font-bold text-yellow-600 dark:text-yellow-400">
+                {% with unanswered=page_obj.paginator.count|add:"-15" %}{{ unanswered|default:0 }}{% endwith %}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Card -->
+        <div class="bg-gradient-to-r from-orange-600 to-red-700 rounded-xl shadow-lg p-6 text-white">
+          <h3 class="text-lg font-bold mb-4">نیاز به مشاوره فوری؟</h3>
+          <p class="text-sm opacity-90 mb-6">
+            برای مشاوره تلفنی یا حضوری با ما تماس بگیرید
+          </p>
+          <div class="space-y-3">
+            <a href="{% url 'lawfirm:home' %}#consultation" class="block w-full bg-white text-orange-600 py-2 px-4 rounded-lg text-center font-medium hover:bg-gray-100 transition-colors">
+              مشاوره آنلاین
+            </a>
+            <div class="text-center text-sm">
+              <span class="opacity-75">یا تماس بگیرید:</span><br>
+              <span class="font-bold">09129413828</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+{% endblock %}

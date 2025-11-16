@@ -1,0 +1,599 @@
+{% extends 'base.html' %}
+
+{% block extra_js_init %}
+  // Animated counters
+  animateCounters();
+  initContactForm();
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Animated counters
+  function animateCounters() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target.dataset.animated) {
+          const target = +entry.target.getAttribute("data-counter");
+          let count = 0;
+          const step = Math.ceil(target / 80);
+
+          const timer = setInterval(() => {
+            count += step;
+            if (count >= target) {
+              count = target;
+              clearInterval(timer);
+            }
+            entry.target.innerText = count.toLocaleString("fa-IR");
+          }, 30);
+          
+          entry.target.dataset.animated = 'true';
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll("[data-counter]").forEach(el => {
+      observer.observe(el);
+    });
+  }
+
+  // Contact form functionality
+  function initContactForm() {
+    const form = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const submitText = document.getElementById('submit-text');
+    const submitLoading = document.getElementById('submit-loading');
+
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        // Show loading state
+        submitBtn.disabled = true;
+        submitText.classList.add('hidden');
+        submitLoading.classList.remove('hidden');
+      });
+    }
+  }
+</script>
+{% endblock %}
+
+{% block content %}
+  <!-- Hero Section -->
+  <section class="max-w-6xl mx-auto px-5 py-16 md:py-24">
+    <div class="grid md:grid-cols-2 gap-10 items-center">
+
+      <div class="animate-fade-in">
+        <h2 class="text-3xl md:text-5xl font-extrabold leading-snug mb-6">
+          مؤسسه حقوقی <span class="text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">دادگان</span>  
+          همراه مطمئن شما در دعاوی و قراردادها
+        </h2>
+        <p class="text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
+          ارائه مشاوره حقوقی، وکالت تخصصی، دفاع حرفه‌ای، تنظیم قراردادها و امور ثبتی  
+          توسط وکلای مجرب پایه یک دادگستری.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="#contact"
+             class="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-lg text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+             رزرو مشاوره حقوقی
+          </a>
+          <a href="#services"
+             class="px-8 py-4 border-2 border-gray-300 dark:border-gray-500 hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg text-center transition-all duration-300">
+             مشاهده خدمات
+          </a>
+        </div>
+      </div>
+
+      <div class="animate-fade-in-delayed">
+        <img src="https://images.unsplash.com/photo-1589820296156-2454bb8a6c1d?auto=format&fit=crop&w=900&q=80"
+             alt="Law Firm"
+             class="rounded-xl shadow-2xl dark:border dark:border-gray-700 hover:shadow-3xl transition-shadow duration-500" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services" class="bg-gray-100 dark:bg-gray-800 py-16">
+    <div class="max-w-6xl mx-auto px-5">
+      <h3 class="text-3xl font-bold mb-10 text-center">خدمات مؤسسه حقوقی دادگان</h3>
+
+      <div class="grid md:grid-cols-3 gap-8">
+
+        <div class="group p-8 bg-white dark:bg-gray-900 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-transparent hover:border-blue-200 dark:hover:border-blue-800">
+          <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mb-6 group-hover:bg-blue-200 dark:group-hover:bg-blue-800 transition-colors">
+            ⚖️
+          </div>
+          <h4 class="text-xl font-bold mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">وکالت دعاوی</h4>
+          <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+            وکالت در پرونده‌های کیفری، حقوقی، خانواده، ملکی و تجاری توسط وکلای مجرب.
+          </p>
+        </div>
+
+        <div class="group p-8 bg-white dark:bg-gray-900 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-transparent hover:border-green-200 dark:hover:border-green-800">
+          <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mb-6 group-hover:bg-green-200 dark:group-hover:bg-green-800 transition-colors">
+            📋
+          </div>
+          <h4 class="text-xl font-bold mb-4 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">تنظیم و بررسی قراردادها</h4>
+          <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+            تهیه و تحلیل حرفه‌ای قراردادهای ملکی، کاری و شراکت با دقت بالا.
+          </p>
+        </div>
+
+        <div class="group p-8 bg-white dark:bg-gray-900 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-transparent hover:border-purple-200 dark:hover:border-purple-800">
+          <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mb-6 group-hover:bg-purple-200 dark:group-hover:bg-purple-800 transition-colors">
+            💬
+          </div>
+          <h4 class="text-xl font-bold mb-4 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">مشاوره حقوقی</h4>
+          <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+            مشاوره آنلاین و حضوری توسط وکلای متخصص در تمامی زمینه‌ها.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section id="stats" class="py-16">
+    <div class="max-w-6xl mx-auto px-5">
+
+      <h3 class="text-3xl font-bold text-center mb-12">آمار فعالیت مؤسسه حقوقی دادگان</h3>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+
+        <div>
+          <p class="text-4xl font-bold text-blue-600 dark:text-blue-400" data-counter="{% if site_settings %}{{ site_settings.consultation_count }}{% else %}1400{% endif %}">0</p>
+          <p class="mt-2 text-gray-600 dark:text-gray-300">مشاوره حقوقی</p>
+        </div>
+
+        <div>
+          <p class="text-4xl font-bold text-blue-600 dark:text-blue-400" data-counter="{% if site_settings %}{{ site_settings.success_cases }}{% else %}950{% endif %}">0</p>
+          <p class="mt-2 text-gray-600 dark:text-gray-300">پرونده موفق</p>
+        </div>
+
+        <div>
+          <p class="text-4xl font-bold text-blue-600 dark:text-blue-400" data-counter="{% if site_settings %}{{ site_settings.contracts_count }}{% else %}500{% endif %}">0</p>
+          <p class="mt-2 text-gray-600 dark:text-gray-300">تنظیم قرارداد</p>
+        </div>
+
+        <div>
+          <p class="text-4xl font-bold text-blue-600 dark:text-blue-400" data-counter="{% if site_settings %}{{ site_settings.experience_years }}{% else %}12{% endif %}">0</p>
+          <p class="mt-2 text-gray-600 dark:text-gray-300">سال تجربه</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="bg-gray-100 dark:bg-gray-800 py-16">
+    <div class="max-w-6xl mx-auto px-5">
+
+      <h3 class="text-3xl font-bold text-center mb-12">تعرفه مشاوره حقوقی</h3>
+
+      <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+
+        {% for consultation_type in consultation_types %}
+        <div class="group relative p-8 bg-white dark:bg-gray-900 rounded-xl shadow-xl border-t-4 {% if forloop.first %}border-blue-600{% else %}border-green-600{% endif %} hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="absolute top-4 left-4 {% if forloop.first %}bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400{% else %}bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400{% endif %} px-3 py-1 rounded-full text-sm font-medium">
+            {% if forloop.first %}محبوب{% else %}پیشنهادی{% endif %}
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 {% if forloop.first %}bg-blue-100 dark:bg-blue-900{% else %}bg-green-100 dark:bg-green-900{% endif %} rounded-full flex items-center justify-center mx-auto mb-4">
+              {% if forloop.first %}📞{% else %}🏢{% endif %}
+            </div>
+            <h4 class="text-2xl font-bold mb-3 {% if forloop.first %}text-blue-600{% else %}text-green-600{% endif %}">{{ consultation_type.name }}</h4>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">{{ consultation_type.description }}</p>
+            <div class="mb-6">
+              <span class="text-4xl font-bold">{{ consultation_type.price|floatformat:"0" }}</span>
+              <span class="text-lg text-gray-500">هزار تومان</span>
+            </div>
+            <ul class="text-right mb-6 space-y-2 text-sm text-gray-600 dark:text-gray-300">
+              <li class="flex items-center"><span class="text-green-500 ml-2">✓</span>مشاوره {{ consultation_type.duration }} دقیقه‌ای</li>
+              <li class="flex items-center"><span class="text-green-500 ml-2">✓</span>{% if forloop.first %}پاسخ فوری{% else %}بررسی اسناد{% endif %}</li>
+              <li class="flex items-center"><span class="text-green-500 ml-2">✓</span>مشاوره تخصصی</li>
+            </ul>
+            <a href="#contact"
+               class="block text-center py-4 {% if forloop.first %}bg-blue-600 hover:bg-blue-700{% else %}bg-green-600 hover:bg-green-700{% endif %} text-white rounded-lg transition-colors font-medium">
+              {% if forloop.first %}رزرو مشاوره تلفنی{% else %}رزرو جلسه حضوری{% endif %}
+            </a>
+          </div>
+        </div>
+        {% empty %}
+        <!-- Default pricing if no consultation types exist -->
+        <div class="group relative p-8 bg-white dark:bg-gray-900 rounded-xl shadow-xl border-t-4 border-blue-600 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="absolute top-4 left-4 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 px-3 py-1 rounded-full text-sm font-medium">
+            محبوب
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
+              📞
+            </div>
+            <h4 class="text-2xl font-bold mb-3 text-blue-600">مشاوره تلفنی</h4>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">مشاوره فوری ۳۰ دقیقه‌ای</p>
+            <div class="mb-6">
+              <span class="text-4xl font-bold">۱۵۰</span>
+              <span class="text-lg text-gray-500">هزار تومان</span>
+            </div>
+            <ul class="text-right mb-6 space-y-2 text-sm text-gray-600 dark:text-gray-300">
+              <li class="flex items-center"><span class="text-green-500 ml-2">✓</span>مشاوره ۳۰ دقیقه‌ای</li>
+              <li class="flex items-center"><span class="text-green-500 ml-2">✓</span>پاسخ فوری</li>
+              <li class="flex items-center"><span class="text-green-500 ml-2">✓</span>مشاوره تخصصی</li>
+            </ul>
+            <a href="#contact"
+               class="block text-center py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+              رزرو مشاوره تلفنی
+            </a>
+          </div>
+        </div>
+
+        <div class="group relative p-8 bg-white dark:bg-gray-900 rounded-xl shadow-xl border-t-4 border-green-600 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="absolute top-4 left-4 bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 px-3 py-1 rounded-full text-sm font-medium">
+            پیشنهادی
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
+              🏢
+            </div>
+            <h4 class="text-2xl font-bold mb-3 text-green-600">مشاوره حضوری</h4>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">مشاوره دقیق و تخصصی حضوری</p>
+            <div class="mb-6">
+              <span class="text-4xl font-bold">۳۰۰</span>
+              <span class="text-lg text-gray-500">هزار تومان</span>
+            </div>
+            <ul class="text-right mb-6 space-y-2 text-sm text-gray-600 dark:text-gray-300">
+              <li class="flex items-center"><span class="text-green-500 ml-2">✓</span>مشاوره حضوری کامل</li>
+              <li class="flex items-center"><span class="text-green-500 ml-2">✓</span>بررسی اسناد</li>
+              <li class="flex items-center"><span class="text-green-500 ml-2">✓</span>ارائه راهکار جامع</li>
+            </ul>
+            <a href="#contact"
+               class="block text-center py-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium">
+              رزرو جلسه حضوری
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog Section -->
+  <section id="blog" class="bg-gray-100 dark:bg-gray-800 py-16">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="text-center mb-12">
+        <h3 class="text-3xl font-bold mb-4">مقالات و اخبار حقوقی</h3>
+        <p class="text-gray-600 dark:text-gray-300 text-lg">آخرین مطالب و اخبار حقوقی را از وبلاگ ما مطالعه کنید</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8 mb-10">
+
+        {% for blog in recent_blogs %}
+        <article class="group bg-white dark:bg-gray-900 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
+          <div class="h-48 bg-gradient-to-r from-{{ forloop.counter|add:3|divisibleby:"3"|yesno:"blue,green,purple" }}-500 to-purple-600 relative overflow-hidden">
+            {% if blog.image %}
+              <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="w-full h-full object-cover">
+            {% endif %}
+            <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+            <div class="absolute bottom-4 left-4 right-4">
+              <span class="bg-{{ forloop.counter|add:3|divisibleby:"3"|yesno:"blue,green,purple" }}-600 text-white px-3 py-1 rounded-full text-sm">{{ blog.category.name }}</span>
+            </div>
+          </div>
+          <div class="p-6">
+            <h4 class="text-xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+              {{ blog.title }}
+            </h4>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+              {{ blog.excerpt|truncatechars:100 }}
+            </p>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                <span class="ml-2">📅</span>
+                <span>{{ blog.created_at|date:"Y/m/d" }}</span>
+              </div>
+              <a href="{{ blog.get_absolute_url }}" class="text-blue-600 dark:text-blue-400 hover:underline text-sm font-medium">
+                مطالعه کامل ←
+              </a>
+            </div>
+          </div>
+        </article>
+        {% empty %}
+        <div class="col-span-3 text-center text-gray-500 dark:text-gray-400 py-12">
+          <p>هنوز مقاله‌ای منتشر نشده است.</p>
+        </div>
+        {% endfor %}
+
+      </div>
+
+      <div class="text-center">
+        <a href="{% url 'lawfirm:blog_list' %}" class="inline-flex items-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-lg hover:shadow-xl">
+          <span class="ml-2">📚</span>
+          مشاهده تمام مقالات
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Q&A Section -->
+  <section id="qa" class="py-16">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="text-center mb-12">
+        <h3 class="text-3xl font-bold mb-4">پرسش و پاسخ حقوقی</h3>
+        <p class="text-gray-600 dark:text-gray-300 text-lg">سوالات متداول و پاسخ‌های تخصصی وکلای مجرب</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8 mb-10">
+
+        {% for question in featured_questions %}
+        <div class="group bg-white dark:bg-gray-900 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200 dark:border-gray-700">
+          <div class="p-6">
+            <div class="flex items-start gap-4 mb-4">
+              <div class="w-10 h-10 bg-{{ forloop.counter|divisibleby:"4"|yesno:"orange,green,purple,red" }}-100 dark:bg-{{ forloop.counter|divisibleby:"4"|yesno:"orange,green,purple,red" }}-900 rounded-full flex items-center justify-center text-{{ forloop.counter|divisibleby:"4"|yesno:"orange,green,purple,red" }}-600 dark:text-{{ forloop.counter|divisibleby:"4"|yesno:"orange,green,purple,red" }}-400 font-bold text-sm flex-shrink-0">
+                ❓
+              </div>
+              <div class="flex-1">
+                <h4 class="text-lg font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  {{ question.title }}
+                </h4>
+                <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
+                  <span class="bg-{{ question.category.id|divisibleby:"4"|yesno:"blue,green,purple,red" }}-100 dark:bg-{{ question.category.id|divisibleby:"4"|yesno:"blue,green,purple,red" }}-900 text-{{ question.category.id|divisibleby:"4"|yesno:"blue,green,purple,red" }}-600 dark:text-{{ question.category.id|divisibleby:"4"|yesno:"blue,green,purple,red" }}-400 px-2 py-1 rounded-full text-xs">{{ question.category.name }}</span>
+                  <span>{{ question.get_answers_count }} پاسخ</span>
+                  <span>{{ question.views }} بازدید</span>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">
+                  {{ question.content|truncatechars:120 }}
+                </p>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-400 text-xs font-bold">
+                      د
+                    </div>
+                    <span class="text-sm text-gray-600 dark:text-gray-300">دادگان</span>
+                  </div>
+                  <a href="{{ question.get_absolute_url }}" class="text-blue-600 dark:text-blue-400 hover:underline text-sm font-medium">
+                    مشاهده پاسخ ←
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <div class="col-span-2 text-center text-gray-500 dark:text-gray-400 py-12">
+          <p>هنوز سوالی منتشر نشده است.</p>
+        </div>
+        {% endfor %}
+
+      </div>
+
+      <div class="text-center">
+        <a href="{% url 'lawfirm:qa_list' %}" class="inline-flex items-center px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white rounded-lg font-medium transition-colors shadow-lg hover:shadow-xl mr-4">
+          <span class="ml-2">❓</span>
+          مشاهده همه سوالات
+        </a>
+        <a href="{% url 'lawfirm:qa_list' %}#ask-question" class="inline-flex items-center px-8 py-4 border-2 border-orange-600 text-orange-600 dark:text-orange-400 hover:bg-orange-600 hover:text-white rounded-lg font-medium transition-colors">
+          <span class="ml-2">✏️</span>
+          پرسش جدید
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Online Consultation Section -->
+  <section id="consultation" class="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 py-16 text-white">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="text-center mb-12">
+        <h3 class="text-3xl md:text-4xl font-bold mb-4">مشاوره آنلاین فوری</h3>
+        <p class="text-xl opacity-90 max-w-3xl mx-auto">
+          همین حالا با وکلای متخصص ما در ارتباط باشید و پاسخ سوالات حقوقی خود را دریافت کنید
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        
+        <!-- Left side - Features -->
+        <div class="space-y-6">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              ⚡
+            </div>
+            <div>
+              <h4 class="text-xl font-bold mb-2">پاسخ فوری</h4>
+              <p class="opacity-90">پاسخ سوالات شما در کمتر از ۳۰ دقیقه</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              🎯
+            </div>
+            <div>
+              <h4 class="text-xl font-bold mb-2">مشاوره تخصصی</h4>
+              <p class="opacity-90">توسط وکلای پایه یک دادگستری</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              🔒
+            </div>
+            <div>
+              <h4 class="text-xl font-bold mb-2">محرمانه و امن</h4>
+              <p class="opacity-90">تمام اطلاعات شما کاملاً محرمانه است</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              💰
+            </div>
+            <div>
+              <h4 class="text-xl font-bold mb-2">قیمت مناسب</h4>
+              <p class="opacity-90">مشاوره با کمترین هزینه و بیشترین کیفیت</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right side - Booking Form -->
+        <div class="bg-white/10 backdrop-blur rounded-2xl p-8">
+          <h4 class="text-2xl font-bold mb-6 text-center">رزرو مشاوره آنلاین</h4>
+          
+          <form method="post" class="space-y-6">
+            {% csrf_token %}
+            <input type="hidden" name="consultation_submit" value="1">
+            
+            {% for field in consultation_form %}
+              <div>
+                <label for="{{ field.id_for_label }}" class="block mb-2 font-medium">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                  {% for error in field.errors %}
+                    <span class="text-red-300 text-sm block mt-1">{{ error }}</span>
+                  {% endfor %}
+                {% endif %}
+              </div>
+            {% endfor %}
+
+            <button 
+              type="submit"
+              class="w-full bg-white text-blue-600 py-4 rounded-lg font-bold hover:bg-gray-100 transition-colors shadow-lg hover:shadow-xl"
+            >
+              درخواست مشاوره فوری
+            </button>
+
+            <p class="text-sm opacity-80 text-center">
+              هزینه مشاوره: ۱۵۰,۰۰۰ تومان | پاسخ در کمتر از ۳۰ دقیقه
+            </p>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-16">
+    <div class="max-w-6xl mx-auto px-5">
+      <h3 class="text-3xl font-bold text-center mb-12">نظرات مشتریان</h3>
+
+      <div class="grid md:grid-cols-3 gap-8">
+
+        {% for testimonial in testimonials %}
+        <div class="group p-8 bg-white dark:bg-gray-900 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-r-4 border-{% cycle 'blue' 'green' 'purple' %}-500">
+          <div class="flex items-center mb-4">
+            <div class="flex text-yellow-400 text-lg">
+              {{ testimonial.get_rating_stars }}
+            </div>
+          </div>
+          <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-6 italic">
+            «{{ testimonial.content }}»
+          </p>
+          <div class="flex items-center">
+            <div class="w-12 h-12 bg-{% cycle 'blue' 'green' 'purple' %}-100 dark:bg-{% cycle 'blue' 'green' 'purple' %}-900 rounded-full flex items-center justify-center text-{% cycle 'blue' 'green' 'purple' %}-600 dark:text-{% cycle 'blue' 'green' 'purple' %}-400 font-bold text-lg">
+              {{ testimonial.name|first }}
+            </div>
+            <div class="mr-3">
+              <p class="font-medium">{{ testimonial.name }}</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400">{{ testimonial.title|default:"مشتری" }}</p>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <!-- Default testimonials if none exist -->
+        <div class="group p-8 bg-white dark:bg-gray-900 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-r-4 border-blue-500">
+          <div class="flex items-center mb-4">
+            <div class="flex text-yellow-400 text-lg">
+              ⭐⭐⭐⭐⭐
+            </div>
+          </div>
+          <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-6 italic">
+            «مشاوره بسیار عالی و دقیق. موضوع پرونده‌ام خیلی سریع پیش رفت و نتیجه فوق‌العاده‌ای گرفتم.»
+          </p>
+          <div class="flex items-center">
+            <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold text-lg">
+              ر
+            </div>
+            <div class="mr-3">
+              <p class="font-medium">خانم رضایی</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400">مشتری</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="group p-8 bg-white dark:bg-gray-900 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-r-4 border-green-500">
+          <div class="flex items-center mb-4">
+            <div class="flex text-yellow-400 text-lg">
+              ⭐⭐⭐⭐⭐
+            </div>
+          </div>
+          <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-6 italic">
+            «از نظر تعهد و حرفه‌ای‌گری بی‌نظیر هستند. کیفیت خدمات بسیار بالا و قابل اعتماد.»
+          </p>
+          <div class="flex items-center">
+            <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center text-green-600 dark:text-green-400 font-bold text-lg">
+              م
+            </div>
+            <div class="mr-3">
+              <p class="font-medium">آقای محمدی</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400">مشتری</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="group p-8 bg-white dark:bg-gray-900 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-r-4 border-purple-500">
+          <div class="flex items-center mb-4">
+            <div class="flex text-yellow-400 text-lg">
+              ⭐⭐⭐⭐⭐
+            </div>
+          </div>
+          <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-6 italic">
+            «بهترین مؤسسه‌ای که تاکنون تجربه کرده‌ام. خدمات جامع و مشاوره دقیق.»
+          </p>
+          <div class="flex items-center">
+            <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center text-purple-600 dark:text-purple-400 font-bold text-lg">
+              ع
+            </div>
+            <div class="mr-3">
+              <p class="font-medium">آقای علیپور</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400">مشتری</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="bg-blue-50 dark:bg-gray-800 py-16">
+    <div class="max-w-4xl mx-auto px-5">
+      <h3 class="text-3xl font-bold text-center mb-8">تماس با ما</h3>
+
+      <form id="contact-form" method="post" class="space-y-6 bg-white dark:bg-gray-900 p-8 rounded-xl shadow-xl">
+        {% csrf_token %}
+        <input type="hidden" name="contact_submit" value="1">
+
+        {% for field in contact_form %}
+          <div>
+            <label for="{{ field.id_for_label }}" class="block mb-1 text-sm font-medium">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+              {% for error in field.errors %}
+                <span class="text-red-500 text-sm block mt-1">{{ error }}</span>
+              {% endfor %}
+            {% endif %}
+          </div>
+        {% endfor %}
+
+        <button type="submit" id="submit-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+          <span id="submit-text">ارسال درخواست</span>
+          <span id="submit-loading" class="hidden">در حال ارسال...</span>
+        </button>
+      </form>
+
+      <div class="mt-10 text-center text-gray-700 dark:text-gray-300">
+        <p><strong>آدرس:</strong> جهان کودک، جنب خیابان ثانعی، برج امیر پرویز</p>
+        <p class="mt-2"><strong>تلفن:</strong> 09129413828</p>
+      </div>
+    </div>
+  </section>
+{% endblock %}

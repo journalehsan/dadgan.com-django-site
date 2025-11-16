@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ blog.title }} - مؤسسه حقوقی دادگان{% endblock %}
+
+{% block content %}
+  <!-- Article Header -->
+  <article class="max-w-4xl mx-auto px-5 py-16">
+    
+    <!-- Breadcrumb -->
+    <nav class="mb-8 text-sm text-gray-600 dark:text-gray-400">
+      <a href="{% url 'lawfirm:home' %}" class="hover:text-blue-600 dark:hover:text-blue-400">خانه</a>
+      <span class="mx-2">/</span>
+      <a href="{% url 'lawfirm:blog_list' %}" class="hover:text-blue-600 dark:hover:text-blue-400">بلاگ</a>
+      <span class="mx-2">/</span>
+      <span>{{ blog.title }}</span>
+    </nav>
+
+    <!-- Article Content -->
+    <header class="mb-12">
+      <div class="mb-6">
+        <span class="bg-{{ blog.category.slug|add:1|divisibleby:"4"|yesno:"blue,green,purple,red" }}-100 dark:bg-{{ blog.category.slug|add:1|divisibleby:"4"|yesno:"blue,green,purple,red" }}-900 text-{{ blog.category.slug|add:1|divisibleby:"4"|yesno:"blue,green,purple,red" }}-600 dark:text-{{ blog.category.slug|add:1|divisibleby:"4"|yesno:"blue,green,purple,red" }}-400 px-3 py-1 rounded-full text-sm font-medium">
+          {{ blog.category.name }}
+        </span>
+      </div>
+      
+      <h1 class="text-3xl md:text-4xl font-bold mb-6 leading-tight">{{ blog.title }}</h1>
+      
+      <div class="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-6">
+        <div class="flex items-center space-x-6 space-x-reverse text-gray-600 dark:text-gray-400">
+          <div class="flex items-center">
+            <span class="ml-2">✍️</span>
+            <span>{{ blog.author.get_full_name|default:blog.author.username }}</span>
+          </div>
+          <div class="flex items-center">
+            <span class="ml-2">📅</span>
+            <span>{{ blog.created_at|date:"Y/m/d H:i" }}</span>
+          </div>
+          <div class="flex items-center">
+            <span class="ml-2">👁</span>
+            <span>{{ blog.views }} بازدید</span>
+          </div>
+        </div>
+        
+        <!-- Share Buttons -->
+        <div class="flex items-center space-x-2 space-x-reverse">
+          <span class="text-sm text-gray-600 dark:text-gray-400 ml-3">اشتراک‌گذاری:</span>
+          <a href="#" onclick="shareOnTelegram()" class="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors" title="تلگرام">
+            📱
+          </a>
+          <a href="#" onclick="shareOnWhatsApp()" class="p-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors" title="واتساپ">
+            💬
+          </a>
+          <button onclick="copyToClipboard()" class="p-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors" title="کپی لینک">
+            🔗
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Featured Image -->
+    {% if blog.image %}
+      <div class="mb-12">
+        <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="w-full rounded-xl shadow-lg">
+      </div>
+    {% endif %}
+
+    <!-- Article Body -->
+    <div class="prose prose-lg max-w-none dark:prose-invert mb-12">
+      <div class="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed font-medium border-r-4 border-blue-500 pr-4">
+        {{ blog.excerpt }}
+      </div>
+      
+      <div class="text-gray-800 dark:text-gray-200 leading-relaxed space-y-6">
+        {{ blog.content|linebreaks }}
+      </div>
+    </div>
+
+    <!-- Tags -->
+    <div class="mb-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+      <div class="flex items-center flex-wrap gap-3">
+        <span class="text-gray-600 dark:text-gray-400 font-medium">برچسب‌ها:</span>
+        <span class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1 rounded-full text-sm">
+          {{ blog.category.name }}
+        </span>
+        <span class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1 rounded-full text-sm">
+          مشاوره حقوقی
+        </span>
+        <span class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1 rounded-full text-sm">
+          وکالت
+        </span>
+      </div>
+    </div>
+
+  </article>
+
+  <!-- Related Posts -->
+  {% if related_posts %}
+    <section class="bg-gray-100 dark:bg-gray-800 py-16">
+      <div class="max-w-6xl mx-auto px-5">
+        <h2 class="text-2xl font-bold mb-8">مقالات مرتبط</h2>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+          {% for related_post in related_posts %}
+            <article class="group bg-white dark:bg-gray-900 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
+              <div class="h-40 bg-gradient-to-r from-blue-500 to-purple-600 relative overflow-hidden">
+                {% if related_post.image %}
+                  <img src="{{ related_post.image.url }}" alt="{{ related_post.title }}" class="w-full h-full object-cover">
+                {% endif %}
+                <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                <div class="absolute bottom-3 left-3 right-3">
+                  <span class="bg-blue-600 text-white px-2 py-1 rounded-full text-xs">{{ related_post.category.name }}</span>
+                </div>
+              </div>
+              <div class="p-5">
+                <h3 class="font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                  {{ related_post.title }}
+                </h3>
+                <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">
+                  {{ related_post.excerpt|truncatechars:80 }}
+                </p>
+                <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+                  <span>{{ related_post.created_at|date:"Y/m/d" }}</span>
+                  <a href="{{ related_post.get_absolute_url }}" class="text-blue-600 dark:text-blue-400 hover:underline">
+                    ادامه مطلب
+                  </a>
+                </div>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <!-- Call to Action -->
+  <section class="bg-blue-600 text-white py-16">
+    <div class="max-w-4xl mx-auto px-5 text-center">
+      <h2 class="text-3xl font-bold mb-4">نیاز به مشاوره حقوقی دارید؟</h2>
+      <p class="text-xl mb-8 opacity-90">
+        با وکلای مجرب مؤسسه حقوقی دادگان تماس بگیرید
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="{% url 'lawfirm:home' %}#consultation" class="px-8 py-4 bg-white text-blue-600 rounded-lg font-bold hover:bg-gray-100 transition-colors">
+          مشاوره آنلاین
+        </a>
+        <a href="{% url 'lawfirm:home' %}#contact" class="px-8 py-4 border-2 border-white text-white rounded-lg font-bold hover:bg-white hover:text-blue-600 transition-colors">
+          تماس با ما
+        </a>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  function shareOnTelegram() {
+    const url = window.location.href;
+    const title = "{{ blog.title|escapejs }}";
+    const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`;
+    window.open(shareUrl, '_blank');
+  }
+
+  function shareOnWhatsApp() {
+    const url = window.location.href;
+    const title = "{{ blog.title|escapejs }}";
+    const shareUrl = `https://wa.me/?text=${encodeURIComponent(title + ' ' + url)}`;
+    window.open(shareUrl, '_blank');
+  }
+
+  function copyToClipboard() {
+    navigator.clipboard.writeText(window.location.href).then(function() {
+      alert('لینک کپی شد!');
+    });
+  }
+</script>
+{% endblock %}

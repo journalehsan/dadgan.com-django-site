@@ -1,0 +1,329 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ question.title }} - پرسش و پاسخ - مؤسسه حقوقی دادگان{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Voting functionality
+  async function vote(type, questionId, answerId = null) {
+    const url = answerId ? 
+      `{% url 'lawfirm:vote_answer' 0 %}`.replace('0', answerId) : 
+      `{% url 'lawfirm:vote_question' 0 %}`.replace('0', questionId);
+    
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCSRFToken()
+        },
+        body: JSON.stringify({vote_type: type})
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        const scoreElement = answerId ? 
+          document.getElementById(`answer-score-${answerId}`) : 
+          document.getElementById('question-score');
+        scoreElement.textContent = data.new_votes;
+        
+        // Show success message
+        showMessage('رای شما ثبت شد', 'success');
+      } else {
+        showMessage('خطا در ثبت رای', 'error');
+      }
+    } catch (error) {
+      showMessage('خطا در ارتباط با سرور', 'error');
+    }
+  }
+
+  function showMessage(message, type) {
+    // Create and show toast message
+    const toast = document.createElement('div');
+    toast.className = `fixed top-4 right-4 z-50 px-4 py-2 rounded-lg text-white ${type === 'success' ? 'bg-green-600' : 'bg-red-600'}`;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+      toast.remove();
+    }, 3000);
+  }
+</script>
+{% endblock %}
+
+{% block content %}
+  <div class="max-w-6xl mx-auto px-5 py-8">
+    
+    <!-- Breadcrumb -->
+    <nav class="mb-8 text-sm text-gray-600 dark:text-gray-400">
+      <a href="{% url 'lawfirm:home' %}" class="hover:text-orange-600 dark:hover:text-orange-400">خانه</a>
+      <span class="mx-2">/</span>
+      <a href="{% url 'lawfirm:qa_list' %}" class="hover:text-orange-600 dark:hover:text-orange-400">پرسش و پاسخ</a>
+      <span class="mx-2">/</span>
+      <span>{{ question.title|truncatechars:50 }}</span>
+    </nav>
+
+    <div class="grid lg:grid-cols-4 gap-8">
+      
+      <!-- Main Content -->
+      <div class="lg:col-span-3 space-y-8">
+        
+        <!-- Question -->
+        <article class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
+          <div class="p-6">
+            
+            <!-- Question Header -->
+            <header class="mb-6">
+              <div class="flex items-start justify-between mb-4">
+                <div class="flex-1">
+                  <h1 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">{{ question.title }}</h1>
+                  <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+                    <span class="bg-{{ question.category.slug|add:1|divisibleby:"4"|yesno:"blue,green,purple,red" }}-100 dark:bg-{{ question.category.slug|add:1|divisibleby:"4"|yesno:"blue,green,purple,red" }}-900 text-{{ question.category.slug|add:1|divisibleby:"4"|yesno:"blue,green,purple,red" }}-600 dark:text-{{ question.category.slug|add:1|divisibleby:"4"|yesno:"blue,green,purple,red" }}-400 px-3 py-1 rounded-full text-xs font-medium">
+                      {{ question.category.name }}
+                    </span>
+                    <span>{{ question.created_at|timesince }} پیش پرسیده شد</span>
+                    <span>{{ question.views }} بار مشاهده شد</span>
+                  </div>
+                </div>
+                
+                <!-- Question Vote Section -->
+                <div class="flex flex-col items-center space-y-2 flex-shrink-0 ml-6">
+                  <button onclick="vote('up', {{ question.id }})" 
+                          class="p-2 text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                    ▲
+                  </button>
+                  <div id="question-score" class="text-xl font-bold text-gray-700 dark:text-gray-300">
+                    {{ question.votes }}
+                  </div>
+                  <button onclick="vote('down', {{ question.id }})" 
+                          class="p-2 text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                    ▼
+                  </button>
+                </div>
+              </div>
+            </header>
+
+            <!-- Question Body -->
+            <div class="mb-6">
+              <div class="prose max-w-none dark:prose-invert text-gray-700 dark:text-gray-300">
+                {{ question.content|linebreaks }}
+              </div>
+            </div>
+
+            <!-- Question Footer -->
+            <footer class="flex items-center justify-between pt-6 border-t border-gray-200 dark:border-gray-700">
+              <div class="flex items-center space-x-4 space-x-reverse text-sm text-gray-600 dark:text-gray-400">
+                <span>👤 {{ question.asker_name }}</span>
+                <span>📅 {{ question.created_at|date:"Y/m/d H:i" }}</span>
+              </div>
+              
+              <!-- Share Options -->
+              <div class="flex items-center space-x-2 space-x-reverse">
+                <span class="text-sm text-gray-600 dark:text-gray-400">اشتراک:</span>
+                <button onclick="copyToClipboard()" class="p-1 text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" title="کپی لینک">
+                  🔗
+                </button>
+              </div>
+            </footer>
+          </div>
+        </article>
+
+        <!-- Answers Section -->
+        <section>
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white">
+              {{ answers.count }} پاسخ
+            </h2>
+            <div class="text-sm text-gray-600 dark:text-gray-400">
+              مرتب‌سازی بر اساس: بهترین پاسخ، امتیاز
+            </div>
+          </div>
+
+          <!-- Answers -->
+          <div class="space-y-6">
+            {% for answer in answers %}
+              <article class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 {% if answer.is_best_answer %}border-green-400 dark:border-green-600{% endif %}">
+                <div class="p-6">
+                  <div class="flex items-start gap-6">
+                    
+                    <!-- Answer Vote Section -->
+                    <div class="flex flex-col items-center space-y-2 flex-shrink-0">
+                      <button onclick="vote('up', {{ question.id }}, {{ answer.id }})" 
+                              class="p-2 text-gray-400 hover:text-green-600 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                        ▲
+                      </button>
+                      <div id="answer-score-{{ answer.id }}" class="text-lg font-bold {% if answer.is_best_answer %}text-green-600 dark:text-green-400{% else %}text-gray-700 dark:text-gray-300{% endif %}">
+                        {{ answer.votes }}
+                      </div>
+                      <button onclick="vote('down', {{ question.id }}, {{ answer.id }})" 
+                              class="p-2 text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                        ▼
+                      </button>
+                      {% if answer.is_best_answer %}
+                        <div class="bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 p-2 rounded-lg" title="بهترین پاسخ">
+                          ✓
+                        </div>
+                      {% endif %}
+                    </div>
+
+                    <!-- Answer Content -->
+                    <div class="flex-1">
+                      {% if answer.is_best_answer %}
+                        <div class="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-3 py-1 rounded-full text-sm font-medium mb-4 inline-block">
+                          ✓ بهترین پاسخ
+                        </div>
+                      {% endif %}
+
+                      <div class="prose max-w-none dark:prose-invert text-gray-700 dark:text-gray-300 mb-6">
+                        {{ answer.content|linebreaks }}
+                      </div>
+
+                      <!-- Answer Footer -->
+                      <footer class="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-600 dark:text-gray-400">
+                          پاسخ داده شده {{ answer.created_at|timesince }} پیش
+                        </div>
+                        <div class="text-sm">
+                          <div class="flex items-center space-x-2 space-x-reverse">
+                            <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-400 text-xs font-bold">
+                              {{ answer.answerer_name|first }}
+                            </div>
+                            <div>
+                              <div class="font-medium text-gray-700 dark:text-gray-300">{{ answer.answerer_name }}</div>
+                              {% if answer.answerer_title %}
+                                <div class="text-gray-500 dark:text-gray-400 text-xs">{{ answer.answerer_title }}</div>
+                              {% endif %}
+                            </div>
+                          </div>
+                        </div>
+                      </footer>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            {% empty %}
+              <div class="text-center py-12 text-gray-500 dark:text-gray-400">
+                <div class="text-4xl mb-4">💭</div>
+                <p>هنوز پاسخی برای این سوال ثبت نشده است.</p>
+                <p class="text-sm mt-2">اولین نفری باشید که پاسخ می‌دهید!</p>
+              </div>
+            {% endfor %}
+          </div>
+        </section>
+
+        <!-- Answer Form -->
+        <section class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
+          <div class="p-6">
+            <h3 class="text-lg font-bold mb-6 text-gray-900 dark:text-white">پاسخ خود را ارائه دهید</h3>
+            
+            <form method="post" class="space-y-6">
+              {% csrf_token %}
+              
+              {% for field in answer_form %}
+                <div>
+                  <label for="{{ field.id_for_label }}" class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">{{ field.label }}</label>
+                  {{ field }}
+                  {% if field.errors %}
+                    {% for error in field.errors %}
+                      <span class="text-red-500 text-sm block mt-1">{{ error }}</span>
+                    {% endfor %}
+                  {% endif %}
+                </div>
+              {% endfor %}
+
+              <div class="flex items-center justify-between">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                  ارسال پاسخ
+                </button>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  پاسخ شما پس از بررسی منتشر خواهد شد
+                </p>
+              </div>
+            </form>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Sidebar -->
+      <div class="space-y-6">
+        
+        <!-- Related Questions -->
+        {% if related_questions %}
+          <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
+            <h3 class="font-bold mb-4 text-gray-900 dark:text-white">سوالات مرتبط</h3>
+            <div class="space-y-3">
+              {% for related_question in related_questions %}
+                <div class="border-b border-gray-200 dark:border-gray-700 pb-3 last:border-b-0 last:pb-0">
+                  <a href="{{ related_question.get_absolute_url }}" 
+                     class="block text-sm text-blue-600 dark:text-blue-400 hover:underline mb-1">
+                    {{ related_question.title|truncatechars:60 }}
+                  </a>
+                  <div class="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
+                    <span>{{ related_question.votes }} رای</span>
+                    <span>{{ related_question.get_answers_count }} پاسخ</span>
+                    <span>{{ related_question.views }} بازدید</span>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- Consultation Card -->
+        <div class="bg-gradient-to-r from-blue-600 to-purple-700 rounded-xl shadow-lg p-6 text-white">
+          <h3 class="font-bold mb-3">مشاوره تخصصی</h3>
+          <p class="text-sm opacity-90 mb-4">
+            برای مشاوره دقیق‌تر با وکیل متخصص تماس بگیرید
+          </p>
+          <a href="{% url 'lawfirm:home' %}#consultation" 
+             class="block w-full bg-white text-blue-600 py-2 px-4 rounded-lg text-center font-medium hover:bg-gray-100 transition-colors">
+            رزرو مشاوره
+          </a>
+          <div class="text-center text-sm mt-3 opacity-75">
+            تماس: 09129413828
+          </div>
+        </div>
+
+        <!-- Question Stats -->
+        <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
+          <h3 class="font-bold mb-4 text-gray-900 dark:text-white">آمار سوال</h3>
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between">
+              <span class="text-gray-600 dark:text-gray-400">تاریخ پرسیدن:</span>
+              <span class="font-medium">{{ question.created_at|date:"Y/m/d" }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-600 dark:text-gray-400">تعداد بازدید:</span>
+              <span class="font-medium">{{ question.views }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-600 dark:text-gray-400">تعداد پاسخ:</span>
+              <span class="font-medium">{{ answers.count }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-600 dark:text-gray-400">آخرین فعالیت:</span>
+              <span class="font-medium">
+                {% if answers %}
+                  {{ answers.first.created_at|timesince }} پیش
+                {% else %}
+                  {{ question.created_at|timesince }} پیش
+                {% endif %}
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function copyToClipboard() {
+      navigator.clipboard.writeText(window.location.href).then(function() {
+        showMessage('لینک کپی شد!', 'success');
+      });
+    }
+  </script>
+{% endblock %}
