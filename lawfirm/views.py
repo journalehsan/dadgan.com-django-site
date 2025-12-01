@@ -300,3 +300,49 @@ def search(request):
         context['total_results'] = blogs.count() + questions.count()
     
     return render(request, 'lawfirm/search.html', context)
+
+
+@require_http_methods(["GET"])
+def search_api(request):
+    """AJAX endpoint for live search"""
+    query = request.GET.get('q', '').strip()
+    
+    if not query or len(query) < 2:
+        return JsonResponse({'results': []})
+    
+    # Search in blog posts
+    blogs = BlogPost.objects.filter(
+        Q(title__icontains=query) | 
+        Q(excerpt__icontains=query),
+        published=True
+    )[:5]
+    
+    # Search in questions  
+    questions = Question.objects.filter(
+        Q(title__icontains=query),
+        is_published=True
+    )[:5]
+    
+    results = []
+    
+    # Add blog results
+    for blog in blogs:
+        results.append({
+            'type': 'blog',
+            'title': blog.title,
+            'url': blog.get_absolute_url(),
+            'category': blog.category.name,
+            'icon': 'fa-newspaper'
+        })
+    
+    # Add question results
+    for question in questions:
+        results.append({
+            'type': 'question',
+            'title': question.title,
+            'url': question.get_absolute_url(),
+            'category': question.category.name,
+            'icon': 'fa-question-circle'
+        })
+    
+    return JsonResponse({'results': results})

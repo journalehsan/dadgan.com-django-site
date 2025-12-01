@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}نتایج جستجو: {{ query }} | موسسه حقوقی دادگان{% endblock %}
+
+{% block content %}
+<section class="max-w-6xl mx-auto px-5 py-12">
+  
+  <!-- Search Header -->
+  <div class="mb-10">
+    <h1 class="text-3xl font-bold mb-4">
+      نتایج جستجو برای: <span class="text-blue-600 dark:text-blue-400">"{{ query }}"</span>
+    </h1>
+    <p class="text-gray-600 dark:text-gray-300">
+      {% if total_results > 0 %}
+        {{ total_results }} نتیجه یافت شد
+      {% else %}
+        نتیجه‌ای یافت نشد
+      {% endif %}
+    </p>
+  </div>
+
+  <!-- Search Form -->
+  <div class="mb-10">
+    <form method="get" class="flex gap-3">
+      <div class="flex-1 relative">
+        <input 
+          type="text" 
+          name="q" 
+          value="{{ query }}"
+          placeholder="جستجوی مجدد..."
+          class="w-full px-4 py-3 pr-12 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          autofocus
+        />
+        <i class="fas fa-search absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+      </div>
+      <button type="submit" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium">
+        جستجو
+      </button>
+    </form>
+  </div>
+
+  {% if total_results > 0 %}
+    
+    <!-- Blog Results -->
+    {% if blogs %}
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+          <i class="fas fa-newspaper text-blue-600"></i>
+          مقالات ({{ blogs.count }})
+        </h2>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+          {% for blog in blogs %}
+            <article class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
+              <div class="p-6">
+                <div class="flex items-center gap-2 mb-3">
+                  <span class="text-xs bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 px-3 py-1 rounded-full">
+                    {{ blog.category.name }}
+                  </span>
+                  <span class="text-xs text-gray-500 dark:text-gray-400">
+                    {{ blog.created_at|date:"Y/m/d" }}
+                  </span>
+                </div>
+                
+                <h3 class="text-xl font-bold mb-3 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                  <a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a>
+                </h3>
+                
+                <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
+                  {{ blog.excerpt|truncatechars:150 }}
+                </p>
+                
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
+                    <span><i class="fas fa-eye ml-1"></i>{{ blog.views }}</span>
+                  </div>
+                  <a href="{{ blog.get_absolute_url }}" class="text-blue-600 dark:text-blue-400 hover:underline text-sm font-medium">
+                    مطالعه کامل &larr;
+                  </a>
+                </div>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    <!-- Question Results -->
+    {% if questions %}
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+          <i class="fas fa-question-circle text-green-600"></i>
+          پرسش و پاسخ ({{ questions.count }})
+        </h2>
+        
+        <div class="space-y-4">
+          {% for question in questions %}
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-200 dark:border-gray-700">
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center flex-shrink-0">
+                  <i class="fas fa-question text-green-600 dark:text-green-400"></i>
+                </div>
+                
+                <div class="flex-1">
+                  <div class="flex items-center gap-3 mb-2">
+                    <span class="text-xs bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 px-3 py-1 rounded-full">
+                      {{ question.category.name }}
+                    </span>
+                    <span class="text-xs text-gray-500 dark:text-gray-400">
+                      {{ question.created_at|date:"Y/m/d" }}
+                    </span>
+                  </div>
+                  
+                  <h3 class="text-lg font-bold mb-2 hover:text-green-600 dark:hover:text-green-400 transition-colors">
+                    <a href="{{ question.get_absolute_url }}">{{ question.title }}</a>
+                  </h3>
+                  
+                  <p class="text-gray-600 dark:text-gray-300 mb-3 line-clamp-2">
+                    {{ question.content|truncatechars:200 }}
+                  </p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+                      <span><i class="fas fa-comment ml-1"></i>{{ question.get_answers_count }} پاسخ</span>
+                      <span><i class="fas fa-eye ml-1"></i>{{ question.views }} بازدید</span>
+                    </div>
+                    <a href="{{ question.get_absolute_url }}" class="text-green-600 dark:text-green-400 hover:underline text-sm font-medium">
+                      مشاهده پاسخ &larr;
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+  {% else %}
+    
+    <!-- No Results -->
+    <div class="text-center py-16">
+      <div class="w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
+        <i class="fas fa-search text-4xl text-gray-400"></i>
+      </div>
+      <h3 class="text-2xl font-bold mb-3">نتیجه‌ای یافت نشد</h3>
+      <p class="text-gray-600 dark:text-gray-300 mb-6 max-w-md mx-auto">
+        متاسفانه هیچ نتیجه‌ای برای جستجوی شما یافت نشد. لطفاً با کلمات کلیدی دیگری جستجو کنید.
+      </p>
+      
+      <div class="flex flex-wrap gap-3 justify-center">
+        <a href="{% url 'lawfirm:blog_list' %}" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+          مشاهده همه مقالات
+        </a>
+        <a href="{% url 'lawfirm:qa_list' %}" class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
+          مشاهده همه سوالات
+        </a>
+      </div>
+    </div>
+  {% endif %}
+
+</section>
+{% endblock %}

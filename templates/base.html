@@ -301,13 +301,104 @@
     function toggleSearch() {
       const searchBar = document.getElementById('search-bar');
       const searchInput = document.getElementById('search-input');
+      const searchResults = document.getElementById('search-results');
       
       if (searchBar.classList.contains('hidden')) {
         searchBar.classList.remove('hidden');
         setTimeout(() => searchInput.focus(), 100);
       } else {
         searchBar.classList.add('hidden');
+        searchResults.classList.add('hidden');
+        searchInput.value = '';
       }
+    }
+
+    // Live search functionality
+    let searchTimeout = null;
+    function initLiveSearch() {
+      const searchInput = document.getElementById('search-input');
+      const searchResults = document.getElementById('search-results');
+      
+      if (!searchInput) return;
+      
+      searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.trim();
+        
+        // Clear previous timeout
+        if (searchTimeout) {
+          clearTimeout(searchTimeout);
+        }
+        
+        // Hide results if query is empty
+        if (query.length < 2) {
+          searchResults.classList.add('hidden');
+          return;
+        }
+        
+        // Show loading state
+        searchResults.classList.remove('hidden');
+        searchResults.innerHTML = '<div class="text-sm text-gray-500 dark:text-gray-400 py-2"><i class="fas fa-spinner fa-spin ml-2"></i>در حال جستجو...</div>';
+        
+        // Debounce search request
+        searchTimeout = setTimeout(() => {
+          fetch(`/api/search/?q=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+              if (data.results && data.results.length > 0) {
+                let html = '<div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 mt-2 max-h-96 overflow-y-auto">';
+                
+                data.results.forEach((result, index) => {
+                  if (index < 8) { // Limit to 8 results in dropdown
+                    html += `
+                      <a href="${result.url}" class="flex items-start gap-3 p-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-b-0">
+                        <i class="${result.icon} text-blue-600 dark:text-blue-400 mt-1"></i>
+                        <div class="flex-1 min-w-0">
+                          <div class="font-medium text-gray-900 dark:text-gray-100 text-sm line-clamp-1">${result.title}</div>
+                          ${result.category ? `<div class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">${result.type === 'blog' ? 'مقاله' : 'پرسش'} • ${result.category}</div>` : ''}
+                        </div>
+                        <i class="fas fa-chevron-left text-gray-400 text-xs mt-1"></i>
+                      </a>
+                    `;
+                  }
+                });
+                
+                if (data.results.length > 8) {
+                  html += `
+                    <div class="p-3 text-center text-sm text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-800">
+                      ${data.results.length - 8} نتیجه دیگر... برای مشاهده همه Enter بزنید
+                    </div>
+                  `;
+                }
+                
+                html += '</div>';
+                searchResults.innerHTML = html;
+              } else {
+                searchResults.innerHTML = `
+                  <div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 mt-2 p-4 text-center text-sm text-gray-500 dark:text-gray-400">
+                    <i class="fas fa-search mb-2 text-2xl"></i>
+                    <p>نتیجه‌ای یافت نشد</p>
+                  </div>
+                `;
+              }
+            })
+            .catch(error => {
+              console.error('Search error:', error);
+              searchResults.innerHTML = `
+                <div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-red-200 dark:border-red-700 mt-2 p-4 text-center text-sm text-red-600 dark:text-red-400">
+                  <i class="fas fa-exclamation-triangle mb-2 text-2xl"></i>
+                  <p>خطا در جستجو. لطفا دوباره تلاش کنید.</p>
+                </div>
+              `;
+            });
+        }, 300); // 300ms debounce
+      });
+      
+      // Hide results when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+          searchResults.classList.add('hidden');
+        }
+      });
     }
 
     // Hide top bar on scroll
@@ -357,6 +448,7 @@
     document.addEventListener("DOMContentLoaded", () => {
       initDarkMode();
       initBackToTop();
+      initLiveSearch();
       {% block extra_js_init %}{% endblock %}
     });
   </script>
@@ -552,6 +644,9 @@
               autocomplete="off"
             />
             <i class="fas fa-search absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+            
+            <!-- Live Search Results Dropdown -->
+            <div id="search-results" class="hidden absolute top-full left-0 right-0 z-50"></div>
           </div>
           <button type="submit" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium">
             جستجو
@@ -560,11 +655,6 @@
             <i class="fas fa-times"></i>
           </button>
         </form>
-        
-        <!-- Quick Search Results (can be enhanced with AJAX) -->
-        <div id="search-results" class="mt-3 hidden">
-          <div class="text-sm text-gray-500 dark:text-gray-400">نتایج جستجو در حال بارگذاری...</div>
-        </div>
       </div>
     </div>
 
