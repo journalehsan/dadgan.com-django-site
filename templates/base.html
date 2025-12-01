@@ -50,6 +50,29 @@
 
   <!-- TailwindCSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              200: '#bfdbfe',
+              300: '#93c5fd',
+              400: '#60a5fa',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a',
+            }
+          }
+        }
+      }
+    }
+  </script>
 
   <!-- Vazirmatn Persian Font CDN -->
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
@@ -247,10 +270,13 @@
     // Dark mode functionality with localStorage persistence
     function initDarkMode() {
       const savedTheme = localStorage.getItem('theme');
-      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       
-      if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+      // Only apply dark mode if explicitly saved as dark
+      // Default to light mode if no preference is saved
+      if (savedTheme === 'dark') {
         document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
       }
     }
 
@@ -302,6 +328,16 @@
   </script>
 
   {% block extra_head %}{% endblock %}
+  
+  <!-- Initialize theme before page render to prevent flash -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
@@ -362,8 +398,9 @@
         </button>
 
         <!-- Dark mode toggle -->
-        <button onclick="toggleDarkMode()" class="p-2 rounded-full border dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-          🌓
+        <button id="theme-toggle" onclick="toggleDarkMode()" class="p-2 rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" title="Toggle theme">
+          <span class="dark:hidden">🌙</span>
+          <span class="hidden dark:inline">☀️</span>
         </button>
       </div>
     </div>
