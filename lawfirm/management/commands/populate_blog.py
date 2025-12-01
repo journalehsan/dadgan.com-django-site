@@ -76,6 +76,11 @@ class Command(BaseCommand):
                 else:
                     slug = slugify(title[:100], allow_unicode=True)
                 
+                # Clean slug - remove characters not allowed by Django's slug converter
+                # Django slug allows: letters, numbers, hyphens, underscores
+                # Remove Persian comma and other punctuation
+                slug = slug.replace('،', '-').replace(',', '-')  # Replace commas with hyphens
+                
                 # Ensure unique slug
                 original_slug = slug
                 counter = 1

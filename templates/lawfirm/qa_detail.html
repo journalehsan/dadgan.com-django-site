@@ -79,7 +79,7 @@
                 <div class="flex-1">
                   <h1 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">{{ question.title }}</h1>
                   <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-                    <span class="bg-{{ question.category.slug|add:1|divisibleby:"4"|yesno:"blue,green,purple,red" }}-100 dark:bg-{{ question.category.slug|add:1|divisibleby:"4"|yesno:"blue,green,purple,red" }}-900 text-{{ question.category.slug|add:1|divisibleby:"4"|yesno:"blue,green,purple,red" }}-600 dark:text-{{ question.category.slug|add:1|divisibleby:"4"|yesno:"blue,green,purple,red" }}-400 px-3 py-1 rounded-full text-xs font-medium">
+                    <span class="bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 px-3 py-1 rounded-full text-xs font-medium">
                       {{ question.category.name }}
                     </span>
                     <span>{{ question.created_at|timesince }} پیش پرسیده شد</span>
