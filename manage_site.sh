@@ -53,8 +53,12 @@ setup_env() {
         print_info "Virtual environment already exists"
     fi
     
-    # Activate virtual environment
-    source "$VENV_DIR/bin/activate"
+    # Detect shell and activate appropriately
+    if [ -n "$FISH_VERSION" ]; then
+        source "$VENV_DIR/bin/activate.fish"
+    else
+        source "$VENV_DIR/bin/activate"
+    fi
     print_success "Virtual environment activated"
     
     # Install dependencies
@@ -77,8 +81,12 @@ start_server() {
         fi
     fi
     
-    # Activate virtual environment
-    source "$VENV_DIR/bin/activate"
+    # Detect shell and activate appropriately
+    if [ -n "$FISH_VERSION" ]; then
+        source "$VENV_DIR/bin/activate.fish"
+    else
+        source "$VENV_DIR/bin/activate"
+    fi
     
     # Run migrations
     print_info "Running migrations..."
