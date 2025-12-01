@@ -1,0 +1,86 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dadgan-site"
+version = "0.1.0"
+description = "A Django-based law firm website"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Ehsan", email = "journalehsan@github.com"}
+]
+keywords = ["django", "law-firm", "blog", "qa"]
+classifiers = [
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet :: WWW/HTTP",
+]
+
+dependencies = [
+    "Django>=4.2,<5.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-django>=4.5",
+    "black>=23.0",
+    "flake8>=6.0",
+    "isort>=5.12",
+    "django-debug-toolbar>=4.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/journalehsan/dadgan.com-django-site"
+Repository = "https://github.com/journalehsan/dadgan.com-django-site.git"
+Issues = "https://github.com/journalehsan/dadgan.com-django-site/issues"
+
+[tool.setuptools]
+packages = ["dadgan_project", "lawfirm"]
+
+[tool.black]
+line-length = 100
+target-version = ["py38", "py39", "py310", "py311", "py312"]
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+  | migrations
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 100
+skip_gitignore = true
+skip = ["migrations", ".venv"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "dadgan_project.settings"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+addopts = "--strict-markers --tb=short"
+testpaths = ["lawfirm"]
+
+[tool.django-stubs]
+django_find_project = false
