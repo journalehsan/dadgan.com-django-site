@@ -20,6 +20,7 @@ app_name = 'lawfirm'
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('search/', views.search, name='search'),
     path('blog/', views.blog_list, name='blog_list'),
     path('blog/<unicode_slug:slug>/', views.blog_detail, name='blog_detail'),
     path('qa/', views.qa_list, name='qa_list'),

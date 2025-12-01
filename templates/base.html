@@ -297,6 +297,40 @@
       menu.classList.add('hidden');
     }
 
+    // Search toggle functionality
+    function toggleSearch() {
+      const searchBar = document.getElementById('search-bar');
+      const searchInput = document.getElementById('search-input');
+      
+      if (searchBar.classList.contains('hidden')) {
+        searchBar.classList.remove('hidden');
+        setTimeout(() => searchInput.focus(), 100);
+      } else {
+        searchBar.classList.add('hidden');
+      }
+    }
+
+    // Hide top bar on scroll
+    let lastScroll = 0;
+    function handleScroll() {
+      const topBar = document.getElementById('top-bar');
+      const currentScroll = window.pageYOffset;
+      
+      if (currentScroll > 100) {
+        topBar.style.maxHeight = '0';
+        topBar.style.opacity = '0';
+        topBar.style.overflow = 'hidden';
+      } else {
+        topBar.style.maxHeight = '100px';
+        topBar.style.opacity = '1';
+        topBar.style.overflow = 'visible';
+      }
+      
+      lastScroll = currentScroll;
+    }
+
+    window.addEventListener('scroll', handleScroll);
+
     // Back to top functionality
     function initBackToTop() {
       const backToTopBtn = document.getElementById('back-to-top');
@@ -369,52 +403,202 @@
   {% endif %}
 
   <!-- Navbar -->
-  <header class="w-full border-b border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 backdrop-blur sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
-      <h1 class="text-xl font-bold">
-        <a href="{% url 'lawfirm:home' %}" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <img src="{% static 'images/favicon.svg' %}" alt="Dadgan Law Firm Logo" class="w-10 h-10" />
-          <span class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">مؤسسه حقوقی دادگان</span>
-        </a>
-      </h1>
+  <header id="main-header" class="w-full sticky top-0 z-50 transition-all duration-300">
+    
+    <!-- Top Bar (Hidden on scroll) -->
+    <div id="top-bar" class="bg-primary-800 text-white transition-all duration-300">
+      <div class="max-w-7xl mx-auto px-5 py-2">
+        <div class="flex items-center justify-between text-sm">
+          <!-- Contact Info -->
+          <div class="flex items-center gap-6">
+            <a href="tel:+989129413828" class="flex items-center gap-2 hover:text-blue-200 transition-colors">
+              <i class="fas fa-phone"></i>
+              <span class="hidden sm:inline">09129413828</span>
+            </a>
+            <a href="mailto:info@dadgan.com" class="hidden md:flex items-center gap-2 hover:text-blue-200 transition-colors">
+              <i class="fas fa-envelope"></i>
+              <span>info@dadgan.com</span>
+            </a>
+            <div class="hidden lg:flex items-center gap-2">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>تهران، جهان کودک، برج امیر پرویز</span>
+            </div>
+          </div>
+          
+          <!-- CTA & Social -->
+          <div class="flex items-center gap-4">
+            <a href="{% url 'lawfirm:home' %}#consultation" class="hidden sm:inline-block px-4 py-1 bg-white text-primary-800 rounded-full hover:bg-blue-50 transition-colors font-medium text-xs">
+              <i class="fas fa-calendar-check ml-1"></i>
+              رزرو مشاوره فوری
+            </a>
+            <button id="theme-toggle" onclick="toggleDarkMode()" class="p-1.5 rounded-full hover:bg-primary-700 transition-colors" title="Toggle theme">
+              <span class="dark:hidden text-sm">🌙</span>
+              <span class="hidden dark:inline text-sm">☀️</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-      <!-- Desktop Navigation -->
-      <nav class="hidden md:flex space-x-6 space-x-reverse">
-        <a href="{% url 'lawfirm:home' %}#services" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">خدمات</a>
-        <a href="{% url 'lawfirm:home' %}#stats" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">آمار</a>
-        <a href="{% url 'lawfirm:home' %}#pricing" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">تعرفه</a>
-        <a href="{% url 'lawfirm:blog_list' %}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">بلاگ</a>
-        <a href="{% url 'lawfirm:qa_list' %}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">پرسش و پاسخ</a>
-        <a href="{% url 'lawfirm:home' %}#consultation" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">مشاوره آنلاین</a>
-        <a href="{% url 'lawfirm:home' %}#contact" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">تماس</a>
-      </nav>
+    <!-- Main Navbar -->
+    <div class="bg-white/95 dark:bg-gray-800/95 backdrop-blur border-b border-gray-200 dark:border-gray-700 shadow-sm">
+      <div class="max-w-7xl mx-auto px-5">
+        <div class="flex items-center justify-between h-20">
+          
+          <!-- Logo -->
+          <div class="flex items-center gap-3">
+            <a href="{% url 'lawfirm:home' %}" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+              <img src="{% static 'images/favicon.svg' %}" alt="Dadgan Law Firm Logo" class="w-12 h-12" />
+              <div class="hidden sm:block">
+                <div class="text-lg font-bold text-primary-800 dark:text-blue-400">موسسه حقوقی دادگان</div>
+                <div class="text-xs text-gray-600 dark:text-gray-400">وکیل پایه یک دادگستری</div>
+              </div>
+            </a>
+          </div>
 
-      <div class="flex items-center gap-3">
-        <!-- Mobile menu button -->
-        <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </button>
+          <!-- Desktop Navigation -->
+          <nav class="hidden lg:flex items-center gap-1">
+            <a href="{% url 'lawfirm:home' %}" class="px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+              <i class="fas fa-home ml-1"></i>
+              خانه
+            </a>
+            
+            <!-- Services Mega Menu -->
+            <div class="relative group">
+              <button class="px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1">
+                <i class="fas fa-briefcase ml-1"></i>
+                خدمات
+                <i class="fas fa-chevron-down text-xs"></i>
+              </button>
+              
+              <!-- Mega Menu Dropdown -->
+              <div class="absolute right-0 top-full mt-2 w-[600px] bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 p-6">
+                <div class="grid grid-cols-2 gap-6">
+                  <div>
+                    <h4 class="font-bold text-primary-800 dark:text-blue-400 mb-3 pb-2 border-b border-gray-200 dark:border-gray-700">خدمات حقوقی</h4>
+                    <ul class="space-y-2">
+                      <li><a href="{% url 'lawfirm:home' %}#workgroups" class="flex items-center gap-2 p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm"><i class="fas fa-balance-scale text-blue-600"></i> امور حقوقی</a></li>
+                      <li><a href="{% url 'lawfirm:home' %}#workgroups" class="flex items-center gap-2 p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm"><i class="fas fa-gavel text-blue-600"></i> امور کیفری</a></li>
+                      <li><a href="{% url 'lawfirm:home' %}#workgroups" class="flex items-center gap-2 p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm"><i class="fas fa-home text-blue-600"></i> امور ملکی</a></li>
+                      <li><a href="{% url 'lawfirm:home' %}#workgroups" class="flex items-center gap-2 p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm"><i class="fas fa-heart text-blue-600"></i> امور خانواده</a></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-primary-800 dark:text-blue-400 mb-3 pb-2 border-b border-gray-200 dark:border-gray-700">خدمات تخصصی</h4>
+                    <ul class="space-y-2">
+                      <li><a href="{% url 'lawfirm:home' %}#workgroups" class="flex items-center gap-2 p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm"><i class="fas fa-building text-blue-600"></i> امور ثبتی شرکت</a></li>
+                      <li><a href="{% url 'lawfirm:home' %}#workgroups" class="flex items-center gap-2 p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm"><i class="fas fa-globe text-blue-600"></i> امور بین‌المللی</a></li>
+                      <li><a href="{% url 'lawfirm:home' %}#workgroups" class="flex items-center gap-2 p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm"><i class="fas fa-calculator text-blue-600"></i> امور مالیاتی</a></li>
+                      <li><a href="{% url 'lawfirm:home' %}#workgroups" class="flex items-center gap-2 p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm"><i class="fas fa-plane-departure text-blue-600"></i> امور مهاجرت</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-        <!-- Dark mode toggle -->
-        <button id="theme-toggle" onclick="toggleDarkMode()" class="p-2 rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" title="Toggle theme">
-          <span class="dark:hidden">🌙</span>
-          <span class="hidden dark:inline">☀️</span>
-        </button>
+            <a href="{% url 'lawfirm:blog_list' %}" class="px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+              <i class="fas fa-newspaper ml-1"></i>
+              مقالات
+            </a>
+            <a href="{% url 'lawfirm:qa_list' %}" class="px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+              <i class="fas fa-question-circle ml-1"></i>
+              پرسش و پاسخ
+            </a>
+            <a href="{% url 'lawfirm:home' %}#pricing" class="px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+              <i class="fas fa-tag ml-1"></i>
+              تعرفه
+            </a>
+            <a href="{% url 'lawfirm:home' %}#contact" class="px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+              <i class="fas fa-phone ml-1"></i>
+              تماس
+            </a>
+          </nav>
+
+          <!-- Search & Actions -->
+          <div class="flex items-center gap-2">
+            <!-- Search Button -->
+            <button onclick="toggleSearch()" class="p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+              <i class="fas fa-search"></i>
+            </button>
+            
+            <!-- CTA Button -->
+            <a href="tel:+989129413828" class="hidden md:flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-lg transition-all shadow-lg hover:shadow-xl">
+              <i class="fas fa-phone-alt"></i>
+              <span class="font-medium">تماس فوری</span>
+            </a>
+
+            <!-- Mobile menu button -->
+            <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search Bar (Expandable) -->
+    <div id="search-bar" class="hidden bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+      <div class="max-w-7xl mx-auto px-5 py-4">
+        <form action="{% url 'lawfirm:search' %}" method="get" class="flex items-center gap-3">
+          <div class="flex-1 relative">
+            <input 
+              type="text" 
+              name="q" 
+              id="search-input"
+              placeholder="جستجو در مقالات و پرسش و پاسخ..."
+              class="w-full px-4 py-3 pr-12 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+              autocomplete="off"
+            />
+            <i class="fas fa-search absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+          </div>
+          <button type="submit" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium">
+            جستجو
+          </button>
+          <button type="button" onclick="toggleSearch()" class="px-4 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">
+            <i class="fas fa-times"></i>
+          </button>
+        </form>
+        
+        <!-- Quick Search Results (can be enhanced with AJAX) -->
+        <div id="search-results" class="mt-3 hidden">
+          <div class="text-sm text-gray-500 dark:text-gray-400">نتایج جستجو در حال بارگذاری...</div>
+        </div>
       </div>
     </div>
 
     <!-- Mobile Navigation -->
-    <div id="mobile-menu" class="md:hidden hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
-      <nav class="px-5 py-4 space-y-3">
-        <a href="{% url 'lawfirm:home' %}#services" class="block py-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onclick="closeMobileMenu()">خدمات</a>
-        <a href="{% url 'lawfirm:home' %}#stats" class="block py-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onclick="closeMobileMenu()">آمار</a>
-        <a href="{% url 'lawfirm:home' %}#pricing" class="block py-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onclick="closeMobileMenu()">تعرفه</a>
-        <a href="{% url 'lawfirm:blog_list' %}" class="block py-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onclick="closeMobileMenu()">بلاگ</a>
-        <a href="{% url 'lawfirm:qa_list' %}" class="block py-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onclick="closeMobileMenu()">پرسش و پاسخ</a>
-        <a href="{% url 'lawfirm:home' %}#consultation" class="block py-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onclick="closeMobileMenu()">مشاوره آنلاین</a>
-        <a href="{% url 'lawfirm:home' %}#contact" class="block py-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onclick="closeMobileMenu()">تماس</a>
+    <div id="mobile-menu" class="lg:hidden hidden bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+      <nav class="px-5 py-4 space-y-2">
+        <a href="{% url 'lawfirm:home' %}" class="flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onclick="closeMobileMenu()">
+          <i class="fas fa-home w-5"></i>
+          <span>خانه</span>
+        </a>
+        <a href="{% url 'lawfirm:home' %}#services" class="flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onclick="closeMobileMenu()">
+          <i class="fas fa-briefcase w-5"></i>
+          <span>خدمات</span>
+        </a>
+        <a href="{% url 'lawfirm:blog_list' %}" class="flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onclick="closeMobileMenu()">
+          <i class="fas fa-newspaper w-5"></i>
+          <span>مقالات</span>
+        </a>
+        <a href="{% url 'lawfirm:qa_list' %}" class="flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onclick="closeMobileMenu()">
+          <i class="fas fa-question-circle w-5"></i>
+          <span>پرسش و پاسخ</span>
+        </a>
+        <a href="{% url 'lawfirm:home' %}#pricing" class="flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onclick="closeMobileMenu()">
+          <i class="fas fa-tag w-5"></i>
+          <span>تعرفه</span>
+        </a>
+        <a href="{% url 'lawfirm:home' %}#contact" class="flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onclick="closeMobileMenu()">
+          <i class="fas fa-phone w-5"></i>
+          <span>تماس با ما</span>
+        </a>
+        <a href="tel:+989129413828" class="flex items-center gap-3 py-2.5 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium mt-3">
+          <i class="fas fa-phone-alt w-5"></i>
+          <span>تماس فوری: 09129413828</span>
+        </a>
       </nav>
     </div>
   </header>

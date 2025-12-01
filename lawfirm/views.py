@@ -266,3 +266,37 @@ def vote_answer(request, answer_id):
     
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
+
+
+def search(request):
+    """جستجو در مقالات و سوالات"""
+    query = request.GET.get('q', '').strip()
+    
+    context = {
+        'query': query,
+        'blogs': [],
+        'questions': [],
+        'total_results': 0,
+    }
+    
+    if query and len(query) >= 2:
+        # Search in blog posts
+        blogs = BlogPost.objects.filter(
+            Q(title__icontains=query) | 
+            Q(content__icontains=query) |
+            Q(excerpt__icontains=query),
+            published=True
+        )[:10]
+        
+        # Search in questions
+        questions = Question.objects.filter(
+            Q(title__icontains=query) | 
+            Q(content__icontains=query),
+            is_published=True
+        )[:10]
+        
+        context['blogs'] = blogs
+        context['questions'] = questions
+        context['total_results'] = blogs.count() + questions.count()
+    
+    return render(request, 'lawfirm/search.html', context)
