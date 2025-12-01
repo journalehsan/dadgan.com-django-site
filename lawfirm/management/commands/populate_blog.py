@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from lawfirm.models import BlogPost, Category
 from django.utils.text import slugify
 from datetime import datetime
+from urllib.parse import unquote
 import json
 
 
@@ -67,8 +68,13 @@ class Command(BaseCommand):
                     skipped += 1
                     continue
                 
-                # Create slug
-                slug = post_data.get('post_name') or slugify(title[:100], allow_unicode=True)
+                # Create slug - decode URL-encoded post_name first
+                post_name = post_data.get('post_name')
+                if post_name:
+                    # URL-decode the WordPress post_name (it's URL-encoded)
+                    slug = unquote(post_name)
+                else:
+                    slug = slugify(title[:100], allow_unicode=True)
                 
                 # Ensure unique slug
                 original_slug = slug
