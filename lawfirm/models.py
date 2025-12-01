@@ -32,6 +32,11 @@ class BlogPost(models.Model):
     views = models.PositiveIntegerField(default=0, verbose_name="تعداد بازدید")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="تاریخ آپدیت")
+    
+    # SEO Fields
+    seo_title = models.CharField(max_length=60, blank=True, verbose_name="عنوان SEO", help_text="عنوانی برای موتور جستجو (حداکثر 60 کاراکتر)")
+    seo_description = models.CharField(max_length=160, blank=True, verbose_name="توضیح SEO", help_text="توضیحی برای موتور جستجو (حداکثر 160 کاراکتر)")
+    seo_keywords = models.CharField(max_length=255, blank=True, verbose_name="کلمات کلیدی SEO", help_text="کلماتی جدا شده با کاما")
 
     class Meta:
         verbose_name = "مقاله"
@@ -47,6 +52,25 @@ class BlogPost(models.Model):
     def increment_views(self):
         self.views += 1
         self.save(update_fields=['views'])
+    
+    def get_seo_title(self):
+        """Return SEO title or fallback to title"""
+        return self.seo_title or self.title
+    
+    def get_seo_description(self):
+        """Return SEO description or fallback to excerpt"""
+        return self.seo_description or self.excerpt[:160]
+    
+    def get_seo_keywords(self):
+        """Return SEO keywords with automatic additions"""
+        keywords = [self.seo_keywords] if self.seo_keywords else []
+        # Add category name and common keywords
+        keywords.append('موسسه حقوقی دادگان')
+        keywords.append('مقالات حقوقی')
+        keywords.append('مشاوره حقوقی')
+        if self.category:
+            keywords.append(self.category.name)
+        return ', '.join(filter(None, keywords))
 
 
 class QACategory(models.Model):
@@ -77,6 +101,11 @@ class Question(models.Model):
     is_published = models.BooleanField(default=False, verbose_name="منتشر شده")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="تاریخ آپدیت")
+    
+    # SEO Fields
+    seo_title = models.CharField(max_length=60, blank=True, verbose_name="عنوان SEO", help_text="عنوانی برای موتور جستجو (حداکثر 60 کاراکتر)")
+    seo_description = models.CharField(max_length=160, blank=True, verbose_name="توضیح SEO", help_text="توضیحی برای موتور جستجو (حداکثر 160 کاراکتر)")
+    seo_keywords = models.CharField(max_length=255, blank=True, verbose_name="کلمات کلیدی SEO", help_text="کلماتی جدا شده با کاما")
 
     class Meta:
         verbose_name = "سوال"
@@ -98,6 +127,31 @@ class Question(models.Model):
 
     def get_answers_count(self):
         return self.answers.count()
+    
+    def get_seo_title(self):
+        """Return SEO title or fallback to title"""
+        return self.seo_title or self.title
+    
+    def get_seo_description(self):
+        """Return SEO description or create from content"""
+        if self.seo_description:
+            return self.seo_description
+        # Create description from content
+        text = self.content[:160].strip()
+        if len(self.content) > 160:
+            text += "..."
+        return text
+    
+    def get_seo_keywords(self):
+        """Return SEO keywords with automatic additions"""
+        keywords = [self.seo_keywords] if self.seo_keywords else []
+        # Add category name and common keywords
+        keywords.append('موسسه حقوقی دادگان')
+        keywords.append('مشاوره حقوقی')
+        keywords.append('سوال و جواب')
+        if self.category:
+            keywords.append(self.category.name)
+        return ', '.join(filter(None, keywords))
 
 
 class Answer(models.Model):

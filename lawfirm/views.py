@@ -114,6 +114,10 @@ def blog_detail(request, slug):
     context = {
         'blog': blog,
         'related_posts': related_posts,
+        # SEO Meta Tags
+        'seo_title': blog.get_seo_title(),
+        'seo_description': blog.get_seo_description(),
+        'seo_keywords': blog.get_seo_keywords(),
     }
     return render(request, 'lawfirm/blog_detail.html', context)
 
@@ -196,6 +200,10 @@ def qa_detail(request, slug):
         'answers': answers,
         'related_questions': related_questions,
         'answer_form': answer_form,
+        # SEO Meta Tags
+        'seo_title': question.get_seo_title(),
+        'seo_description': question.get_seo_description(),
+        'seo_keywords': question.get_seo_keywords(),
     }
     return render(request, 'lawfirm/qa_detail.html', context)
 

@@ -83,7 +83,7 @@
                         </h3>
                         
                         <div class="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400 mb-3">
-                          <span class="bg-{{ question.category.slug|add:1|divisibleby:"4"|yesno:"blue,green,purple,red" }}-100 dark:bg-{{ question.category.slug|add:1|divisibleby:"4"|yesno:"blue,green,purple,red" }}-900 text-{{ question.category.slug|add:1|divisibleby:"4"|yesno:"blue,green,purple,red" }}-600 dark:text-{{ question.category.slug|add:1|divisibleby:"4"|yesno:"blue,green,purple,red" }}-400 px-2 py-1 rounded-full text-xs">
+                          <span class="bg-{% cycle 'blue' 'green' 'purple' 'red' %}-100 dark:bg-{% cycle 'blue' 'green' 'purple' 'red' %}-900 text-{% cycle 'blue' 'green' 'purple' 'red' %}-600 dark:text-{% cycle 'blue' 'green' 'purple' 'red' %}-400 px-2 py-1 rounded-full text-xs">
                             {{ question.category.name }}
                           </span>
                           {% if question.is_answered %}
