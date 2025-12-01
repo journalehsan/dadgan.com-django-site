@@ -1,16 +1,61 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fa" dir="rtl" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="مؤسسه حقوقی دادگان ارائه‌دهنده خدمات وکالت، مشاوره حقوقی، تنظیم قراردادها و دفاع حرفه‌ای توسط وکلای پایه یک دادگستری." />
-  <title>{% block title %}مؤسسه حقوقی دادگان{% endblock %}</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="{% block meta_description %}موسسه حقوقی دادگان | وکیل پایه یک دادگستری | مشاوره حقوقی تخصصی | وکالت در دعاوی کیفری، حقوقی، خانواده و ملکی | تنظیم قراردادها | دفاع حرفه‌ای{% endblock %}" />
+  <meta name="keywords" content="{% block meta_keywords %}موسسه حقوقی، وکیل دادگستری، مشاوره حقوقی، وکالت، قرارداد، دعاوی حقوقی، دعاوی کیفری، وکیل خانواده، وکیل ملکی، دادگان، وکیل پایه یک، مشاوره آنلاین، وکیل تهران{% endblock %}" />
+  <meta name="author" content="موسسه حقوقی دادگان" />
+  <meta name="robots" content="index, follow" />
+  <meta name="language" content="Persian" />
+  <meta name="revisit-after" content="7 days" />
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="{% block og_title %}موسسه حقوقی دادگان - وکیل پایه یک دادگستری{% endblock %}" />
+  <meta property="og:description" content="{% block og_description %}ارائه خدمات وکالت، مشاوره حقوقی تخصصی، تنظیم قراردادها و دفاع حرفه‌ای توسط وکلای پایه یک دادگستری{% endblock %}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+  <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.svg' %}" />
+  <meta property="og:locale" content="fa_IR" />
+  <meta property="og:site_name" content="موسسه حقوقی دادگان" />
+  
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{% block twitter_title %}موسسه حقوقی دادگان{% endblock %}" />
+  <meta name="twitter:description" content="{% block twitter_description %}مشاوره حقوقی و وکالت تخصصی{% endblock %}" />
+  
+  <!-- Geo Tags -->
+  <meta name="geo.region" content="IR-07" />
+  <meta name="geo.placename" content="Tehran" />
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="{{ request.build_absolute_uri }}" />
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="{% static 'images/favicon.svg' %}" />
+  <link rel="apple-touch-icon" href="{% static 'images/logo.svg' %}" />
+  
+  <!-- Web App Manifest -->
+  <link rel="manifest" href="{% static 'manifest.json' %}" />
+  
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#1e40af" />
+  <meta name="msapplication-TileColor" content="#1e40af" />
+  
+  <title>{% block title %}موسسه حقوقی دادگان - وکیل پایه یک دادگستری | مشاوره حقوقی تخصصی{% endblock %}</title>
 
   <!-- TailwindCSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Vazirmatn Persian Font CDN -->
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+  
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
   <style>
     * {
@@ -99,6 +144,98 @@
       background-clip: text;
     }
   </style>
+
+  <!-- JSON-LD Structured Data for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LegalService",
+        "@id": "{{ request.scheme }}://{{ request.get_host }}/#legalservice",
+        "name": "موسسه حقوقی دادگان",
+        "alternateName": "Dadgan Law Firm",
+        "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.svg' %}",
+        "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.svg' %}",
+        "description": "موسسه حقوقی دادگان ارائه‌دهنده خدمات وکالت، مشاوره حقوقی تخصصی، تنظیم قراردادها و دفاع حرفه‌ای توسط وکلای پایه یک دادگستری",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "جهان کودک، جنب خیابان ثانعی، برج امیر پرویز",
+          "addressLocality": "تهران",
+          "addressRegion": "Tehran",
+          "postalCode": "",
+          "addressCountry": "IR"
+        },
+        "telephone": "+98-912-941-3828",
+        "email": "info@dadgan.com",
+        "url": "{{ request.scheme }}://{{ request.get_host }}",
+        "priceRange": "$$",
+        "areaServed": {
+          "@type": "Country",
+          "name": "Iran"
+        },
+        "serviceType": [
+          "مشاوره حقوقی",
+          "وکالت دعاوی",
+          "تنظیم قراردادها",
+          "دعاوی کیفری",
+          "دعاوی حقوقی",
+          "امور خانواده",
+          "امور ملکی",
+          "Legal Consultation",
+          "Legal Representation"
+        ],
+        "sameAs": [
+          "{{ request.scheme }}://{{ request.get_host }}"
+        ]
+      },
+      {
+        "@type": "Organization",
+        "@id": "{{ request.scheme }}://{{ request.get_host }}/#organization",
+        "name": "موسسه حقوقی دادگان",
+        "alternateName": "Dadgan Law Firm",
+        "url": "{{ request.scheme }}://{{ request.get_host }}",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.svg' %}",
+          "width": "200",
+          "height": "200"
+        },
+        "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.svg' %}",
+        "description": "موسسه حقوقی دادگان با بیش از 12 سال سابقه در ارائه خدمات حقوقی تخصصی",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "جهان کودک، جنب خیابان ثانعی، برج امیر پرویز",
+          "addressLocality": "تهران",
+          "addressCountry": "IR"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+98-912-941-3828",
+          "contactType": "Customer Service",
+          "areaServed": "IR",
+          "availableLanguage": ["Persian", "English"]
+        },
+        "foundingDate": "2012",
+        "numberOfEmployees": {
+          "@type": "QuantitativeValue",
+          "value": "10"
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "{{ request.scheme }}://{{ request.get_host }}/#website",
+        "url": "{{ request.scheme }}://{{ request.get_host }}",
+        "name": "موسسه حقوقی دادگان",
+        "description": "وکیل پایه یک دادگستری - مشاوره حقوقی تخصصی",
+        "publisher": {
+          "@id": "{{ request.scheme }}://{{ request.get_host }}/#organization"
+        },
+        "inLanguage": "fa-IR"
+      }
+    ]
+  }
+  </script>
 
   {% csrf_token %}
   <script>
@@ -199,8 +336,9 @@
   <header class="w-full border-b border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 backdrop-blur sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
       <h1 class="text-xl font-bold">
-        <a href="{% url 'lawfirm:home' %}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-          مؤسسه حقوقی دادگان
+        <a href="{% url 'lawfirm:home' %}" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+          <img src="{% static 'images/favicon.svg' %}" alt="Dadgan Law Firm Logo" class="w-10 h-10" />
+          <span class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">مؤسسه حقوقی دادگان</span>
         </a>
       </h1>
 

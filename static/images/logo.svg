@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="95" fill="#1e3a8a" opacity="0.1"/>
+  
+  <!-- Shield/Badge Shape -->
+  <path d="M100 20 L160 50 L160 120 Q160 150 100 180 Q40 150 40 120 L40 50 Z" 
+        fill="#1e40af" stroke="#1e3a8a" stroke-width="2"/>
+  
+  <!-- Inner Shield Decoration -->
+  <path d="M100 35 L150 60 L150 115 Q150 140 100 165 Q50 140 50 115 L50 60 Z" 
+        fill="#3b82f6" opacity="0.3"/>
+  
+  <!-- Scale of Justice - Left Pan -->
+  <ellipse cx="70" cy="85" rx="15" ry="5" fill="#fbbf24" stroke="#f59e0b" stroke-width="1.5"/>
+  <line x1="70" y1="85" x2="70" y2="70" stroke="#f59e0b" stroke-width="2"/>
+  
+  <!-- Scale of Justice - Right Pan -->
+  <ellipse cx="130" cy="85" rx="15" ry="5" fill="#fbbf24" stroke="#f59e0b" stroke-width="1.5"/>
+  <line x1="130" y1="85" x2="130" y2="70" stroke="#f59e0b" stroke-width="2"/>
+  
+  <!-- Scale of Justice - Center Beam -->
+  <line x1="70" y1="70" x2="130" y2="70" stroke="#f59e0b" stroke-width="2.5"/>
+  <circle cx="100" cy="70" r="3" fill="#f59e0b"/>
+  
+  <!-- Scale of Justice - Stand -->
+  <line x1="100" y1="70" x2="100" y2="120" stroke="#f59e0b" stroke-width="2.5"/>
+  <rect x="85" y="120" width="30" height="5" rx="1" fill="#f59e0b"/>
+  
+  <!-- Persian Letter "د" (Daal) - Stylized -->
+  <text x="100" y="155" font-family="Arial, sans-serif" font-size="45" font-weight="bold" 
+        fill="white" text-anchor="middle">د</text>
+  
+  <!-- Decorative Stars -->
+  <circle cx="60" cy="40" r="2" fill="#fbbf24"/>
+  <circle cx="140" cy="40" r="2" fill="#fbbf24"/>
+  <circle cx="45" cy="100" r="2" fill="#fbbf24"/>
+  <circle cx="155" cy="100" r="2" fill="#fbbf24"/>
+</svg>

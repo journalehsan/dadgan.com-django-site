@@ -1,0 +1,29 @@
+{
+  "name": "موسسه حقوقی دادگان",
+  "short_name": "دادگان",
+  "description": "وکیل پایه یک دادگستری - مشاوره حقوقی تخصصی",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1e40af",
+  "orientation": "portrait-primary",
+  "lang": "fa",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "/static/images/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/images/logo.svg",
+      "sizes": "200x200",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["legal", "business", "professional"],
+  "scope": "/",
+  "prefer_related_applications": false
+}

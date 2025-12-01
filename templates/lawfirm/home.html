@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block extra_js_init %}
   // Animated counters
@@ -83,8 +84,8 @@
       </div>
 
       <div class="animate-fade-in-delayed">
-        <img src="https://images.unsplash.com/photo-1589820296156-2454bb8a6c1d?auto=format&fit=crop&w=900&q=80"
-             alt="Law Firm"
+        <img src="{% static 'images/hero-background.svg' %}"
+             alt="موسسه حقوقی دادگان"
              class="rounded-xl shadow-2xl dark:border dark:border-gray-700 hover:shadow-3xl transition-shadow duration-500" />
       </div>
     </div>
@@ -125,6 +126,157 @@
           <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
             مشاوره آنلاین و حضوری توسط وکلای متخصص در تمامی زمینه‌ها.
           </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Workgroups Section -->
+  <section id="workgroups" class="py-16">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="text-center mb-12">
+        <h3 class="text-3xl font-bold mb-4">کارگروه‌های موسسه حقوقی دادگان</h3>
+        <p class="text-gray-600 dark:text-gray-300 text-lg">تیم‌های تخصصی ما آماده ارائه خدمات حقوقی در زمینه‌های مختلف</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        
+        <!-- Workgroups List -->
+        <div class="bg-white dark:bg-gray-900 rounded-xl shadow-xl p-8">
+          <h4 class="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-6 pb-4 border-b-2 border-gray-200 dark:border-gray-700">
+            کارگروه‌های تخصصی
+          </h4>
+          
+          <div class="space-y-4">
+            
+            <div class="group p-4 bg-blue-50 dark:bg-gray-800 rounded-lg border-r-4 border-blue-500 hover:bg-blue-100 dark:hover:bg-gray-700 transition-all duration-300 hover:-translate-x-2 cursor-pointer">
+              <div class="flex items-center mb-2">
+                <i class="fas fa-landmark text-blue-600 dark:text-blue-400 ml-3"></i>
+                <h5 class="font-bold text-lg">امور حقوقی</h5>
+              </div>
+              <p class="text-sm text-gray-600 dark:text-gray-300 pr-8">
+                کار گروه امور حقوقی، متشکل از وکلای کارآمد و با تجربه در زمینه امور خانواده، ثبت‌احوال، ارث، قراردادها و ...
+              </p>
+            </div>
+
+            <div class="group p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border-r-4 border-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300 hover:-translate-x-2 cursor-pointer">
+              <div class="flex items-center mb-2">
+                <i class="fas fa-gavel text-gray-600 dark:text-gray-400 ml-3"></i>
+                <h5 class="font-bold text-lg">امور کیفری</h5>
+              </div>
+              <p class="text-sm text-gray-600 dark:text-gray-300 pr-8">
+                دفاع حرفه‌ای در پرونده‌های کیفری توسط وکلای مجرب
+              </p>
+            </div>
+
+            <div class="group p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border-r-4 border-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300 hover:-translate-x-2 cursor-pointer">
+              <div class="flex items-center mb-2">
+                <i class="fas fa-building text-gray-600 dark:text-gray-400 ml-3"></i>
+                <h5 class="font-bold text-lg">امور ثبتی شرکت</h5>
+              </div>
+              <p class="text-sm text-gray-600 dark:text-gray-300 pr-8">
+                ثبت و تغییرات شرکت‌ها و موسسات
+              </p>
+            </div>
+
+            <div class="group p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border-r-4 border-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300 hover:-translate-x-2 cursor-pointer">
+              <div class="flex items-center mb-2">
+                <i class="fas fa-globe text-gray-600 dark:text-gray-400 ml-3"></i>
+                <h5 class="font-bold text-lg">امور تجارت بین‌الملل و امور بین‌المللی</h5>
+              </div>
+              <p class="text-sm text-gray-600 dark:text-gray-300 pr-8">
+                مشاوره و خدمات حقوقی در قراردادهای بین‌المللی
+              </p>
+            </div>
+
+            <div class="group p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border-r-4 border-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300 hover:-translate-x-2 cursor-pointer">
+              <div class="flex items-center mb-2">
+                <i class="fas fa-calculator text-gray-600 dark:text-gray-400 ml-3"></i>
+                <h5 class="font-bold text-lg">امور مالیاتی</h5>
+              </div>
+              <p class="text-sm text-gray-600 dark:text-gray-300 pr-8">
+                مشاوره مالیاتی و دفاع در پرونده‌های مالیاتی
+              </p>
+            </div>
+
+            <div class="group p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border-r-4 border-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300 hover:-translate-x-2 cursor-pointer">
+              <div class="flex items-center mb-2">
+                <i class="fas fa-plane-departure text-gray-600 dark:text-gray-400 ml-3"></i>
+                <h5 class="font-bold text-lg">امور مهاجرت</h5>
+              </div>
+              <p class="text-sm text-gray-600 dark:text-gray-300 pr-8">
+                مشاوره و خدمات حقوقی مهاجرت
+              </p>
+            </div>
+
+            <div class="group p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border-r-4 border-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300 hover:-translate-x-2 cursor-pointer">
+              <div class="flex items-center mb-2">
+                <i class="fas fa-home text-gray-600 dark:text-gray-400 ml-3"></i>
+                <h5 class="font-bold text-lg">امور ملکی</h5>
+              </div>
+              <p class="text-sm text-gray-600 dark:text-gray-300 pr-8">
+                مشاوره حقوقی املاک و مستغلات، طلاق و متارکه
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Key Services Highlight -->
+        <div class="bg-gradient-to-br from-orange-50 to-red-50 dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-xl p-8 border-t-4 border-red-500">
+          <h4 class="text-2xl font-bold text-red-600 dark:text-red-400 mb-6 pb-4 border-b-2 border-red-200 dark:border-red-900">
+            خدمات ویژه
+          </h4>
+          
+          <div class="mb-6">
+            <div class="flex items-start gap-3 mb-4">
+              <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-balance-scale text-blue-600 dark:text-blue-400"></i>
+              </div>
+              <div>
+                <h5 class="font-bold text-lg mb-1">مشاوره توسط وکیل و قاضی بازنشسته</h5>
+                <p class="text-sm text-gray-600 dark:text-gray-300">بهره‌مندی از تجربه سال‌ها قضاوت</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 mb-4">
+              <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-user-tie text-green-600 dark:text-green-400"></i>
+              </div>
+              <div>
+                <h5 class="font-bold text-lg mb-1">وکیل پایه یک دادگستری</h5>
+                <p class="text-sm text-gray-600 dark:text-gray-300">ارائه خدمات توسط باتجربه‌ترین وکلا</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 mb-4">
+              <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-users text-purple-600 dark:text-purple-400"></i>
+              </div>
+              <div>
+                <h5 class="font-bold text-lg mb-1">عضو کانون وکلای دادگستری مرکز</h5>
+                <p class="text-sm text-gray-600 dark:text-gray-300">وکالت رسمی و معتبر</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 bg-orange-100 dark:bg-orange-900 rounded-lg flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-file-invoice-dollar text-orange-600 dark:text-orange-400"></i>
+              </div>
+              <div>
+                <h5 class="font-bold text-lg mb-1">وصول مطالبات</h5>
+                <p class="text-sm text-gray-600 dark:text-gray-300">چک برگشتی، سفته و اوراق بهادار</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 p-4 bg-white dark:bg-gray-900 rounded-lg border border-orange-200 dark:border-orange-900">
+            <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+              <strong class="text-orange-600 dark:text-orange-400">💡 نکته مهم:</strong> 
+              تمامی کارگروه‌های ما با همکاری یکدیگر فعالیت می‌کنند تا بهترین نتیجه را برای موکلین خود به ارمغان آورند.
+            </p>
+          </div>
         </div>
 
       </div>

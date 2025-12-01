@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Shield Shape -->
+  <path d="M32 6 L54 16 L54 38 Q54 48 32 58 Q10 48 10 38 L10 16 Z" 
+        fill="#1e40af"/>
+  
+  <!-- Inner Shield -->
+  <path d="M32 12 L48 20 L48 36 Q48 44 32 52 Q16 44 16 36 L16 20 Z" 
+        fill="#3b82f6" opacity="0.3"/>
+  
+  <!-- Scale of Justice -->
+  <ellipse cx="24" cy="30" rx="6" ry="2" fill="#fbbf24"/>
+  <ellipse cx="40" cy="30" rx="6" ry="2" fill="#fbbf24"/>
+  <line x1="24" y1="30" x2="24" y2="22" stroke="#fbbf24" stroke-width="2"/>
+  <line x1="40" y1="30" x2="40" y2="22" stroke="#fbbf24" stroke-width="2"/>
+  <line x1="24" y1="22" x2="40" y2="22" stroke="#fbbf24" stroke-width="2.5"/>
+  <circle cx="32" cy="22" r="2" fill="#fbbf24"/>
+  <line x1="32" y1="22" x2="32" y2="42" stroke="#fbbf24" stroke-width="2.5"/>
+  <rect x="26" y="42" width="12" height="3" fill="#fbbf24"/>
+  
+  <!-- Letter د -->
+  <text x="32" y="52" font-family="Arial, sans-serif" font-size="16" font-weight="bold" 
+        fill="white" text-anchor="middle">د</text>
+</svg>
