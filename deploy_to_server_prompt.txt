@@ -1,0 +1,14 @@
+Please make a script for sync and deploy but before we need migrate_db_toserver script for this django site for dadgan.com, we use a sqlite database in a file but it's not efficient we can use this migration script data and migrate curent sqlite to mysql then use it for our database and deploy it in to server use a sync and deploy script to replace old docker we have, old docker is running and serve 4436 port and we have to also use this port but before we have to stop old docker to replace new one this is docker list 
+[rocky@rocky-c3-medium1-bamdad-1 ~]$ docker ps
+CONTAINER ID   IMAGE                          COMMAND                  CREATED         STATUS                 PORTS                                         NAMES
+4ba260baba36   dadpors-django:latest          "/docker-entrypoint.…"   10 days ago     Up 10 days             0.0.0.0:4435->8000/tcp, [::]:4435->8000/tcp   dadpors-web
+2118ab7206c8   adlpors-law-app                "docker-entrypoint.s…"   2 months ago    Up 5 weeks (healthy)   0.0.0.0:3000->3000/tcp, :::3000->3000/tcp     adlpors-law-app
+af1c7cf337a6   legal_consultancy              "httpd -D FOREGROUND"    9 months ago    Up 5 weeks             0.0.0.0:4434->4434/tcp, :::4434->4434/tcp     legal_consultancy_container
+b02d10e228cf   dadparsir-web                  "httpd -D FOREGROUND"    14 months ago   Up 5 weeks             0.0.0.0:4437->4437/tcp, :::4437->4437/tcp     dadparsir-web-1
+7e484ddbc627   dadgan_app                     "docker-php-entrypoi…"   15 months ago   Up 5 weeks             0.0.0.0:4436->80/tcp, [::]:4436->80/tcp       dadgan_app
+f7512686ba02   laravel_app                    "docker-php-entrypoi…"   15 months ago   Up 5 weeks             0.0.0.0:9000->9000/tcp, :::9000->9000/tcp     laravel_app
+5ce1a9d9f52f   phpmyadmin/phpmyadmin:latest   "/docker-entrypoint.…"   16 months ago   Up 5 weeks             0.0.0.0:8080->80/tcp, [::]:8080->80/tcp       docker-mariadb-phpmyadmin-phpmyadmin-1
+f575cba80e95   mariadb:latest                 "docker-entrypoint.s…"   16 months ago   Up 5 weeks             0.0.0.0:3306->3306/tcp, :::3306->3306/tcp     docker-mariadb-phpmyadmin-mariadb-1
+[rocky@rocky-c3-medium1-bamdad-1 ~]$
+
+server details is ssh rocky@37.32.13.22 and password is Trk@#1403. if it up in docker nginx will serve it using 4436 port and we can test it with https://dadgan.com. 
