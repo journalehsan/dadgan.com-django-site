@@ -435,7 +435,7 @@ def signup(request):
     return render(request, 'registration/signup.html', {'form': form, 'next': next_url})
 
 
-@login_required(login_url='login')
+@login_required
 def profile(request):
     """User profile page showing consultations and messages"""
     # Get user's consultations and messages

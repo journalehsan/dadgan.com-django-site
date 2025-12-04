@@ -153,7 +153,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Auth redirects
-LOGIN_URL = 'login'
+LOGIN_URL = 'lawfirm:login'
 LOGIN_REDIRECT_URL = 'lawfirm:profile'
 LOGOUT_REDIRECT_URL = 'lawfirm:home'
 
