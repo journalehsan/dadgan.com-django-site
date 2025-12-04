@@ -1,10 +1,16 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+from django.contrib.auth import login as auth_login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.views import LoginView
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.utils.text import slugify
+from django.utils.http import url_has_allowed_host_and_scheme
+from django.urls import reverse_lazy
 import json
 
 from .models import (
@@ -12,6 +18,39 @@ from .models import (
     Testimonial, SiteSettings, Category, QACategory, ConsultationType, Notification
 )
 from .forms import ContactForm, ConsultationForm, QuestionForm, AnswerForm, SearchForm
+
+
+class StyledAuthenticationForm(AuthenticationForm):
+    """Authentication form with Tailwind-friendly classes and Persian placeholders."""
+
+    def __init__(self, request=None, *args, **kwargs):
+        super().__init__(request, *args, **kwargs)
+        self.fields['username'].widget.attrs.update({
+            'class': 'auth-input',
+            'placeholder': 'نام کاربری',
+            'autocomplete': 'username'
+        })
+        self.fields['username'].label = 'نام کاربری'
+        self.fields['password'].widget.attrs.update({
+            'class': 'auth-input',
+            'placeholder': 'رمز عبور',
+            'autocomplete': 'current-password'
+        })
+        self.fields['password'].label = 'رمز عبور'
+
+
+class CustomLoginView(LoginView):
+    """Custom login view that keeps users on-site and redirects them back to where they came from."""
+
+    template_name = 'registration/login.html'
+    authentication_form = StyledAuthenticationForm
+    redirect_authenticated_user = True
+
+    def get_success_url(self):
+        next_url = self.request.POST.get('next') or self.request.GET.get('next')
+        if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={self.request.get_host()}):
+            return next_url
+        return reverse_lazy('lawfirm:profile')
 
 
 def home(request):
@@ -354,12 +393,51 @@ def search_api(request):
     return JsonResponse({'results': results})
 
 
+def signup(request):
+    """Simple signup view for normal users."""
+    if request.user.is_authenticated:
+        return redirect('lawfirm:profile')
+
+    form = UserCreationForm(request.POST or None)
+    next_url = request.POST.get('next') or request.GET.get('next')
+
+    # Add Tailwind-friendly classes to widgets
+    form.fields['username'].widget.attrs.update({
+        'class': 'auth-input',
+        'placeholder': 'نام کاربری',
+        'autocomplete': 'username'
+    })
+    form.fields['username'].label = 'نام کاربری'
+    form.fields['password1'].widget.attrs.update({
+        'class': 'auth-input',
+        'placeholder': 'رمز عبور',
+        'autocomplete': 'new-password'
+    })
+    form.fields['password1'].label = 'رمز عبور'
+    form.fields['password2'].widget.attrs.update({
+        'class': 'auth-input',
+        'placeholder': 'تکرار رمز عبور',
+        'autocomplete': 'new-password'
+    })
+    form.fields['password2'].label = 'تکرار رمز عبور'
+
+    if request.method == 'POST':
+        if form.is_valid():
+            user = form.save()
+            auth_login(request, user)
+            messages.success(request, 'ثبت‌نام با موفقیت انجام شد. به پروفایل منتقل شدید.')
+            if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}):
+                return redirect(next_url)
+            return redirect('lawfirm:profile')
+        else:
+            messages.error(request, 'لطفاً خطاهای فرم را برطرف کنید.')
+
+    return render(request, 'registration/signup.html', {'form': form, 'next': next_url})
+
+
+@login_required(login_url='login')
 def profile(request):
     """User profile page showing consultations and messages"""
-    if not request.user.is_authenticated:
-        messages.warning(request, 'لطفاً برای مشاهده پروفایل ابتدا وارد شوید.')
-        return redirect('lawfirm:home')
-    
     # Get user's consultations and messages
     consultations = ConsultationRequest.objects.filter(user=request.user).order_by('-created_at')
     contact_messages = ContactMessage.objects.filter(user=request.user).order_by('-created_at')

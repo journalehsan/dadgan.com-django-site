@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}ورود کاربران | دادگان{% endblock %}
+
+{% block content %}
+<section class="bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 py-16">
+  <div class="max-w-5xl mx-auto px-5">
+    <div class="grid md:grid-cols-2 gap-8 items-center">
+      <div class="hidden md:block space-y-4">
+        <div class="p-6 rounded-2xl bg-white/70 dark:bg-gray-900/60 shadow-lg backdrop-blur">
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">ورود به ناحیه کاربری</h2>
+          <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+            پس از ورود می‌توانید وضعیت درخواست‌های مشاوره، پیام‌های ارسال شده و اعلان‌های خود را از بخش پروفایل دنبال کنید.
+          </p>
+          <ul class="mt-4 space-y-2 text-gray-700 dark:text-gray-200 text-sm">
+            <li class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> مشاهده و پیگیری مشاوره‌ها</li>
+            <li class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> دسترسی به اعلان‌ها و پیام‌ها</li>
+            <li class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> ثبت سریع درخواست‌های جدید</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-8 border border-gray-100 dark:border-gray-800">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">ورود</h1>
+            <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">لطفاً اطلاعات حساب خود را وارد کنید.</p>
+          </div>
+          <a href="{% url 'signup' %}" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">حساب ندارید؟ ثبت‌نام</a>
+        </div>
+
+        <form method="post" class="space-y-5">
+          {% csrf_token %}
+          {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+          {% endif %}
+
+          {% if form.non_field_errors %}
+            <div class="p-3 rounded-lg bg-red-50 text-red-700 border border-red-200 text-sm">
+              {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+            </div>
+          {% endif %}
+
+          <div class="space-y-2">
+            <label for="{{ form.username.id_for_label }}" class="text-sm font-medium text-gray-700 dark:text-gray-300">نام کاربری</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+              <p class="text-sm text-red-600">{{ form.username.errors|striptags }}</p>
+            {% endif %}
+          </div>
+
+          <div class="space-y-2">
+            <label for="{{ form.password.id_for_label }}" class="text-sm font-medium text-gray-700 dark:text-gray-300">رمز عبور</label>
+            {{ form.password }}
+            {% if form.password.errors %}
+              <p class="text-sm text-red-600">{{ form.password.errors|striptags }}</p>
+            {% endif %}
+          </div>
+
+          <button type="submit" class="w-full py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-lg font-semibold shadow-lg transition-all">
+            ورود به حساب
+          </button>
+        </form>
+
+        <div class="mt-6 text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg border border-gray-100 dark:border-gray-800">
+          برای تست می‌توانید با نام کاربری <span class="font-bold text-gray-800 dark:text-white">user</span> و رمز
+          <span class="font-bold text-gray-800 dark:text-white">user123</span> وارد شوید.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .auth-input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+  .auth-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59,130,246,0.15);
+    background: white;
+  }
+  .dark .auth-input {
+    background: #111827;
+    border-color: #374151;
+    color: #e5e7eb;
+  }
+  .dark .auth-input:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 4px rgba(96,165,250,0.15);
+    background: #0b1220;
+  }
+</style>
+{% endblock %}

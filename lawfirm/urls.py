@@ -1,4 +1,5 @@
 from django.urls import path, register_converter
+from django.contrib.auth.views import LogoutView
 from . import views
 
 
@@ -21,6 +22,9 @@ app_name = 'lawfirm'
 urlpatterns = [
     path('', views.home, name='home'),
     path('profile/', views.profile, name='profile'),
+    path('accounts/login/', views.CustomLoginView.as_view(), name='login'),
+    path('accounts/logout/', LogoutView.as_view(next_page='lawfirm:home'), name='logout'),
+    path('accounts/signup/', views.signup, name='signup'),
     path('search/', views.search, name='search'),
     path('api/search/', views.search_api, name='search_api'),
     path('api/notifications/count/', views.get_unread_notifications_count, name='notifications_count'),

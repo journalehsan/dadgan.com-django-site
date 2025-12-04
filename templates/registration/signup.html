@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}ثبت‌نام کاربر جدید | دادگان{% endblock %}
+
+{% block content %}
+<section class="bg-gradient-to-br from-gray-50 to-green-50 dark:from-gray-900 dark:to-gray-800 py-16">
+  <div class="max-w-4xl mx-auto px-5">
+    <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-8 border border-gray-100 dark:border-gray-800">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">ساخت حساب جدید</h1>
+          <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">با ایجاد حساب می‌توانید مشاوره‌ها و پیام‌های خود را مدیریت کنید.</p>
+        </div>
+        <a href="{% url 'login' %}" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">حساب دارید؟ وارد شوید</a>
+      </div>
+
+      <form method="post" class="space-y-5">
+        {% csrf_token %}
+        {% if next %}
+          <input type="hidden" name="next" value="{{ next }}">
+        {% endif %}
+
+        {% if form.non_field_errors %}
+          <div class="p-3 rounded-lg bg-red-50 text-red-700 border border-red-200 text-sm">
+            {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+          </div>
+        {% endif %}
+
+        <div class="space-y-2">
+          <label for="{{ form.username.id_for_label }}" class="text-sm font-medium text-gray-700 dark:text-gray-300">نام کاربری</label>
+          {{ form.username }}
+          {% if form.username.help_text %}
+            <p class="text-xs text-gray-500">{{ form.username.help_text|striptags }}</p>
+          {% endif %}
+          {% if form.username.errors %}
+            <p class="text-sm text-red-600">{{ form.username.errors|striptags }}</p>
+          {% endif %}
+        </div>
+
+        <div class="space-y-2">
+          <label for="{{ form.password1.id_for_label }}" class="text-sm font-medium text-gray-700 dark:text-gray-300">رمز عبور</label>
+          {{ form.password1 }}
+          {% if form.password1.help_text %}
+            <p class="text-xs text-gray-500">{{ form.password1.help_text|striptags }}</p>
+          {% endif %}
+          {% if form.password1.errors %}
+            <p class="text-sm text-red-600">{{ form.password1.errors|striptags }}</p>
+          {% endif %}
+        </div>
+
+        <div class="space-y-2">
+          <label for="{{ form.password2.id_for_label }}" class="text-sm font-medium text-gray-700 dark:text-gray-300">تکرار رمز عبور</label>
+          {{ form.password2 }}
+          {% if form.password2.errors %}
+            <p class="text-sm text-red-600">{{ form.password2.errors|striptags }}</p>
+          {% endif %}
+        </div>
+
+        <button type="submit" class="w-full py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-lg font-semibold shadow-lg transition-all">
+          ثبت‌نام
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+<style>
+  .auth-input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+  .auth-input:focus {
+    outline: none;
+    border-color: #22c55e;
+    box-shadow: 0 0 0 4px rgba(34,197,94,0.15);
+    background: white;
+  }
+  .dark .auth-input {
+    background: #111827;
+    border-color: #374151;
+    color: #e5e7eb;
+  }
+  .dark .auth-input:focus {
+    border-color: #34d399;
+    box-shadow: 0 0 0 4px rgba(52,211,153,0.15);
+    background: #0b1220;
+  }
+</style>
+{% endblock %}
