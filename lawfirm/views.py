@@ -41,7 +41,7 @@ def home(request):
         if contact_form.is_valid():
             contact_form.save()
             messages.success(request, 'درخواست شما با موفقیت ارسال شد. در اسرع وقت با شما تماس خواهیم گرفت.')
-            return redirect('home')
+            return redirect('lawfirm:home')
     
     # Handle consultation form
     consultation_form = ConsultationForm()
@@ -50,7 +50,7 @@ def home(request):
         if consultation_form.is_valid():
             consultation_form.save()
             messages.success(request, 'درخواست مشاوره شما ثبت شد. به زودی با شما تماس خواهیم گرفت.')
-            return redirect('home')
+            return redirect('lawfirm:home')
     
     context = {
         'recent_blogs': recent_blogs,

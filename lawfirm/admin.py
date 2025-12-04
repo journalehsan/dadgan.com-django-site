@@ -24,12 +24,14 @@ class AnswerInline(admin.TabularInline):
 
 @admin.register(BlogPost)
 class BlogPostAdmin(admin.ModelAdmin):
-    list_display = ['title', 'author', 'category', 'published', 'featured', 'views', 'created_at']
+    list_display = ['title', 'author', 'category', 'published_badge', 'featured', 'views', 'created_at']
     list_filter = ['published', 'featured', 'category', 'created_at']
-    search_fields = ['title', 'content']
+    search_fields = ['title', 'content', 'excerpt']
     prepopulated_fields = {'slug': ('title',)}
-    list_editable = ['published', 'featured']
+    list_editable = ['featured']
     readonly_fields = ['views', 'created_at', 'updated_at']
+    date_hierarchy = 'created_at'
+    actions = ['publish_posts', 'unpublish_posts', 'mark_as_featured']
     
     fieldsets = (
         ('اطلاعات اصلی', {
@@ -38,14 +40,39 @@ class BlogPostAdmin(admin.ModelAdmin):
         ('محتوا', {
             'fields': ('excerpt', 'content', 'image')
         }),
-        ('تنظیمات', {
+        ('تنظیمات انتشار', {
             'fields': ('published', 'featured')
+        }),
+        ('سئو (SEO)', {
+            'fields': ('seo_title', 'seo_description', 'seo_keywords'),
+            'classes': ('collapse',)
         }),
         ('آمار', {
             'fields': ('views', 'created_at', 'updated_at'),
             'classes': ('collapse',)
         })
     )
+
+    def published_badge(self, obj):
+        if obj.published:
+            return format_html('<span style="color: green;">✓ منتشر شده</span>')
+        return format_html('<span style="color: orange;">● پیش‌نویس</span>')
+    published_badge.short_description = 'وضعیت انتشار'
+
+    def publish_posts(self, request, queryset):
+        updated = queryset.update(published=True)
+        self.message_user(request, f'{updated} مقاله منتشر شد.')
+    publish_posts.short_description = 'انتشار مقالات انتخاب شده'
+
+    def unpublish_posts(self, request, queryset):
+        updated = queryset.update(published=False)
+        self.message_user(request, f'{updated} مقاله به پیش‌نویس تبدیل شد.')
+    unpublish_posts.short_description = 'تبدیل به پیش‌نویس'
+
+    def mark_as_featured(self, request, queryset):
+        updated = queryset.update(featured=True)
+        self.message_user(request, f'{updated} مقاله به عنوان ویژه علامت‌گذاری شد.')
+    mark_as_featured.short_description = 'علامت‌گذاری به عنوان ویژه'
 
 
 @admin.register(QACategory)
@@ -111,11 +138,12 @@ class ConsultationTypeAdmin(admin.ModelAdmin):
 
 @admin.register(ConsultationRequest)
 class ConsultationRequestAdmin(admin.ModelAdmin):
-    list_display = ['full_name', 'phone', 'consultation_type', 'get_field_display', 'status', 'created_at']
+    list_display = ['full_name', 'phone', 'consultation_type', 'get_field_display', 'status_badge', 'created_at']
     list_filter = ['status', 'field', 'consultation_type', 'created_at']
-    search_fields = ['full_name', 'phone', 'description']
-    list_editable = ['status']
+    search_fields = ['full_name', 'phone', 'description', 'email']
     readonly_fields = ['created_at', 'updated_at']
+    date_hierarchy = 'created_at'
+    actions = ['mark_as_confirmed', 'mark_as_completed', 'mark_as_cancelled']
     
     fieldsets = (
         ('اطلاعات متقاضی', {
@@ -133,21 +161,68 @@ class ConsultationRequestAdmin(admin.ModelAdmin):
         })
     )
 
+    def status_badge(self, obj):
+        colors = {
+            'pending': '#FFA500',
+            'confirmed': '#4CAF50',
+            'completed': '#2196F3',
+            'cancelled': '#F44336'
+        }
+        return format_html(
+            '<span style="background-color: {}; color: white; padding: 3px 10px; border-radius: 3px; font-size: 12px;">{}</span>',
+            colors.get(obj.status, '#999'),
+            obj.get_status_display()
+        )
+    status_badge.short_description = 'وضعیت'
+
+    def mark_as_confirmed(self, request, queryset):
+        updated = queryset.update(status='confirmed')
+        self.message_user(request, f'{updated} درخواست به عنوان تأیید شده علامت‌گذاری شد.')
+    mark_as_confirmed.short_description = 'تأیید درخواست‌های انتخاب شده'
+
+    def mark_as_completed(self, request, queryset):
+        updated = queryset.update(status='completed')
+        self.message_user(request, f'{updated} درخواست به عنوان انجام شده علامت‌گذاری شد.')
+    mark_as_completed.short_description = 'علامت‌گذاری به عنوان انجام شده'
+
+    def mark_as_cancelled(self, request, queryset):
+        updated = queryset.update(status='cancelled')
+        self.message_user(request, f'{updated} درخواست لغو شد.')
+    mark_as_cancelled.short_description = 'لغو درخواست‌های انتخاب شده'
+
     def get_queryset(self, request):
         return super().get_queryset(request).select_related('consultation_type')
 
 
 @admin.register(ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):
-    list_display = ['full_name', 'phone', 'subject_preview', 'is_read', 'created_at']
+    list_display = ['full_name', 'phone', 'subject_preview', 'read_badge', 'created_at']
     list_filter = ['is_read', 'created_at']
-    search_fields = ['full_name', 'phone', 'subject']
-    list_editable = ['is_read']
+    search_fields = ['full_name', 'phone', 'subject', 'email']
+    list_editable = []
     readonly_fields = ['created_at', 'updated_at']
+    date_hierarchy = 'created_at'
+    actions = ['mark_as_read', 'mark_as_unread']
 
     def subject_preview(self, obj):
         return obj.subject[:50] + '...' if len(obj.subject) > 50 else obj.subject
     subject_preview.short_description = 'موضوع'
+
+    def read_badge(self, obj):
+        if obj.is_read:
+            return format_html('<span style="color: green;">✓ خوانده شده</span>')
+        return format_html('<span style="color: orange;">● خوانده نشده</span>')
+    read_badge.short_description = 'وضعیت'
+
+    def mark_as_read(self, request, queryset):
+        updated = queryset.update(is_read=True)
+        self.message_user(request, f'{updated} پیام به عنوان خوانده شده علامت‌گذاری شد.')
+    mark_as_read.short_description = 'علامت‌گذاری به عنوان خوانده شده'
+
+    def mark_as_unread(self, request, queryset):
+        updated = queryset.update(is_read=False)
+        self.message_user(request, f'{updated} پیام به عنوان خوانده نشده علامت‌گذاری شد.')
+    mark_as_unread.short_description = 'علامت‌گذاری به عنوان خوانده نشده'
 
     fieldsets = (
         ('اطلاعات پیام', {
