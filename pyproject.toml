@@ -32,6 +32,9 @@ classifiers = [
 dependencies = [
     "Django>=4.2,<5.0",
     "Pillow>=9.0",
+    "whitenoise>=6.7",
+    "mysqlclient>=2.2",
+    "gunicorn>=21.2",
 ]
 
 [project.optional-dependencies]

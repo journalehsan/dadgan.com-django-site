@@ -8,6 +8,9 @@ PID_FILE=".django_server.pid"
 PORT=8000
 HOST="127.0.0.1"
 
+# Default to debug mode for local runs unless explicitly overridden
+export DJANGO_DEBUG="${DJANGO_DEBUG:-True}"
+
 # Colors for output
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
