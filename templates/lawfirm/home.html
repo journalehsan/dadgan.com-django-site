@@ -454,7 +454,7 @@
             {% if blog.image %}
               <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
             {% else %}
-              {% cycle 'blog-law-books.svg' 'blog-courthouse.svg' 'blog-justice.svg' as placeholder %}
+              {% cycle 'blog-law-books.svg' 'blog-courthouse.svg' 'blog-justice.svg' as placeholder silent %}
               <img src="{% static 'images/' %}{{ placeholder }}" alt="{{ blog.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
             {% endif %}
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
