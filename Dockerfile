@@ -28,7 +28,7 @@ COPY manage.py ./
 
 # Install Python dependencies
 RUN pip install --upgrade pip setuptools wheel && \
-    pip install django gunicorn mysqlclient Pillow whitenoise
+    pip install django gunicorn mysqlclient Pillow whitenoise requests
 
 # Create static files directory
 RUN mkdir -p /app/staticfiles /app/media

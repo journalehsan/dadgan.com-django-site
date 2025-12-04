@@ -157,6 +157,15 @@ LOGIN_URL = 'lawfirm:login'
 LOGIN_REDIRECT_URL = 'lawfirm:profile'
 LOGOUT_REDIRECT_URL = 'lawfirm:home'
 
+# CSRF trusted origins (important for HTTPS/reverse proxy)
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip() for origin in os.environ.get(
+        'DJANGO_CSRF_TRUSTED_ORIGINS',
+        'https://dadgan.com,https://www.dadgan.com,https://*.dadgan.com'
+    ).split(',')
+    if origin.strip()
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
