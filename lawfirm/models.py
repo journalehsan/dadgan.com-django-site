@@ -222,8 +222,11 @@ class ConsultationRequest(models.Model):
     field = models.CharField(max_length=20, choices=CONSULTATION_FIELDS, verbose_name="زمینه مشاوره")
     description = models.TextField(verbose_name="توضیح مسئله")
     preferred_date = models.DateTimeField(blank=True, null=True, verbose_name="تاریخ مطلوب")
+    scheduled_date = models.DateTimeField(blank=True, null=True, verbose_name="تاریخ تعیین شده توسط مدیر")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', verbose_name="وضعیت")
     admin_notes = models.TextField(blank=True, verbose_name="یادداشت مدیر")
+    admin_message = models.TextField(blank=True, verbose_name="پیام مدیر به کاربر")
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="کاربر", related_name='consultations')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ درخواست")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="تاریخ آپدیت")
 
@@ -243,6 +246,7 @@ class ContactMessage(models.Model):
     subject = models.TextField(verbose_name="موضوع")
     is_read = models.BooleanField(default=False, verbose_name="خوانده شده")
     admin_response = models.TextField(blank=True, verbose_name="پاسخ مدیر")
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="کاربر", related_name='messages')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="تاریخ آپدیت")
 
@@ -302,3 +306,33 @@ class SiteSettings(models.Model):
         if not self.pk and SiteSettings.objects.exists():
             raise Exception('تنها یک نمونه از تنظیمات سایت مجاز است')
         return super().save(*args, **kwargs)
+
+
+class Notification(models.Model):
+    NOTIFICATION_TYPES = [
+        ('consultation_update', 'به‌روز‌رسانی مشاوره'),
+        ('consultation_scheduled', 'زمان‌بندی مشاوره'),
+        ('consultation_completed', 'اتمام مشاوره'),
+        ('message_response', 'پاسخ به پیام'),
+        ('general', 'اطلاع عمومی'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="کاربر", related_name='notifications')
+    notification_type = models.CharField(max_length=30, choices=NOTIFICATION_TYPES, verbose_name="نوع اطلاع")
+    title = models.CharField(max_length=200, verbose_name="عنوان")
+    message = models.TextField(verbose_name="پیام")
+    consultation = models.ForeignKey(ConsultationRequest, on_delete=models.CASCADE, blank=True, null=True, verbose_name="مشاوره مرتبط")
+    is_read = models.BooleanField(default=False, verbose_name="خوانده شده")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")
+
+    class Meta:
+        verbose_name = "اطلاع"
+        verbose_name_plural = "اطلاعات"
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.title} - {self.user.username}"
+
+    def mark_as_read(self):
+        self.is_read = True
+        self.save(update_fields=['is_read'])

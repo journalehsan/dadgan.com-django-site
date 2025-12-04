@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
+  <div class="max-w-[1400px] mx-auto px-5">
+    
+    <!-- Page Header -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-8">
+      <div class="flex items-center gap-4">
+        <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+          {{ user.username|first|upper }}
+        </div>
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">پروفایل کاربری</h1>
+          <p class="text-gray-600 dark:text-gray-400">{{ user.username }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notifications Section -->
+    {% if notifications %}
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-8 border-r-4 border-blue-500">
+      <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+        <i class="fas fa-bell text-blue-600"></i>
+        اطلاع‌های شما
+      </h2>
+      
+      <div class="space-y-3">
+        {% for notification in notifications|slice:":5" %}
+          <div class="flex items-start gap-4 p-4 rounded-lg {% if notification.is_read %}bg-gray-50 dark:bg-gray-900{% else %}bg-blue-50 dark:bg-blue-900/20{% endif %} border border-gray-200 dark:border-gray-700">
+            <div class="w-10 h-10 flex-shrink-0 rounded-full flex items-center justify-center {% if notification.notification_type == 'consultation_scheduled' %}bg-green-100 dark:bg-green-900{% elif notification.notification_type == 'consultation_completed' %}bg-blue-100 dark:bg-blue-900{% elif notification.notification_type == 'message_response' %}bg-purple-100 dark:bg-purple-900{% else %}bg-orange-100 dark:bg-orange-900{% endif %}">
+              {% if notification.notification_type == 'consultation_scheduled' %}
+                <i class="fas fa-calendar-check text-green-600 dark:text-green-400"></i>
+              {% elif notification.notification_type == 'consultation_completed' %}
+                <i class="fas fa-check-circle text-blue-600 dark:text-blue-400"></i>
+              {% elif notification.notification_type == 'message_response' %}
+                <i class="fas fa-reply text-purple-600 dark:text-purple-400"></i>
+              {% else %}
+                <i class="fas fa-bell text-orange-600 dark:text-orange-400"></i>
+              {% endif %}
+            </div>
+            <div class="flex-1">
+              <div class="flex items-start justify-between">
+                <div>
+                  <p class="font-bold text-gray-900 dark:text-white">{{ notification.title }}</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ notification.message }}</p>
+                </div>
+                <span class="text-xs text-gray-500 dark:text-gray-500 flex-shrink-0">{{ notification.created_at|date:"Y/m/d" }}</span>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      
+      {% if notifications|length > 5 %}
+        <div class="mt-4 text-center text-gray-600 dark:text-gray-400 text-sm">
+          نمایش ۵ آخرین اطلاع (مجموع: {{ notifications|length }})
+        </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- Consultations Section -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+        <i class="fas fa-gavel text-blue-600"></i>
+        درخواست‌های مشاوره شما
+      </h2>
+      
+      {% if consultations %}
+        <div class="space-y-4">
+          {% for consultation in consultations %}
+            <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
+              <div class="flex items-start justify-between mb-4">
+                <div class="flex-1">
+                  <div class="flex items-center gap-3 mb-2">
+                    <h3 class="text-lg font-bold">{{ consultation.consultation_type.name }}</h3>
+                    <span class="px-3 py-1 rounded-full text-sm font-medium
+                      {% if consultation.status == 'pending' %}bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200
+                      {% elif consultation.status == 'confirmed' %}bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
+                      {% elif consultation.status == 'completed' %}bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
+                      {% else %}bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
+                      {% endif %}">
+                      {{ consultation.get_status_display }}
+                    </span>
+                  </div>
+                  <p class="text-gray-600 dark:text-gray-400 text-sm mb-2">زمینه: {{ consultation.get_field_display }}</p>
+                  <p class="text-gray-700 dark:text-gray-300">{{ consultation.description }}</p>
+                </div>
+                <div class="text-left">
+                  <p class="text-sm text-gray-500 dark:text-gray-400">{{ consultation.created_at|date:"Y/m/d" }}</p>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">{{ consultation.created_at|time:"H:i" }}</p>
+                </div>
+              </div>
+              
+              {% if consultation.scheduled_date %}
+                <div class="bg-blue-50 dark:bg-blue-900/20 border-r-4 border-blue-500 p-4 rounded mb-4">
+                  <p class="flex items-center gap-2 text-blue-800 dark:text-blue-200 font-medium">
+                    <i class="fas fa-calendar-alt"></i>
+                    زمان مشاوره: {{ consultation.scheduled_date|date:"Y/m/d" }} ساعت {{ consultation.scheduled_date|time:"H:i" }}
+                  </p>
+                </div>
+              {% endif %}
+              
+              {% if consultation.admin_message %}
+                <div class="bg-green-50 dark:bg-green-900/20 border-r-4 border-green-500 p-4 rounded">
+                  <p class="text-sm font-bold text-green-800 dark:text-green-200 mb-2">
+                    <i class="fas fa-comment-dots ml-1"></i>
+                    پیام از مدیریت:
+                  </p>
+                  <p class="text-green-700 dark:text-green-300">{{ consultation.admin_message }}</p>
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="text-center py-12 text-gray-500 dark:text-gray-400">
+          <i class="fas fa-inbox text-6xl mb-4 opacity-50"></i>
+          <p class="text-lg">شما هنوز درخواست مشاوره‌ای ثبت نکرده‌اید.</p>
+          <a href="{% url 'lawfirm:home' %}#consultation" class="inline-block mt-4 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+            درخواست مشاوره
+          </a>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Messages Section -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
+      <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+        <i class="fas fa-envelope text-purple-600"></i>
+        پیام‌های شما
+      </h2>
+      
+      {% if contact_messages %}
+        <div class="space-y-4">
+          {% for message in contact_messages %}
+            <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
+              <div class="flex items-start justify-between mb-4">
+                <div class="flex-1">
+                  <div class="flex items-center gap-3 mb-2">
+                    <h3 class="text-lg font-bold">پیام تماس</h3>
+                    {% if message.is_read %}
+                      <span class="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                        <i class="fas fa-check-circle ml-1"></i>خوانده شده
+                      </span>
+                    {% else %}
+                      <span class="px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">
+                        <i class="fas fa-clock ml-1"></i>در انتظار بررسی
+                      </span>
+                    {% endif %}
+                  </div>
+                  <p class="text-gray-700 dark:text-gray-300">{{ message.subject }}</p>
+                </div>
+                <div class="text-left">
+                  <p class="text-sm text-gray-500 dark:text-gray-400">{{ message.created_at|date:"Y/m/d" }}</p>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">{{ message.created_at|time:"H:i" }}</p>
+                </div>
+              </div>
+              
+              {% if message.admin_response %}
+                <div class="bg-purple-50 dark:bg-purple-900/20 border-r-4 border-purple-500 p-4 rounded">
+                  <p class="text-sm font-bold text-purple-800 dark:text-purple-200 mb-2">
+                    <i class="fas fa-reply ml-1"></i>
+                    پاسخ مدیریت:
+                  </p>
+                  <p class="text-purple-700 dark:text-purple-300">{{ message.admin_response }}</p>
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="text-center py-12 text-gray-500 dark:text-gray-400">
+          <i class="fas fa-inbox text-6xl mb-4 opacity-50"></i>
+          <p class="text-lg">شما هنوز پیامی ارسال نکرده‌اید.</p>
+          <a href="{% url 'lawfirm:home' %}#contact" class="inline-block mt-4 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+            ارسال پیام
+          </a>
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+{% endblock %}

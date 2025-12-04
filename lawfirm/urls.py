@@ -20,8 +20,10 @@ app_name = 'lawfirm'
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('profile/', views.profile, name='profile'),
     path('search/', views.search, name='search'),
     path('api/search/', views.search_api, name='search_api'),
+    path('api/notifications/count/', views.get_unread_notifications_count, name='notifications_count'),
     path('blog/', views.blog_list, name='blog_list'),
     path('blog/<unicode_slug:slug>/', views.blog_detail, name='blog_detail'),
     path('qa/', views.qa_list, name='qa_list'),

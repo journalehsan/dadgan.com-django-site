@@ -9,7 +9,7 @@ import json
 
 from .models import (
     BlogPost, Question, Answer, ConsultationRequest, ContactMessage,
-    Testimonial, SiteSettings, Category, QACategory, ConsultationType
+    Testimonial, SiteSettings, Category, QACategory, ConsultationType, Notification
 )
 from .forms import ContactForm, ConsultationForm, QuestionForm, AnswerForm, SearchForm
 
@@ -39,7 +39,10 @@ def home(request):
     if request.method == 'POST' and 'contact_submit' in request.POST:
         contact_form = ContactForm(request.POST)
         if contact_form.is_valid():
-            contact_form.save()
+            contact_message = contact_form.save(commit=False)
+            if request.user.is_authenticated:
+                contact_message.user = request.user
+            contact_message.save()
             messages.success(request, 'درخواست شما با موفقیت ارسال شد. در اسرع وقت با شما تماس خواهیم گرفت.')
             return redirect('lawfirm:home')
     
@@ -48,7 +51,10 @@ def home(request):
     if request.method == 'POST' and 'consultation_submit' in request.POST:
         consultation_form = ConsultationForm(request.POST)
         if consultation_form.is_valid():
-            consultation_form.save()
+            consultation = consultation_form.save(commit=False)
+            if request.user.is_authenticated:
+                consultation.user = request.user
+            consultation.save()
             messages.success(request, 'درخواست مشاوره شما ثبت شد. به زودی با شما تماس خواهیم گرفت.')
             return redirect('lawfirm:home')
     
@@ -346,3 +352,35 @@ def search_api(request):
         })
     
     return JsonResponse({'results': results})
+
+
+def profile(request):
+    """User profile page showing consultations and messages"""
+    if not request.user.is_authenticated:
+        messages.warning(request, 'لطفاً برای مشاهده پروفایل ابتدا وارد شوید.')
+        return redirect('lawfirm:home')
+    
+    # Get user's consultations and messages
+    consultations = ConsultationRequest.objects.filter(user=request.user).order_by('-created_at')
+    contact_messages = ContactMessage.objects.filter(user=request.user).order_by('-created_at')
+    notifications = request.user.notifications.all().order_by('-created_at')
+    
+    # Mark unread notifications as read when viewing profile
+    request.user.notifications.filter(is_read=False).update(is_read=True)
+    
+    context = {
+        'consultations': consultations,
+        'contact_messages': contact_messages,
+        'notifications': notifications,
+    }
+    return render(request, 'lawfirm/profile.html', context)
+
+
+@require_http_methods(["GET"])
+def get_unread_notifications_count(request):
+    """API endpoint to get count of unread notifications"""
+    if not request.user.is_authenticated:
+        return JsonResponse({'count': 0})
+    
+    count = request.user.notifications.filter(is_read=False).count()
+    return JsonResponse({'count': count})

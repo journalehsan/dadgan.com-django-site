@@ -4,7 +4,7 @@ from django.utils import timezone
 from .models import (
     Category, BlogPost, QACategory, Question, Answer,
     ConsultationType, ConsultationRequest, ContactMessage,
-    Testimonial, SiteSettings
+    Testimonial, SiteSettings, Notification
 )
 
 
@@ -147,13 +147,13 @@ class ConsultationRequestAdmin(admin.ModelAdmin):
     
     fieldsets = (
         ('اطلاعات متقاضی', {
-            'fields': ('full_name', 'phone', 'email')
+            'fields': ('user', 'full_name', 'phone', 'email')
         }),
         ('جزئیات مشاوره', {
             'fields': ('consultation_type', 'field', 'description', 'preferred_date')
         }),
         ('مدیریت', {
-            'fields': ('status', 'admin_notes')
+            'fields': ('status', 'scheduled_date', 'admin_message', 'admin_notes')
         }),
         ('زمان‌بندی', {
             'fields': ('created_at', 'updated_at'),
@@ -226,7 +226,7 @@ class ContactMessageAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('اطلاعات پیام', {
-            'fields': ('full_name', 'phone', 'email', 'subject')
+            'fields': ('user', 'full_name', 'phone', 'email', 'subject')
         }),
         ('مدیریت', {
             'fields': ('is_read', 'admin_response')
@@ -268,12 +268,56 @@ class SiteSettingsAdmin(admin.ModelAdmin):
         # Only allow one instance
         return not SiteSettings.objects.exists()
 
+
     def has_delete_permission(self, request, obj=None):
         # Don't allow deletion
         return False
+
+
+@admin.register(Notification)
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = ['user', 'notification_type', 'title', 'is_read_badge', 'created_at']
+    list_filter = ['notification_type', 'is_read', 'created_at']
+    search_fields = ['user__username', 'title', 'message']
+    readonly_fields = ['created_at']
+    date_hierarchy = 'created_at'
+    actions = ['mark_as_read', 'mark_as_unread']
+    
+    fieldsets = (
+        ('اطلاعات اساسی', {
+            'fields': ('user', 'notification_type', 'title', 'message')
+        }),
+        ('مرتبط', {
+            'fields': ('consultation',)
+        }),
+        ('وضعیت', {
+            'fields': ('is_read', 'created_at')
+        })
+    )
+
+    def is_read_badge(self, obj):
+        if obj.is_read:
+            return format_html(
+                '<span style="background-color: #4CAF50; color: white; padding: 3px 10px; border-radius: 3px; font-size: 12px;">خوانده شده</span>'
+            )
+        return format_html(
+            '<span style="background-color: #FFA500; color: white; padding: 3px 10px; border-radius: 3px; font-size: 12px;">خوانده نشده</span>'
+        )
+    is_read_badge.short_description = 'وضعیت خواندن'
+
+    def mark_as_read(self, request, queryset):
+        updated = queryset.update(is_read=True)
+        self.message_user(request, f'{updated} اطلاع به عنوان خوانده شده علامت‌گذاری شد.')
+    mark_as_read.short_description = 'علامت‌گذاری به عنوان خوانده شده'
+
+    def mark_as_unread(self, request, queryset):
+        updated = queryset.update(is_read=False)
+        self.message_user(request, f'{updated} اطلاع به عنوان خوانده نشده علامت‌گذاری شد.')
+    mark_as_unread.short_description = 'علامت‌گذاری به عنوان خوانده نشده'
 
 
 # Admin site customization
 admin.site.site_header = "مدیریت مؤسسه حقوقی دادگان"
 admin.site.site_title = "دادگان"
 admin.site.index_title = "پنل مدیریت"
+
