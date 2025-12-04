@@ -593,7 +593,7 @@
 
   <!-- Messages -->
   {% if messages %}
-    <div id="messages-container" class="fixed top-4 right-4 z-50 space-y-2">
+    <div id="messages-container" class="fixed top-4 right-4 z-[60] space-y-2">
       {% for message in messages %}
         <div class="bg-{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}blue{% endif %}-100 dark:bg-{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}blue{% endif %}-900 border border-{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}blue{% endif %}-300 dark:border-{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}blue{% endif %}-700 text-{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}blue{% endif %}-800 dark:text-{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}blue{% endif %}-200 px-4 py-3 rounded-lg shadow-lg max-w-sm">
           <div class="flex items-center justify-between">
