@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#064e3b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#grad2)"/>
+  <g transform="translate(400, 250)">
+    <!-- Courthouse building -->
+    <polygon points="0,-100 -150,0 150,0" fill="#f3f4f6" opacity="0.95"/>
+    <rect x="-120" y="0" width="240" height="150" fill="#e5e7eb" opacity="0.95"/>
+    <!-- Columns -->
+    <rect x="-100" y="10" width="20" height="140" fill="#d1d5db"/>
+    <rect x="-40" y="10" width="20" height="140" fill="#d1d5db"/>
+    <rect x="20" y="10" width="20" height="140" fill="#d1d5db"/>
+    <rect x="80" y="10" width="20" height="140" fill="#d1d5db"/>
+    <!-- Text -->
+    <text x="0" y="200" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" fill="white" font-weight="bold">دادگستری</text>
+  </g>
+</svg>

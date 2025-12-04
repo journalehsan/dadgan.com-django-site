@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>مشاوره حقوقی تلفنی رایگان - موسسه حقوقی دادگان</title>
+    <meta name="description" content="مشاوره حقوقی تلفنی، رایگان، آنلاین و حضوری با وکلای پایه یک دادگستری و مشاوران حقوقی متخصص">
+    
+    <!-- Tailwind CSS with dark mode -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'vazir': ['Vazirmatn', 'sans-serif'],
+                    },
+                    animation: {
+                        'slide-in-right': 'slideInRight 0.3s ease-out',
+                        'slide-out-right': 'slideOutRight 0.3s ease-out',
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'wiggle': 'wiggle 1s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        slideInRight: {
+                            '0%': { transform: 'translateX(100%)' },
+                            '100%': { transform: 'translateX(0)' }
+                        },
+                        slideOutRight: {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(100%)' }
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-15px)' }
+                        },
+                        wiggle: {
+                            '0%, 100%': { transform: 'rotate(-3deg)' },
+                            '50%': { transform: 'rotate(3deg)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Persian Fonts -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css">
+    
+    <style>
+        * {
+            font-family: 'Vazirmatn', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            overflow-x: hidden;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        
+        .dark ::-webkit-scrollbar-track {
+            background: #2d3748;
+        }
+        
+        .dark ::-webkit-scrollbar-thumb {
+            background: #4a5568;
+        }
+        
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #718096;
+        }
+        
+        /* Android-style sidebar */
+        .sidebar-overlay {
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+        
+        /* Gradient backgrounds */
+        .hero-gradient {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        }
+        
+        .dark .hero-gradient {
+            background: linear-gradient(135deg, #0f1c3f 0%, #1a365d 100%);
+        }
+        
+        .service-card-gradient {
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+        }
+        
+        .dark .service-card-gradient {
+            background: linear-gradient(145deg, #2d3748 0%, #1a202c 100%);
+        }
+        
+        .stats-gradient {
+            background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
+        }
+        
+        .dark .stats-gradient {
+            background: linear-gradient(135deg, #1a2530 0%, #2d3748 100%);
+        }
+        
+        /* Glass effect */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark .glass-effect {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Shadow for dark mode */
+        .dark-shadow {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dark .dark-shadow {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Loading animation */
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        .dark .loader {
+            border: 3px solid #2d3748;
+            border-top: 3px solid #3b82f6;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Team carousel styles */
+        .team-carousel-item {
+            transition: all 0.3s ease;
+        }
+        
+        .team-carousel-item:hover {
+            transform: translateY(-10px);
+        }
+        
+        /* Practice section */
+        .practice-overlay {
+            background: rgba(0, 0, 0, 0.6);
+        }
+        
+        .dark .practice-overlay {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        
+        /* Mobile improvements */
+        @media (max-width: 640px) {
+            .text-responsive {
+                font-size: 0.9rem;
+            }
+            
+            .p-responsive {
+                padding: 1rem;
+            }
+            
+            .section-padding {
+                padding-top: 3rem;
+                padding-bottom: 3rem;
+            }
+        }
+        
+        /* Owl carousel like styling */
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .carousel-item {
+            min-width: 100%;
+            transition: transform 0.5s ease;
+        }
+        
+        /* Testimonial styling */
+        .testimonial-card {
+            background: linear-gradient(145deg, #ffffff, #f5f7fa);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dark .testimonial-card {
+            background: linear-gradient(145deg, #2d3748, #1a202c);
+        }
+        
+        .testimonial-card::before {
+            content: "❝";
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 60px;
+            color: #3b82f6;
+            opacity: 0.1;
+        }
+        
+        /* Skill list styling */
+        .skill-list li {
+            position: relative;
+            padding-right: 30px;
+            margin-bottom: 12px;
+        }
+        
+        .skill-list li::before {
+            content: "✓";
+            position: absolute;
+            right: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
+        
+        /* FAQ accordion */
+        .faq-item {
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .dark .faq-item {
+            border-bottom: 1px solid #4b5563;
+        }
+        
+        .faq-question {
+            cursor: pointer;
+            padding: 20px 0;
+            transition: all 0.3s;
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+        
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+    <!-- Loading overlay -->
+    <div id="loading" class="fixed inset-0 bg-white dark:bg-gray-900 z-50 flex items-center justify-center">
+        <div class="loader"></div>
+    </div>
+    
+    <!-- Top app bar / Header -->
+    <header class="sticky top-0 z-40 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-md dark:shadow-gray-800/30">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo and brand -->
+                <div class="flex items-center space-x-3 space-x-reverse">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 dark:bg-blue-700 text-white">
+                        <i class="fas fa-gavel text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold">موسسه حقوقی دادگان</h1>
+                        <p class="text-xs text-blue-600 dark:text-blue-400">مشاوره حقوقی تخصصی</p>
+                    </div>
+                </div>
+                
+                <!-- Desktop navigation -->
+                <nav class="hidden lg:flex items-center space-x-8 space-x-reverse">
+                    <a href="#home" class="font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">صفحه اصلی</a>
+                    <a href="#services" class="font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">خدمات</a>
+                    <a href="#about" class="font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">درباره ما</a>
+                    <a href="#attorneys" class="font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">وکلای ما</a>
+                    <a href="#contact" class="font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">تماس با ما</a>
+                    
+                    <!-- Dark mode toggle for desktop -->
+                    <button id="darkModeToggle" class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
+                        <i class="fas fa-moon text-gray-700 dark:text-yellow-400"></i>
+                    </button>
+                    
+                    <!-- Call button -->
+                    <a href="tel:02188877897" class="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105">
+                        <i class="fas fa-phone ml-2"></i>
+                        ۰۲۱-۸۸۸۷۷۸۹۷
+                    </a>
+                </nav>
+                
+                <!-- Mobile header actions -->
+                <div class="flex items-center space-x-3 space-x-reverse lg:hidden">
+                    <!-- Call button mobile -->
+                    <a href="tel:02188877897" class="flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 text-white">
+                        <i class="fas fa-phone"></i>
+                    </a>
+                    
+                    <!-- Dark mode toggle for mobile -->
+                    <button id="darkModeToggleMobile" class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800">
+                        <i class="fas fa-moon text-gray-700 dark:text-yellow-400"></i>
+                    </button>
+                    
+                    <!-- Menu button -->
+                    <button id="menuButton" class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800">
+                        <i class="fas fa-bars text-gray-700 dark:text-gray-300"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Android-style sidebar menu -->
+    <div id="sidebar" class="fixed inset-y-0 left-0 w-80 bg-white dark:bg-gray-900 shadow-2xl transform -translate-x-full z-50 transition-transform duration-300 ease-out overflow-y-auto">
+        <!-- Sidebar header -->
+        <div class="p-6 border-b border-gray-200 dark:border-gray-800">
+            <div class="flex items-center space-x-3 space-x-reverse">
+                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-600 dark:bg-blue-700 text-white">
+                    <i class="fas fa-gavel text-xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold">موسسه حقوقی دادگان</h2>
+                    <p class="text-sm text-blue-600 dark:text-blue-400">مشاوره تلفنی رایگان</p>
+                </div>
+            </div>
+            
+            <div class="mt-6">
+                <div class="flex items-center p-3 rounded-lg bg-blue-50 dark:bg-blue-900/30">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-800 ml-3">
+                        <i class="fas fa-phone text-blue-600 dark:text-blue-400"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">پشتیبانی 24 ساعته</p>
+                        <a href="tel:02188877897" class="font-bold text-blue-700 dark:text-blue-300">021-88877897</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sidebar navigation -->
+        <nav class="p-4">
+            <ul class="space-y-2">
+                <li>
+                    <a href="#home" class="sidebar-link flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+                        <i class="fas fa-home ml-3 text-gray-500 dark:text-gray-400"></i>
+                        <span>صفحه اصلی</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#services" class="sidebar-link flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+                        <i class="fas fa-briefcase ml-3 text-gray-500 dark:text-gray-400"></i>
+                        <span>خدمات حقوقی</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#about" class="sidebar-link flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+                        <i class="fas fa-info-circle ml-3 text-gray-500 dark:text-gray-400"></i>
+                        <span>درباره ما</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#attorneys" class="sidebar-link flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+                        <i class="fas fa-users ml-3 text-gray-500 dark:text-gray-400"></i>
+                        <span>وکلای ما</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#practice" class="sidebar-link flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+                        <i class="fas fa-gavel ml-3 text-gray-500 dark:text-gray-400"></i>
+                        <span>حوزه‌های کاری</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#contact" class="sidebar-link flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+                        <i class="fas fa-address-book ml-3 text-gray-500 dark:text-gray-400"></i>
+                        <span>تماس با ما</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <!-- Divider -->
+            <div class="my-6 border-t border-gray-200 dark:border-gray-800"></div>
+            
+            <!-- All services from original site -->
+            <h3 class="font-bold mb-4 px-3 text-blue-600 dark:text-blue-400">تمامی خدمات حقوقی</h3>
+            <ul class="space-y-2">
+                <li>
+                    <a href="#" class="sidebar-link flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+                        <i class="fas fa-heart ml-3 text-red-500"></i>
+                        <span>مشاوره حقوقی خانواده</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+                        <i class="fas fa-home ml-3 text-green-500"></i>
+                        <span>مشاوره حقوقی ملکی</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+                        <i class="fas fa-building ml-3 text-blue-500"></i>
+                        <span>مشاوره حقوقی شرکت‌ها</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+                        <i class="fas fa-file-invoice-dollar ml-3 text-yellow-500"></i>
+                        <span>مشاوره حقوقی چک</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+                        <i class="fas fa-landmark ml-3 text-purple-500"></i>
+                        <span>مشاوره حقوقی ارث</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+                        <i class="fas fa-briefcase ml-3 text-indigo-500"></i>
+                        <span>مشاوره حقوقی کار</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+                        <i class="fas fa-balance-scale ml-3 text-pink-500"></i>
+                        <span>مشاوره حقوقی کیفری</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+                        <i class="fas fa-file-contract ml-3 text-teal-500"></i>
+                        <span>مشاوره حقوقی قراردادها</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+                        <i class="fas fa-plane ml-3 text-orange-500"></i>
+                        <span>مشاوره حقوقی مهاجرت</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <!-- Divider -->
+            <div class="my-6 border-t border-gray-200 dark:border-gray-800"></div>
+            
+            <!-- Contact info in sidebar -->
+            <div class="p-3">
+                <h3 class="font-bold mb-4 text-blue-600 dark:text-blue-400">اطلاعات تماس</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center text-sm">
+                        <i class="fas fa-map-marker-alt ml-3 text-blue-500"></i>
+                        <span>تهران، ونک، جردن، برج امیرپرویز، پلاک ۷</span>
+                    </div>
+                    <div class="flex items-center text-sm">
+                        <i class="fas fa-clock ml-3 text-green-500"></i>
+                        <span>۲۴ ساعته، ۷ روز هفته</span>
+                    </div>
+                    <div class="flex items-center text-sm">
+                        <i class="fas fa-envelope ml-3 text-red-500"></i>
+                        <span>info@dadgan.com</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Sidebar footer -->
+        <div class="absolute bottom-0 left-0 right-0 p-6 border-t border-gray-200 dark:border-gray-800">
+            <button id="closeSidebar" class="w-full py-3 bg-gray-100 dark:bg-gray-800 rounded-lg font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
+                <i class="fas fa-times ml-2"></i>
+                بستن منو
+            </button>
+        </div>
+    </div>
+    
+    <!-- Sidebar overlay -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 hidden"></div>
+    
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero-gradient text-white pt-8 pb-20 md:pt-16 md:pb-32 relative overflow-hidden">
+            <!-- Animated background elements -->
+            <div class="absolute top-10 left-10 w-64 h-64 bg-blue-400/10 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-10 right-10 w-80 h-80 bg-purple-400/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s"></div>
+            
+            <div class="container mx-auto px-4 relative z-10">
+                <div class="flex flex-col lg:flex-row items-center">
+                    <div class="lg:w-1/2 mb-12 lg:mb-0 animate-fade-in">
+                        <div class="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm mb-6">
+                            <i class="fas fa-star text-yellow-300 ml-2"></i>
+                            <span>مشاوره رایگان با وکلای پایه یک</span>
+                        </div>
+                        
+                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                            مشاوره حقوقی
+                            <span class="text-yellow-300 block mt-2">تلفنی رایگان</span>
+                        </h1>
+                        
+                        <p class="text-lg md:text-xl text-blue-100 mb-8 leading-relaxed">
+                            مشاوره حقوقی تخصصی با وکیل پایه یک و مشاور حقوقی با مشاورین حقوقی متخصص و قاضی بازنشسته دادگستری
+                        </p>
+                        
+                        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 sm:space-x-reverse">
+                            <a href="tel:02188877897" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-4 px-8 rounded-xl text-center transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                                <i class="fas fa-phone-volume ml-2"></i>
+                                تماس فوری با وکیل
+                            </a>
+                            <a href="#consultation" class="glass-effect border border-white/30 hover:bg-white/10 text-white font-bold py-4 px-8 rounded-xl text-center transition-all duration-300">
+                                <i class="fas fa-calendar-alt ml-2"></i>
+                                درخواست مشاوره
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Hero image/illustration -->
+                    <div class="lg:w-1/2 flex justify-center lg:justify-end">
+                        <div class="relative">
+                            <div class="w-72 h-72 md:w-96 md:h-96 bg-blue-300/20 rounded-full flex items-center justify-center animate-float">
+                                <div class="w-64 h-64 md:w-80 md:h-80 bg-blue-400/10 rounded-full"></div>
+                            </div>
+                            <div class="absolute top-0 right-0 w-full h-full flex items-center justify-center">
+                                <div class="text-center glass-effect p-8 rounded-3xl backdrop-blur-sm max-w-xs">
+                                    <i class="fas fa-gavel text-6xl text-yellow-300 mb-6 animate-wiggle"></i>
+                                    <h3 class="text-2xl font-bold mb-4">عدالت حق شماست</h3>
+                                    <p class="text-blue-100">ما برای احقاق حق شما تلاش می‌کنیم</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Intro Section -->
+        <section class="py-12 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl dark-shadow p-8 animate-slide-in-right">
+                        <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">آیا به دنبال بهترین وکیل و مشاور حقوقی در تهران هستید؟</h3>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            خصوصیات یک وکیل خوب و بهترین وکیل دادگستری این است که هدفش برقراری و اجرای عدالت باشد و تمام تلاشش را در احقاق حق موکل به کار گیرد.
+                        </p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl dark-shadow p-8 animate-slide-in-right" style="animation-delay: 0.1s">
+                        <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">مشاوره حقوقی با بهترین وکیل و مشاور حقوقی مجرب</h3>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            گروه وکلای موسسه حقوقی دادگان به پرسش های حقوقی آنلاین و تلفنی شما به صورت رایگان مشاوره و پاسخ می‌دهد. شما از طریق تکمیل فرم موجود در سایت مؤسسه پرسش خود را مطرح نمایید تا وکلای متخصص در هر زمینه در اسرع وقت به آن‌ها پاسخ دهد.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="py-16 bg-white dark:bg-gray-900">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12 animate-fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">خدمات مرکز مشاوره حقوقی تلفنی</h2>
+                    <p class="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                        قبل از هرچیز تأکید و پیشنهاد ما بر این هست که هر شخص قبل از مواجه شدن با مشکلات و مسایل حقوقی با مشاوره حقوقی با وکیل از مشکلات و گرفتاری‌ها رهایی یابد.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Service 1 -->
+                    <div class="service-card-gradient dark:bg-gray-800 rounded-2xl shadow-lg dark-shadow p-6 transition-all duration-300 transform hover:-translate-y-2 animate-slide-in-right">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-500 to-red-500 flex items-center justify-center mb-6 mx-auto">
+                            <i class="fas fa-heart text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center">مشاوره حقوقی خانواده</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 text-center text-sm">
+                            با توجه به اینکه وکیل دادگستری سالیان سال مطالعات فراوانی بر مسایل و دعاوی خانوادگی داشته و مسلط است لذا برای به نتیجه رسیدن دعاوی و پرونده های موضوع خانواده لازم است به وکیل دادگستری مراجعه شود.
+                        </p>
+                        <a href="#" class="flex items-center justify-center text-blue-600 dark:text-blue-400 font-medium hover:text-blue-800 dark:hover:text-blue-300">
+                            <span>اطلاعات بیشتر</span>
+                            <i class="fas fa-arrow-left mr-2"></i>
+                        </a>
+                    </div>
+                    
+                    <!-- Service 2 -->
+                    <div class="service-card-gradient dark:bg-gray-800 rounded-2xl shadow-lg dark-shadow p-6 transition-all duration-300 transform hover:-translate-y-2 animate-slide-in-right" style="animation-delay: 0.1s">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center mb-6 mx-auto">
+                            <i class="fas fa-building text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center">مشاوره حقوقی شرکت‌ها</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 text-center text-sm">
+                            نیاز مبرم شرکت ها به مشاور حقوقی وکیل دادگستری که اشراف و تسلط کامل به قوانین و آیین نامه‌ها را دارد به جهت گستردگی و گوناگونی دعاوی و مشکلات حقوقی شرکتها بسیار مهم و سرنوشت ساز برای دوام یک شرکت تجاری است.
+                        </p>
+                        <a href="#" class="flex items-center justify-center text-blue-600 dark:text-blue-400 font-medium hover:text-blue-800 dark:hover:text-blue-300">
+                            <span>اطلاعات بیشتر</span>
+                            <i class="fas fa-arrow-left mr-2"></i>
+                        </a>
+                    </div>
+                    
+                    <!-- Service 3 -->
+                    <div class="service-card-gradient dark:bg-gray-800 rounded-2xl shadow-lg dark-shadow p-6 transition-all duration-300 transform hover:-translate-y-2 animate-slide-in-right" style="animation-delay: 0.2s">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-yellow-500 to-amber-500 flex items-center justify-center mb-6 mx-auto">
+                            <i class="fas fa-file-invoice-dollar text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center">مشاوره حقوقی چک</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 text-center text-sm">
+                            با تماس تلفنی با وکیل دادگستری فوراً به شما مشاوره داده می‌شود و راهکار های لازم به شما ارائه می‌شود. تا با دیدی باز بتوانید تعاملات خود را انجام دهید.
+                        </p>
+                        <a href="#" class="flex items-center justify-center text-blue-600 dark:text-blue-400 font-medium hover:text-blue-800 dark:hover:text-blue-300">
+                            <span>اطلاعات بیشتر</span>
+                            <i class="fas fa-arrow-left mr-2"></i>
+                        </a>
+                    </div>
+                    
+                    <!-- Service 4 -->
+                    <div class="service-card-gradient dark:bg-gray-800 rounded-2xl shadow-lg dark-shadow p-6 transition-all duration-300 transform hover:-translate-y-2 animate-slide-in-right" style="animation-delay: 0.3s">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center mb-6 mx-auto">
+                            <i class="fas fa-home text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center">مشاوره حقوقی املاک</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 text-center text-sm">
+                            یکی از مشکلات و دعاوی که در زمینه امور ملکی وجود دارد الزام به تنظیم سند است که خریداران را با مشکل مواجه می‌کند و فروشندگان حاضر به حضور در دفترخانه و انتقال سند نمی‌شوند.
+                        </p>
+                        <a href="#" class="flex items-center justify-center text-blue-600 dark:text-blue-400 font-medium hover:text-blue-800 dark:hover:text-blue-300">
+                            <span>اطلاعات بیشتر</span>
+                            <i class="fas fa-arrow-left mr-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- More Services -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+                    <!-- Service 5 -->
+                    <div class="service-card-gradient dark:bg-gray-800 rounded-2xl shadow-lg dark-shadow p-6 transition-all duration-300 transform hover:-translate-y-2 animate-slide-in-right" style="animation-delay: 0.4s">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center mb-6 mx-auto">
+                            <i class="fas fa-phone text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center">مشاوره تلفنی رایگان</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 text-center text-sm">
+                            در بسیاری از موارد با تماس تلفنی با وکیل خوب مشاوره حقوقی رایگان تلفنی دریافت می‌کنید و در برخی موارد با توجه به پیچیدگی موضوع لازم به تعیین وقت و مشاوره حقوقی حضوری است.
+                        </p>
+                        <a href="#" class="flex items-center justify-center text-blue-600 dark:text-blue-400 font-medium hover:text-blue-800 dark:hover:text-blue-300">
+                            <span>اطلاعات بیشتر</span>
+                            <i class="fas fa-arrow-left mr-2"></i>
+                        </a>
+                    </div>
+                    
+                    <!-- Service 6 -->
+                    <div class="service-card-gradient dark:bg-gray-800 rounded-2xl shadow-lg dark-shadow p-6 transition-all duration-300 transform hover:-translate-y-2 animate-slide-in-right" style="animation-delay: 0.5s">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-500 to-green-500 flex items-center justify-center mb-6 mx-auto">
+                            <i class="fas fa-laptop text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center">مشاوره آنلاین 24 ساعته</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 text-center text-sm">
+                            مرکز مشاوره حقوقی دادگان دارای پشتیبانی ۲۴ ساعته توسط وکلای پایه یک این امکان را ایجاد کرده است که موکلین و افراد بتوانند در هر زمان از مشاوره حقوقی با وکیل بهره مند شوند.
+                        </p>
+                        <a href="#" class="flex items-center justify-center text-blue-600 dark:text-blue-400 font-medium hover:text-blue-800 dark:hover:text-blue-300">
+                            <span>اطلاعات بیشتر</span>
+                            <i class="fas fa-arrow-left mr-2"></i>
+                        </a>
+                    </div>
+                    
+                    <!-- Service 7 -->
+                    <div class="service-card-gradient dark:bg-gray-800 rounded-2xl shadow-lg dark-shadow p-6 transition-all duration-300 transform hover:-translate-y-2 animate-slide-in-right" style="animation-delay: 0.6s">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center mb-6 mx-auto">
+                            <i class="fas fa-landmark text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center">مشاوره حقوقی ارث</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 text-center text-sm">
+                            انحصار وراثت عبارت است از اینکه پس از فوت شخص میزان ترکه و اموال وی و همچنین افرادی که از وی ارث می‌برند را توسط مراجع ذی صلاح مشخص می‌کند.
+                        </p>
+                        <a href="#" class="flex items-center justify-center text-blue-600 dark:text-blue-400 font-medium hover:text-blue-800 dark:hover:text-blue-300">
+                            <span>اطلاعات بیشتر</span>
+                            <i class="fas fa-arrow-left mr-2"></i>
+                        </a>
+                    </div>
+                    
+                    <!-- Service 8 -->
+                    <div class="service-card-gradient dark:bg-gray-800 rounded-2xl shadow-lg dark-shadow p-6 transition-all duration-300 transform hover:-translate-y-2 animate-slide-in-right" style="animation-delay: 0.7s">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center mb-6 mx-auto">
+                            <i class="fas fa-briefcase text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center">مشاوره حقوقی کار</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 text-center text-sm">
+                            تنظیم آیین نامه‌ها و صورتجلسات و دستورالعمل های شرکت ها، همچنین قراردادهای کار و کارفرما و شرایط و ایتم های تنظیم قرارداد با کارگر و کارفرما.
+                        </p>
+                        <a href="#" class="flex items-center justify-center text-blue-600 dark:text-blue-400 font-medium hover:text-blue-800 dark:hover:text-blue-300">
+                            <span>اطلاعات بیشتر</span>
+                            <i class="fas fa-arrow-left mr-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Consultation Types Section -->
+        <section class="py-16 bg-gray-50 dark:bg-gray-800/50">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">مشاوره حقوقی تلفنی رایگان</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg dark-shadow p-8 animate-fade-in">
+                        <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">مشاوره حقوقی رایگان</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            یک مشاور حقوقی خوب در کنار شما و خانواده ی شما آرامش خاطری را برایتان ایجاد می‌کند. در بسیاری از موارد با تماس تلفنی با وکیل خوب مشاوره حقوقی رایگان تلفنی دریافت می‌کنید و در برخی موارد با توجه به پیچیدگی موضوع لازم به تعیین وقت و مشاوره حقوقی حضوری است.
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg dark-shadow p-8 animate-fade-in" style="animation-delay: 0.1s">
+                        <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">مشاوره حقوقی تلفنی</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            مرکز تخصصی مشاوره حقوقی مؤسسه حقوقی دادگان با تأکید بر مشاوره به صورت تخصصی توسط کادر وکلای متخصص و باسابقه آماده ارائه مشاوره حقوقی تلفنی در مورد سؤالات حقوقی که امکان پاسخگویی تلفنی وجود دارد.
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg dark-shadow p-8 animate-fade-in" style="animation-delay: 0.2s">
+                        <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">مشاوره حقوقی آنلاین 24 ساعته</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            وکلا و مشاوران حقوقی به دلیل تعهداتی که دارند قسمتی از زمان خود را برای مشاوره حقوقی رایگان و آنلاین قرار می‌دهند. یک وکیل خوب وکیلی است که همواره در دسترس باشد و به موکلین ارائه مشاوره حقوقی دهد.
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg dark-shadow p-8 animate-fade-in" style="animation-delay: 0.3s">
+                        <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">مشاوره حقوقی حضوری با وکیل</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            مشاوره حقوقی با وکیل یعنی مشورت و دریافت کمک و هم فکری و دریافت تخصصی راهکارهای حقوقی لازم توسط وکیل دادگستری که سالها تجربه مسایل و دعاوی حقوقی و کیفری را دارند.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Practice Overview Section -->
+        <section id="practice" class="py-16 stats-gradient text-white relative">
+            <div class="absolute inset-0 practice-overlay"></div>
+            <div class="container mx-auto px-4 relative z-10">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">مشاوره حقوقی با بهترین وکیل دادگستری</h2>
+                    <p class="text-xl text-blue-100 max-w-3xl mx-auto">
+                        گروه مشاوره حقوقی دادگان ارائه دهنده خدمات نوین حقوقی به تمامی اشخاص حقیقی و حقوقی، ارائه دهنده مشاوره حقوقی تخصصی مطمئن
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 animate-slide-in-right">
+                        <img src="https://images.unsplash.com/photo-1589391886085-8b6b0ac72a1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="مشاوره حقوقی" class="w-full h-48 object-cover rounded-xl mb-6">
+                        <h3 class="text-2xl font-bold mb-4">مشاوره حقوقی رایگان تلفنی قوه قضاییه</h3>
+                        <p class="text-blue-100">
+                            مرکز مشاوره حقوقی دادگان همچون مرکز مشاوره حقوقی قوه قضاییه در هر زمان به سؤالات و مشکلات حقوقی افراد پاسخ و مشاوره مطمینی را ارائه می‌کند.
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 animate-slide-in-right" style="animation-delay: 0.1s">
+                        <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="مشاوره تلفنی" class="w-full h-48 object-cover rounded-xl mb-6">
+                        <h3 class="text-2xl font-bold mb-4">مشاوره حقوقی تلفنی شبانه روزی</h3>
+                        <p class="text-blue-100">
+                            یکی از خدمات دیگر مؤسسه حقوقی دادگان مشاوره حقوقی تلفنی شبانه روزی و ۲۴ ساعته می‌باشد. مشاوره حقوقی تلفنی با برقراری تماس با شماره ۸۸۸۷۷۸۹۷.
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 animate-slide-in-right" style="animation-delay: 0.2s">
+                        <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="وکیل دادگستری" class="w-full h-48 object-cover rounded-xl mb-6">
+                        <h3 class="text-2xl font-bold mb-4">مشاوره حقوقی تلفنی رایگان 24 ساعته</h3>
+                        <p class="text-blue-100">
+                            مرکز مشاوره حقوقی دادگان دارای پشتیبانی ۲۴ ساعته توسط وکلای پایه یک این امکان را ایجاد کرده است که موکلین و افراد بتوانند در هر زمان از مشاوره حقوقی با وکیل بهره مند شوند.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills and Expertise Section -->
+        <section id="about" class="py-16 bg-white dark:bg-gray-900">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col lg:flex-row gap-12">
+                    <div class="lg:w-2/3">
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-6">مهارت و حرفه یک مشاور حقوقی خوب</h2>
+                        <p class="text-gray-600 dark:text-gray-300 mb-6">
+                            چرا باید برای جستجوی و انتخاب وکیل خوب در تهران با گروه وکلای مؤسسه حقوقی دادگان تماس بگیریم؟ مهمترین تأکید مؤسسه حقوقی دادگان پیگیری مداوم پرونده هاست. وکیل خوب باید امین موکل باشد و در کارش صادق و مسئولیت پذیر باشد و تمام تلاش و کوشش خود را در احقاق حقوق موکل و اجرای عدالت به کار گیرد.
+                        </p>
+                        
+                        <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 mb-8">
+                            <p class="text-gray-600 dark:text-gray-300 mb-4">
+                                مشاوره حقوقی حرفه‌ای است که در آن بهترین راهکارهای حقوقی را به اشخاص ارائه می نماید. یک مشاور حقوقی خوب باید تمام راه‌ها را بررسی نماید و بهترین راه که کم هزینه تر و کوتاه‌تر است را به موکلین معرفی می نماید.
+                            </p>
+                            <ul class="skill-list space-y-3">
+                                <li class="text-gray-600 dark:text-gray-300">یک مشاور حقوقی خوب باید تسلط کامل به قوانین و رویه های قضایی و آرای وحدت رویه داشته باشد.</li>
+                                <li class="text-gray-600 dark:text-gray-300">توانایی تصمیم گیری صحیح و مطمئن و توان تجزیه و تحلیل صحیح</li>
+                                <li class="text-gray-600 dark:text-gray-300">داشتن صداقت و امانت داری و رعایت عدل و انصاف در مشاوره های حقوقی که ارائه می نماید.</li>
+                                <li class="text-gray-600 dark:text-gray-300">مهارت در سخنوری و توانایی متقاعد کردن دیگران</li>
+                                <li class="text-gray-600 dark:text-gray-300">و مهمترین ویژگی یک مشاور حقوقی و وکیل خوب ، پیگیری و سخت کوشی در پروند هاست.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="lg:w-1/3">
+                        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-lg dark-shadow p-8">
+                            <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">وکیل خوب در تهران</h3>
+                            <ul class="space-y-4">
+                                <li class="flex items-center">
+                                    <i class="fas fa-check text-green-500 ml-3"></i>
+                                    <span>بهترین وکیل تهران</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check text-green-500 ml-3"></i>
+                                    <span>بهترین مشاوره حقوقی</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check text-green-500 ml-3"></i>
+                                    <span>مشاوره حقوقی آنلاین</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check text-green-500 ml-3"></i>
+                                    <span>مشاوره حقوقی مهاجرت</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check text-green-500 ml-3"></i>
+                                    <span>مشاوره حقوقی تلفنی رایگان</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check text-green-500 ml-3"></i>
+                                    <span>مشاوره حقوقی حضوری با وکیل مجرب</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check text-green-500 ml-3"></i>
+                                    <span>وکیل امور املاک و ملک</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check text-green-500 ml-3"></i>
+                                    <span>وکیل امور مهاجرت</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check text-green-500 ml-3"></i>
+                                    <span>وکیل دعاوی خانوادگی و طلاق</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check text-green-500 ml-3"></i>
+                                    <span>وکیل و مشاور حقوقی</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Attorneys Section -->
+        <section id="attorneys" class="py-16 bg-gray-50 dark:bg-gray-800/50">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">مشاوره حقوقی دعاوی حقوقی</h2>
+                    <p class="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                        امروزه وجود مشاوره حقوقی متفاوت جهت ایجاد فضای آرامش خانواده و کسب و کار ایجاد شده است. مشاوره حقوقی تلفنی، مشاوره حقوقی رایگان و مشاوره حقوقی حضوری و ۲۴ ساعته شبانه روزی و اینترنی و آنلاین همواره کمکی به هم میهنان می‌کند.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Attorney 1 -->
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg dark-shadow overflow-hidden team-carousel-item">
+                        <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="مشاوره حقوقی خوب" class="w-full h-64 object-cover">
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold text-gray-800 dark:text-white mb-2">مشاوره حقوقی خانواده</h4>
+                            <p class="text-blue-600 dark:text-blue-400 mb-4">مشاوره حقوقی دعاوی خانواده و طلاق و مهریه و نفقه</p>
+                            <p class="text-gray-600 dark:text-gray-300 text-sm">
+                                مشاوره حقوقی دعاوی خانواده و طلاق و مهریه را با ما تجربه کنید با بهترین وکیل دادگستری در تهران.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Attorney 2 -->
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg dark-shadow overflow-hidden team-carousel-item">
+                        <img src="https://images.unsplash.com/photo-1589391886085-8b6b0ac72a1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="مشاوره حقوقی کیفری" class="w-full h-64 object-cover">
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold text-gray-800 dark:text-white mb-2">مشاوره حقوقی کیفری</h4>
+                            <p class="text-blue-600 dark:text-blue-400 mb-4">مشاوره حقوقی دعاوی کیفری، مشاوره امور کیفری</p>
+                            <p class="text-gray-600 dark:text-gray-300 text-sm">
+                                مشاوره حقوقی کیفری با مجرب ترین و کار آزموده ترین وکیل در تهران و وکیل امور کیفری متبحر با سابقه.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Attorney 3 -->
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg dark-shadow overflow-hidden team-carousel-item">
+                        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="مشاوره حقوقی ملکی" class="w-full h-64 object-cover">
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold text-gray-800 dark:text-white mb-2">مشاوره حقوقی ملکی</h4>
+                            <p class="text-blue-600 dark:text-blue-400 mb-4">مشاوره حقوقی تلفنی و رایگان و آنلاین ملکی</p>
+                            <p class="text-gray-600 dark:text-gray-300 text-sm">
+                                مشاوره حقوقی ملک و املاک و ملکی و مستغلات به صورت 24 ساعته توسط بهترین و متبحرترین وکیل در تهران.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Attorney 4 -->
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg dark-shadow overflow-hidden team-carousel-item">
+                        <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="مشاوره حقوقی رایگان" class="w-full h-64 object-cover">
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold text-gray-800 dark:text-white mb-2">مشاوره حقوقی رایگان</h4>
+                            <p class="text-blue-600 dark:text-blue-400 mb-4">مشاوره حقوقی رایگان با وکیل با سابقه</p>
+                            <p class="text-gray-600 dark:text-gray-300 text-sm">
+                                مشاوره حقوقی حضوری و آنلاین، مشاوره حقوقی رایگان تلفنی و رایگان مشاوره حقوقی با وکیل دادگستری.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Clients Section -->
+        <section class="py-16 bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">وکیل پایه یک دادگستری و مشاوره تلفنی</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Client 1 -->
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                        <h4 class="text-xl font-bold mb-2">وکیل دعاوی ملکی</h4>
+                        <p class="text-blue-100 mb-4">وکیل امور ملکی، مشاوره حقوقی ملکی و وکیل امور املاک و مستغلات</p>
+                        <p class="text-blue-100 text-sm">مشاوره حقوقی ملکی، وکیل امور ملکی در زمینه املاک و مستقلات، وکیل با سابقه.</p>
+                    </div>
+                    
+                    <!-- Client 2 -->
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                        <h4 class="text-xl font-bold mb-2">مشاوره حقوقی شرکت‌ها</h4>
+                        <p class="text-blue-100 mb-4">مشاوره حقوقی امور شرکتها و سازمان‌ها</p>
+                        <p class="text-blue-100 text-sm">مشاوره حقوقی تمامی امور و تعاملات حقوقی شرکت ها از جمله تنظیم قراردادها و عقود تجاری شرکت ها.</p>
+                    </div>
+                    
+                    <!-- Client 3 -->
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                        <h4 class="text-xl font-bold mb-2">وکیل دعاوی طلاق و خانواده</h4>
+                        <p class="text-blue-100 mb-4">مشاوره حقوقی طلاق توافقی، مهریه و امور خانواده</p>
+                        <p class="text-blue-100 text-sm">ارائه مشاوره حقوقی حضوری برای طلاق و مسائل خانواده و طلاق با بهترین وکیل دادگستری.</p>
+                    </div>
+                    
+                    <!-- Client 4 -->
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                        <h4 class="text-xl font-bold mb-2">مشاوره با وکیل دادگستری</h4>
+                        <p class="text-blue-100 mb-4">مشاوره توسط وکیل با تجربه و قاضی بازنشسته</p>
+                        <p class="text-blue-100 text-sm">مشاوره حقوقی تلفنی و حضوری رایگان برای به دست آوردن بهترین راه حل‌ها و راهکارهای حقوقی.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="py-16 bg-white dark:bg-gray-900">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">سوالات متداول</h2>
+                    <p class="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                        پاسخ به پرسش‌های رایج درباره مشاوره حقوقی و خدمات موسسه دادگان
+                    </p>
+                </div>
+                
+                <div class="max-w-3xl mx-auto">
+                    <!-- FAQ 1 -->
+                    <div class="faq-item mb-4">
+                        <div class="faq-question flex justify-between items-center">
+                            <h3 class="text-lg font-bold text-gray-800 dark:text-white">مشاوره حقوقی تلفنی رایگان چگونه است؟</h3>
+                            <i class="fas fa-chevron-down text-blue-600 dark:text-blue-400 transition-transform duration-300"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p class="text-gray-600 dark:text-gray-300 pt-4 pb-6">
+                                مشاوره حقوقی تلفنی رایگان به این صورت است که شما با شماره ۰۲۱-۸۸۸۷۷۸۹۷ تماس گرفته و سوال حقوقی خود را مطرح می‌کنید. وکلای مجرب ما در اولین فرصت پاسخگوی شما خواهند بود. این مشاوره برای سوالات اولیه کاملاً رایگان است.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 2 -->
+                    <div class="faq-item mb-4">
+                        <div class="faq-question flex justify-between items-center">
+                            <h3 class="text-lg font-bold text-gray-800 dark:text-white">آیا مشاوره حضوری هم ارائه می‌دهید؟</h3>
+                            <i class="fas fa-chevron-down text-blue-600 dark:text-blue-400 transition-transform duration-300"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p class="text-gray-600 dark:text-gray-300 pt-4 pb-6">
+                                بله، برای پرونده‌های پیچیده‌تر که نیاز به بررسی مدارک و مستندات دارد، مشاوره حضوری با تعیین وقت قبلی در دفتر مؤسسه ارائه می‌شود. آدرس دفتر: تهران، ونک، جردن، برج امیرپرویز، پلاک ۷
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 3 -->
+                    <div class="faq-item mb-4">
+                        <div class="faq-question flex justify-between items-center">
+                            <h3 class="text-lg font-bold text-gray-800 dark:text-white">چه حوزه‌های حقوقی پوشش داده می‌شود؟</h3>
+                            <i class="fas fa-chevron-down text-blue-600 dark:text-blue-400 transition-transform duration-300"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p class="text-gray-600 dark:text-gray-300 pt-4 pb-6">
+                                ما کلیه حوزه‌های حقوقی از جمله خانواده، املاک، چک و مطالبات، حقوق شرکتها، کیفری، قراردادها، مهاجرت، کار و تأمین اجتماعی، ارث و وصیت، بیمه و کلیه دعاوی حقوقی و کیفری را پوشش می‌دهیم.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 4 -->
+                    <div class="faq-item mb-4">
+                        <div class="faq-question flex justify-between items-center">
+                            <h3 class="text-lg font-bold text-gray-800 dark:text-white">آیا وکلای شما خانم هم هستند؟</h3>
+                            <i class="fas fa-chevron-down text-blue-600 dark:text-blue-400 transition-transform duration-300"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p class="text-gray-600 dark:text-gray-300 pt-4 pb-6">
+                                بله، در موسسه حقوقی دادگان هم وکلای خانم و هم وکلای آقا فعالیت می‌کنند. شما می‌توانید بنا به ترجیح خود با وکیل خانم یا آقا مشورت نمایید.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Consultation Form -->
+        <section id="consultation" class="py-16 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900">
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl dark-shadow overflow-hidden">
+                    <div class="md:flex">
+                        <div class="md:w-1/2 bg-gradient-to-br from-blue-600 to-blue-800 text-white p-8 md:p-12">
+                            <h3 class="text-3xl font-bold mb-6">درخواست مشاوره رایگان</h3>
+                            <p class="mb-8 text-blue-100">
+                                فرم زیر را پر کنید تا در سریعترین زمان ممکن با شما تماس بگیریم و مشاوره حقوقی رایگان ارائه دهیم.
+                            </p>
+                            
+                            <div class="space-y-6">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 rounded-full bg-blue-500/30 flex items-center justify-center ml-4">
+                                        <i class="fas fa-check text-blue-200"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold">مشاوره تخصصی</h4>
+                                        <p class="text-sm text-blue-200">توسط وکلای پایه یک دادگستری</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 rounded-full bg-blue-500/30 flex items-center justify-center ml-4">
+                                        <i class="fas fa-check text-blue-200"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold">پاسخ سریع</h4>
+                                        <p class="text-sm text-blue-200">ظرف ۲۴ ساعت پاسخگوی شما هستیم</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 rounded-full bg-blue-500/30 flex items-center justify-center ml-4">
+                                        <i class="fas fa-check text-blue-200"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold">مشاوره رایگان</h4>
+                                        <p class="text-sm text-blue-200">مشاوره اولیه کاملاً رایگان است</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="md:w-1/2 p-8 md:p-12">
+                            <form id="consultationForm" class="space-y-6">
+                                <div>
+                                    <label for="formName" class="block text-gray-700 dark:text-gray-300 mb-2">نام و نام خانوادگی</label>
+                                    <input type="text" id="formName" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white" placeholder="نام خود را وارد کنید" required>
+                                </div>
+                                
+                                <div>
+                                    <label for="formPhone" class="block text-gray-700 dark:text-gray-300 mb-2">شماره تماس</label>
+                                    <input type="tel" id="formPhone" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white" placeholder="مثال: ۰۹۱۲۳۴۵۶۷۸۹" required>
+                                </div>
+                                
+                                <div>
+                                    <label for="formSubject" class="block text-gray-700 dark:text-gray-300 mb-2">موضوع مشاوره</label>
+                                    <select id="formSubject" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white" required>
+                                        <option value="">انتخاب موضوع</option>
+                                        <option value="family">خانواده و طلاق</option>
+                                        <option value="estate">املاک و مستغلات</option>
+                                        <option value="check">چک و مطالبات</option>
+                                        <option value="company">حقوق شرکتها</option>
+                                        <option value="criminal">کیفری</option>
+                                        <option value="other">سایر موضوعات</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label for="formMessage" class="block text-gray-700 dark:text-gray-300 mb-2">شرح مختصر درخواست</label>
+                                    <textarea id="formMessage" rows="4" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white" placeholder="شرح مختصری از موضوع خود را بنویسید"></textarea>
+                                </div>
+                                
+                                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105">
+                                    ارسال درخواست مشاوره رایگان
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-12 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <!-- Footer Column 1 -->
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center ml-4">
+                            <i class="fas fa-gavel"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">موسسه حقوقی دادگان</h3>
+                    </div>
+                    <p class="text-gray-300 mb-6">
+                        ارائه خدمات مشاوره حقوقی تلفنی، آنلاین و حضوری توسط وکلای پایه یک دادگستری و مشاوران حقوقی متخصص
+                    </p>
+                    <div class="flex space-x-3 space-x-reverse">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-blue-600 flex items-center justify-center transition-colors duration-200">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-blue-600 flex items-center justify-center transition-colors duration-200">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-blue-600 flex items-center justify-center transition-colors duration-200">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Footer Column 2 -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">خدمات حقوقی</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center">
+                            <i class="fas fa-chevron-left text-xs ml-2"></i>
+                            مشاوره حقوقی خانواده
+                        </a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center">
+                            <i class="fas fa-chevron-left text-xs ml-2"></i>
+                            مشاوره حقوقی املاک
+                        </a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center">
+                            <i class="fas fa-chevron-left text-xs ml-2"></i>
+                            مشاوره حقوقی چک
+                        </a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center">
+                            <i class="fas fa-chevron-left text-xs ml-2"></i>
+                            مشاوره حقوقی شرکتها
+                        </a></li>
+                    </ul>
+                </div>
+                
+                <!-- Footer Column 3 -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">تماس با ما</h4>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 ml-3 text-blue-400"></i>
+                            <p class="text-gray-300">تهران، ونک، جردن، برج امیرپرویز، پلاک ۷</p>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-phone ml-3 text-green-400"></i>
+                            <a href="tel:02188877897" class="text-gray-300 hover:text-white">۰۲۱-۸۸۸۷۷۸۹۷</a>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope ml-3 text-yellow-400"></i>
+                            <a href="mailto:info@dadgan.com" class="text-gray-300 hover:text-white">info@dadgan.com</a>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-clock ml-3 text-purple-400"></i>
+                            <span class="text-gray-300">۲۴ ساعته، ۷ روز هفته</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Footer Column 4 -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">دسترسی سریع</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#home" class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center">
+                            <i class="fas fa-chevron-left text-xs ml-2"></i>
+                            صفحه اصلی
+                        </a></li>
+                        <li><a href="#services" class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center">
+                            <i class="fas fa-chevron-left text-xs ml-2"></i>
+                            خدمات ما
+                        </a></li>
+                        <li><a href="#about" class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center">
+                            <i class="fas fa-chevron-left text-xs ml-2"></i>
+                            درباره ما
+                        </a></li>
+                        <li><a href="#contact" class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center">
+                            <i class="fas fa-chevron-left text-xs ml-2"></i>
+                            تماس با ما
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 text-center">
+                <p class="text-gray-400">
+                    کلیه حقوق این وبسایت متعلق به موسسه حقوقی دادگان می‌باشد. © ۱۴۰۳
+                </p>
+                <p class="text-gray-500 text-sm mt-2">
+                    طراحی و توسعه با هدف ارائه بهترین خدمات مشاوره حقوقی به هموطنان عزیز
+                </p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Floating Action Buttons -->
+    <div class="fixed bottom-6 left-6 z-30 flex flex-col space-y-3">
+        <!-- WhatsApp Button -->
+        <a href="https://wa.me/989123456789" target="_blank" class="flex items-center justify-center w-14 h-14 rounded-full bg-green-500 hover:bg-green-600 text-white shadow-lg transition-all duration-300 transform hover:scale-110 animate-bounce-slow">
+            <i class="fab fa-whatsapp text-2xl"></i>
+        </a>
+        
+        <!-- Call Button -->
+        <a href="tel:02188877897" class="flex items-center justify-center w-14 h-14 rounded-full bg-blue-600 hover:bg-blue-700 text-white shadow-lg transition-all duration-300 transform hover:scale-110 animate-pulse-slow">
+            <i class="fas fa-phone text-xl"></i>
+        </a>
+        
+        <!-- Back to top button -->
+        <button id="backToTop" class="flex items-center justify-center w-14 h-14 rounded-full bg-gray-800 hover:bg-gray-900 dark:bg-gray-700 dark:hover:bg-gray-800 text-white shadow-lg transition-all duration-300 opacity-0 transform translate-y-4">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+    
+    <!-- JavaScript -->
+    <script>
+        // Wait for page to load
+        window.addEventListener('load', function() {
+            // Hide loading screen
+            setTimeout(() => {
+                document.getElementById('loading').style.display = 'none';
+            }, 500);
+            
+            // Initialize animations
+            initAnimations();
+            
+            // Initialize FAQ accordion
+            initFAQ();
+        });
+        
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeToggleMobile = document.getElementById('darkModeToggleMobile');
+        
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            
+            // Save preference to localStorage
+            if (html.classList.contains('dark')) {
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        }
+        
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+        darkModeToggleMobile.addEventListener('click', toggleDarkMode);
+        
+        // Check for saved dark mode preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.documentElement.classList.add('dark');
+        }
+        
+        // Sidebar functionality
+        const menuButton = document.getElementById('menuButton');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const closeSidebar = document.getElementById('closeSidebar');
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+        
+        function openSidebar() {
+            sidebar.classList.remove('-translate-x-full');
+            sidebarOverlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeSidebarFunc() {
+            sidebar.classList.add('-translate-x-full');
+            sidebarOverlay.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+        
+        menuButton.addEventListener('click', openSidebar);
+        sidebarOverlay.addEventListener('click', closeSidebarFunc);
+        closeSidebar.addEventListener('click', closeSidebarFunc);
+        
+        // Close sidebar when clicking on a link
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', closeSidebarFunc);
+        });
+        
+        // Form submission
+        const consultationForm = document.getElementById('consultationForm');
+        consultationForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('formName').value;
+            const phone = document.getElementById('formPhone').value;
+            
+            // Show success message
+            alert(`درخواست مشاوره ${name} عزیز با موفقیت ثبت شد. همکاران ما به زودی با شماره ${phone} تماس خواهند گرفت.`);
+            
+            // Reset form
+            consultationForm.reset();
+        });
+        
+        // Back to top button
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.remove('opacity-0', 'translate-y-4');
+                backToTop.classList.add('opacity-100', 'translate-y-0');
+            } else {
+                backToTop.classList.remove('opacity-100', 'translate-y-0');
+                backToTop.classList.add('opacity-0', 'translate-y-4');
+            }
+        });
+        
+        backToTop.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Initialize animations on scroll
+        function initAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fade-in');
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe elements for animation
+            document.querySelectorAll('section').forEach(section => {
+                observer.observe(section);
+            });
+        }
+        
+        // Initialize FAQ accordion
+        function initFAQ() {
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', () => {
+                    // Close all other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
+            });
+        }
+        
+        // Add touch-friendly improvements for mobile
+        document.addEventListener('touchstart', function() {}, {passive: true});
+    </script>
+</body>
+</html>

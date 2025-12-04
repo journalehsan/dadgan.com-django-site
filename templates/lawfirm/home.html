@@ -58,42 +58,70 @@
 
 {% block content %}
   <!-- Hero Section -->
-  <section class="max-w-6xl mx-auto px-5 py-16 md:py-24">
-    <div class="grid md:grid-cols-2 gap-10 items-center">
+  <section class="bg-gradient-to-br from-[#1e3a5f] via-[#2c5282] to-[#1e3a5f] py-20 md:py-32 relative overflow-hidden">
+    <!-- Background decoration -->
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-20 left-20 w-96 h-96 bg-blue-400 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-20 right-20 w-96 h-96 bg-purple-400 rounded-full blur-3xl"></div>
+    </div>
+    
+    <div class="max-w-[1400px] mx-auto px-5 relative z-10">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        
+        <!-- Left side - Content -->
+        <div class="order-2 md:order-1">
+          <!-- Badge -->
+          <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6">
+            <span class="text-yellow-400 text-xl">⭐</span>
+            <span class="text-white text-sm font-medium">مشاوره رایگان با وکلای پایه یک</span>
+          </div>
+          
+          <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
+            <span class="text-white">مشاوره حقوقی</span><br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500">تلفنی رایگان</span>
+          </h1>
+          
+          <p class="text-lg md:text-xl text-blue-100 leading-relaxed mb-8">
+            مشاوره حقوقی تخصصی با وکیل پایه یک و مشاور حقوقی با مشاورین حقوقی متخصص و قاضی بازنشسته دادگستری
+          </p>
 
-      <div class="animate-fade-in">
-        <h2 class="text-3xl md:text-5xl font-extrabold leading-snug mb-6">
-          مؤسسه حقوقی <span class="text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">دادگان</span>  
-          همراه مطمئن شما در دعاوی و قراردادها
-        </h2>
-        <p class="text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
-          ارائه مشاوره حقوقی، وکالت تخصصی، دفاع حرفه‌ای، تنظیم قراردادها و امور ثبتی  
-          توسط وکلای مجرب پایه یک دادگستری.
-        </p>
-
-        <div class="flex flex-col sm:flex-row gap-4">
-          <a href="#contact"
-             class="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-lg text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-             رزرو مشاوره حقوقی
-          </a>
-          <a href="#services"
-             class="px-8 py-4 border-2 border-gray-300 dark:border-gray-500 hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg text-center transition-all duration-300">
-             مشاهده خدمات
-          </a>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="#contact"
+               class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-gray-900 rounded-xl text-center shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 font-bold">
+               <i class="fas fa-phone-alt"></i>
+               <span>تماس فوری با وکیل</span>
+            </a>
+            <a href="#services"
+               class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 hover:bg-white/20 text-white rounded-xl text-center transition-all duration-300 font-medium">
+               <i class="fas fa-calendar-check"></i>
+               <span>درخواست مشاوره</span>
+            </a>
+          </div>
         </div>
-      </div>
 
-      <div class="animate-fade-in-delayed">
-        <img src="{% static 'images/hero-background.svg' %}"
-             alt="موسسه حقوقی دادگان"
-             class="rounded-xl shadow-2xl dark:border dark:border-gray-700 hover:shadow-3xl transition-shadow duration-500" />
+        <!-- Right side - Image/Icon -->
+        <div class="order-1 md:order-2 flex justify-center">
+          <div class="relative">
+            <!-- Circular background -->
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-2xl"></div>
+            <!-- Icon container -->
+            <div class="relative bg-gradient-to-br from-blue-500/20 to-blue-700/20 backdrop-blur-sm border-2 border-white/20 rounded-full w-80 h-80 flex items-center justify-center">
+              <div class="text-center">
+                <div class="text-8xl mb-4">⚖️</div>
+                <div class="text-white font-bold text-2xl">عدالت حق شماست</div>
+                <div class="text-blue-200 text-sm mt-2">ما برای احقاق حق شما تلاش می‌کنیم</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
       </div>
     </div>
   </section>
 
   <!-- Services -->
   <section id="services" class="bg-gray-100 dark:bg-gray-800 py-16">
-    <div class="max-w-6xl mx-auto px-5">
+    <div class="max-w-[1400px] mx-auto px-5">
       <h3 class="text-3xl font-bold mb-10 text-center">خدمات مؤسسه حقوقی دادگان</h3>
 
       <div class="grid md:grid-cols-3 gap-8">
@@ -134,7 +162,7 @@
 
   <!-- Workgroups Section -->
   <section id="workgroups" class="py-16">
-    <div class="max-w-6xl mx-auto px-5">
+    <div class="max-w-[1400px] mx-auto px-5">
       <div class="text-center mb-12">
         <h3 class="text-3xl font-bold mb-4">کارگروه‌های موسسه حقوقی دادگان</h3>
         <p class="text-gray-600 dark:text-gray-300 text-lg">تیم‌های تخصصی ما آماده ارائه خدمات حقوقی در زمینه‌های مختلف</p>
@@ -285,7 +313,7 @@
 
   <!-- Stats -->
   <section id="stats" class="py-16">
-    <div class="max-w-6xl mx-auto px-5">
+    <div class="max-w-[1400px] mx-auto px-5">
 
       <h3 class="text-3xl font-bold text-center mb-12">آمار فعالیت مؤسسه حقوقی دادگان</h3>
 
@@ -317,7 +345,7 @@
 
   <!-- Pricing -->
   <section id="pricing" class="bg-gray-100 dark:bg-gray-800 py-16">
-    <div class="max-w-6xl mx-auto px-5">
+    <div class="max-w-[1400px] mx-auto px-5">
 
       <h3 class="text-3xl font-bold text-center mb-12">تعرفه مشاوره حقوقی</h3>
 
@@ -409,46 +437,50 @@
   </section>
 
   <!-- Blog Section -->
-  <section id="blog" class="bg-gray-100 dark:bg-gray-800 py-16">
-    <div class="max-w-6xl mx-auto px-5">
-      <div class="text-center mb-12">
-        <h3 class="text-3xl font-bold mb-4">مقالات و اخبار حقوقی</h3>
-        <p class="text-gray-600 dark:text-gray-300 text-lg">آخرین مطالب و اخبار حقوقی را از وبلاگ ما مطالعه کنید</p>
+  <section id="blog" class="bg-gradient-to-br from-[#1a2332] to-[#2d3748] py-20">
+    <div class="max-w-[1400px] mx-auto px-5">
+      <div class="text-center mb-16">
+        <h3 class="text-4xl md:text-5xl font-extrabold mb-4 text-white">مشاوره حقوقی دعاوی حقوقی</h3>
+        <p class="text-blue-200 text-lg max-w-3xl mx-auto leading-relaxed">
+          امروزه وجود مشاوره حقوقی متفاوت جهت ایجاد فضای آرامش، خانواده و کسب و کار ایجاد شده است. مشاوره حقوقی تلفنی، مشاوره حقوقی رایگان و مشاوره حضوری و ۲۴ ساعته شبانه روزی و اینترنتی و آنلاین همواره کمک به هم میهنان می‌کند.
+        </p>
       </div>
 
       <div class="grid md:grid-cols-3 gap-8 mb-10">
 
         {% for blog in recent_blogs %}
-        <article class="group bg-white dark:bg-gray-900 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
-          <div class="h-48 bg-gradient-to-r from-{% cycle 'blue' 'green' 'purple' %}-500 to-purple-600 relative overflow-hidden">
+        <article class="group bg-gradient-to-br from-[#2d3748] to-[#1a2332] rounded-2xl overflow-hidden border border-white/10 hover:border-blue-400/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20">
+          <div class="h-56 relative overflow-hidden">
             {% if blog.image %}
-              <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="w-full h-full object-cover">
+              <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+            {% else %}
+              {% cycle 'blog-law-books.svg' 'blog-courthouse.svg' 'blog-justice.svg' as placeholder %}
+              <img src="{% static 'images/' %}{{ placeholder }}" alt="{{ blog.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
             {% endif %}
-            <div class="absolute inset-0 bg-black bg-opacity-20"></div>
-            <div class="absolute bottom-4 left-4 right-4">
-              <span class="bg-{% cycle 'blue' 'green' 'purple' %}-600 text-white px-3 py-1 rounded-full text-sm">{{ blog.category.name }}</span>
-            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
           </div>
           <div class="p-6">
-            <h4 class="text-xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+            <div class="mb-3">
+              <span class="inline-block bg-blue-500/20 border border-blue-400/30 text-blue-300 px-3 py-1 rounded-full text-xs font-medium">
+                مشاوره حقوقی رایگان
+              </span>
+            </div>
+            <h4 class="text-xl font-bold mb-3 text-white group-hover:text-blue-400 transition-colors leading-relaxed">
               {{ blog.title }}
             </h4>
-            <p class="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-              {{ blog.excerpt|truncatechars:100 }}
+            <p class="text-blue-200/80 mb-4 leading-relaxed text-sm">
+              {{ blog.excerpt|truncatechars:120 }}
             </p>
-            <div class="flex items-center justify-between">
-              <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                <span class="ml-2">📅</span>
-                <span>{{ blog.created_at|date:"Y/m/d" }}</span>
-              </div>
-              <a href="{{ blog.get_absolute_url }}" class="text-blue-600 dark:text-blue-400 hover:underline text-sm font-medium">
-                مطالعه کامل ←
+            <div class="flex items-center justify-between pt-4 border-t border-white/10">
+              <a href="{{ blog.get_absolute_url }}" class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm font-medium group/link">
+                <span>مشاوره امور کیفری</span>
+                <i class="fas fa-arrow-left transform group-hover/link:-translate-x-1 transition-transform"></i>
               </a>
             </div>
           </div>
         </article>
         {% empty %}
-        <div class="col-span-3 text-center text-gray-500 dark:text-gray-400 py-12">
+        <div class="col-span-3 text-center text-blue-200/60 py-12">
           <p>هنوز مقاله‌ای منتشر نشده است.</p>
         </div>
         {% endfor %}
@@ -466,7 +498,7 @@
 
   <!-- Q&A Section -->
   <section id="qa" class="py-16">
-    <div class="max-w-6xl mx-auto px-5">
+    <div class="max-w-[1400px] mx-auto px-5">
       <div class="text-center mb-12">
         <h3 class="text-3xl font-bold mb-4">پرسش و پاسخ حقوقی</h3>
         <p class="text-gray-600 dark:text-gray-300 text-lg">سوالات متداول و پاسخ‌های تخصصی وکلای مجرب</p>
@@ -531,7 +563,7 @@
 
   <!-- Online Consultation Section -->
   <section id="consultation" class="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 py-16 text-white">
-    <div class="max-w-6xl mx-auto px-5">
+    <div class="max-w-[1400px] mx-auto px-5">
       <div class="text-center mb-12">
         <h3 class="text-3xl md:text-4xl font-bold mb-4">مشاوره آنلاین فوری</h3>
         <p class="text-xl opacity-90 max-w-3xl mx-auto">
@@ -623,7 +655,7 @@
 
   <!-- Testimonials -->
   <section class="py-16">
-    <div class="max-w-6xl mx-auto px-5">
+    <div class="max-w-[1400px] mx-auto px-5">
       <h3 class="text-3xl font-bold text-center mb-12">نظرات مشتریان</h3>
 
       <div class="grid md:grid-cols-3 gap-8">
